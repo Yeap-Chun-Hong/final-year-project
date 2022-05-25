@@ -1,18 +1,62 @@
 <?php
+require_once ("config.php");
 include('header.php');
+$query = "SELECT * FROM banner ORDER BY bannerID DESC LIMIT 1 ";
+$result = mysqli_query($dbc,$query);
+
+if(mysqli_num_rows($result) > 0) {
+	while ($row = mysqli_fetch_array($result)) {
+		$banner_image1 = $row['bannerImage1'];
+		$banner_image2 = $row['bannerImage2'];
+		$banner_image3 = $row['bannerImage3'];
+		$title = $row['title'];
+		$subject = $row['subject'];
+	}
+}
+
+$query2 = "SELECT * FROM hotel ORDER BY rating DESC LIMIT 3 ";
+$result2 = mysqli_query($dbc,$query2);
+
+if(mysqli_num_rows($result2) > 0) {
+	$row = mysqli_fetch_array($result2);
+	// while ($row = mysqli_fetch_array($result2)) {
+	// 	$id = $row['hotelID'];
+	// 	$name = $row['hotelName'];
+	// 	$checkInTime = $row['checkInTime'];
+	// 	$checkOutTime = $row['checkOutTime'];
+	// 	$address = $row['address'];
+	// 	$rating = number_format($row['rating'],1);
+	// 	$totalRating = $row['totalRating'];
+	// 	$hotelBanner = $row['image1'];
+	// }
+}
 ?>
 <!DOCTYPE html>
 <html>
 
 		<div class="banner">
 			<div class="owl-four owl-carousel" itemprop="image">
-				<img src="images/hotel1.jpg" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">
-				<img src="images/hotel2.jpg" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">
-				<img src="images/hotel3.jpg" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">
+				<?php
+					if (!empty ($banner_image1)){
+						echo '<img src="data:image;base64,'.base64_encode($banner_image1).'" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">';
+					} else {
+						echo '<img src="images/hotel1.jpg" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">';
+					}
+					if (!empty ($banner_image2)){
+						echo '<img src="data:image;base64,'.base64_encode($banner_image2).'" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">';
+					} else {
+						echo '<img src="images/hotel2.jpg" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">';
+					}
+					if (!empty ($banner_image3)){
+						echo '<img src="data:image;base64,'.base64_encode($banner_image3).'" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">';
+					} else {
+						echo '<img src="images/hotel3.jpg" alt="Image of Bannner" style="height: 600px; width: 100%; object-fit: owl-four owl-carousel;filter: brightness(50%);">';
+					}
+				?>
 			</div>
 			<div class="container" itemprop="description" >
-				<h1 style="background: rgba(255, 255, 255, .5); color:black;">welcome to education pro</h1>
-				<h3 style="background: rgba(255, 255, 255, .5); color:black;">With our advance search feature you can now find the trips for you...</h3>
+				<h1 style="background: rgba(255, 255, 255, .5); color:black;"><?php echo $title ?></h1>
+				<h3 style="background: rgba(255, 255, 255, .5); color:black;"><?php echo $subject ?></h3>
 			</div>
 			 <div id="owl-four-nav" class="owl-nav"></div>
 		</div>
@@ -27,61 +71,27 @@ include('header.php');
 			<div class="container">
 				<div class="courses">
 					<div class="owl-one owl-carousel">
-						<div class="box-wrap" itemprop="event" itemscope itemtype=" http://schema.org/Course">
-							<div class="img-wrap" itemprop="image"><img src="images/course-pic.jpg" alt="courses picture"></div>
-								<a href="#" class="learn-desining-banner" itemprop="name">Learn Web Designing >>></a>
-							<div class="box-body" itemprop="description">
-								<p>Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum</p>
-								<section itemprop="time">
-									<p><span>Duration:</span> 4 Years</p>
-									<p><span>Class Time:</span> 6am-12am / 11am-5pm</p>
-									<p><span>Fee:</span> 4,00,000</p>
-								</section>
-							</div>
-						</div>
+						<?php 
+							foreach ($row as $row){
+								echo '<div class="box-wrap" itemprop="event" itemscope itemtype=" http://schema.org/Course">';
+								echo '<div class="img-wrap" itemprop="image">'.'<img src="data:image;base64,'.base64_encode($hotelBanner).'" alt="courses picture"></div>';
+								echo '<div class="box-body" itemprop="description">';
+								echo '<p>'.$row['hotelName'].' '.'⭐'.number_format($row['rating'],1).' '.'('.$row['totalRating'].')'.'</p>';
+								echo '<section itemprop="time">';
+								echo '<p><span>Address: </span>'.$row['address'].'</p>';
+								echo '<p><span> Check-In  Time: </span>'.$row['checkInTime'].'</p>';
+								echo '<p><span> Check-Out Time: </span>'.$row['checkOutTime'].'</p>';
+								echo '</section>';
+								echo '<a href="#" class="view-hotel-btn">View hotel</a>';
+								echo '</div>';
+								echo '</div>';
 
-						<div class="box-wrap" itemprop="event" itemscope itemtype=" http://schema.org/Course">
-							<div class="img-wrap"  itemprop="image"><img src="images/course-pic.jpg" alt="courses picture"></div>
-								<a href="#" class="learn-desining-banner" itemprop="name">Learn Web Designing >>></a>
-							<div class="box-body" itemprop="description">
-								<p>Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum</p>
-								<section itemprop="time">
-									<p><span>Duration:</span> 4 Years</p>
-									<p><span>Class Time:</span> 6am-12am / 11am-5pm</p>
-									<p><span>Fee:</span> 4,00,000</p>
-								</section>
-							</div>
-						</div>
-
-						<div class="box-wrap" itemprop="event" itemscope itemtype=" http://schema.org/Course">
-							<div class="img-wrap"  itemprop="image"><img src="images/course-pic.jpg" alt="courses picture"></div>
-								<a href="#" class="learn-desining-banner" itemprop="name">Learn Web Designing >>></a>
-							<div class="box-body" itemprop="description">
-								<p>Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum</p>
-								<section itemprop="time">
-									<p><span>Duration:</span> 4 Years</p>
-									<p><span>Class Time:</span> 6am-12am / 11am-5pm</p>
-									<p><span>Fee:</span> 4,00,000</p>
-								</section>
-							</div>
-						</div>
-
-						<div class="box-wrap" itemprop="event" itemscope itemtype=" http://schema.org/Course">
-							<div class="img-wrap"  itemprop="image"><img src="images/course-pic.jpg" alt="courses picture"></div>
-								<a href="#" class="learn-desining-banner" itemprop="name">Learn Web Designing >>></a>
-							<div class="box-body" itemprop="description">
-								<p>Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum Lorem Ipsum lorem ipsum</p>
-								<section itemprop="time">
-									<p><span>Duration:</span> 4 Years</p>
-									<p><span>Class Time:</span> 6am-12am / 11am-5pm</p>
-									<p><span>Fee:</span> 4,00,000</p>
-								</section>
-							</div>
-						</div>
+							}
+						?>
 					</div>
 					<center>
 					<div>
-						<a href="#" class="view-more-btn">View more restaurant></a>
+						<a href="#" class="view-more-btn">View more hotel></a>
 					</div>
 					</center>
 				</div>

@@ -167,7 +167,6 @@ sup {
 img {
 	border-style: none;
 }
-
 /* Forms
 	 ========================================================================== */
 
@@ -1235,11 +1234,19 @@ ul > li {
 	padding: 0.7em 1.6667em 0.94em 1.6667em;
 	border: 1px solid #fff;
 }
-
-.view-more-btn {
+.view-hotel-btn {
+	display: inline-block;
 	margin: auto;
-	text-align: center;
-	align-content: center;
+	text-transform: uppercase;
+	color: #fff;
+	padding: 0.7em 1.6667em 0.94em 1.6667em;
+	background-color: #009450;
+	display: flex;
+	justify-content: center;
+}
+.view-more-btn {
+	display: inline-block;
+	margin: auto;
 	text-transform: uppercase;
 	color: #fff;
 	padding: 0.7em 1.6667em 0.94em 1.6667em;
