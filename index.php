@@ -14,22 +14,8 @@ if(mysqli_num_rows($result) > 0) {
 	}
 }
 
-$query2 = "SELECT * FROM hotel ORDER BY rating DESC LIMIT 3 ";
+$query2 = "SELECT * FROM hotel ORDER BY rating DESC LIMIT 3";
 $result2 = mysqli_query($dbc,$query2);
-
-if(mysqli_num_rows($result2) > 0) {
-	$row = mysqli_fetch_array($result2);
-	// while ($row = mysqli_fetch_array($result2)) {
-	// 	$id = $row['hotelID'];
-	// 	$name = $row['hotelName'];
-	// 	$checkInTime = $row['checkInTime'];
-	// 	$checkOutTime = $row['checkOutTime'];
-	// 	$address = $row['address'];
-	// 	$rating = number_format($row['rating'],1);
-	// 	$totalRating = $row['totalRating'];
-	// 	$hotelBanner = $row['image1'];
-	// }
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -72,21 +58,33 @@ if(mysqli_num_rows($result2) > 0) {
 				<div class="courses">
 					<div class="owl-one owl-carousel">
 						<?php 
-							foreach ($row as $row){
+						if(mysqli_num_rows($result2) > 0) {
+							while ($row = mysqli_fetch_array($result2)) {
+								$id = $row['hotelID'];
+								$name = $row['hotelName'];
+								$checkInTime = $row['checkInTime'];
+								$checkOutTime = $row['checkOutTime'];
+								$address = $row['address'];
+								$rating = number_format($row['rating'],1);
+								$totalRating = $row['totalRating'];
+								$hotelBanner = $row['image1'];
+				
+							
 								echo '<div class="box-wrap" itemprop="event" itemscope itemtype=" http://schema.org/Course">';
 								echo '<div class="img-wrap" itemprop="image">'.'<img src="data:image;base64,'.base64_encode($hotelBanner).'" alt="courses picture"></div>';
 								echo '<div class="box-body" itemprop="description">';
-								echo '<p>'.$row['hotelName'].' '.'⭐'.number_format($row['rating'],1).' '.'('.$row['totalRating'].')'.'</p>';
+								echo '<p>'.$name.' '.'⭐'.$rating.' '.'('.$totalRating.')'.'</p>';
 								echo '<section itemprop="time">';
-								echo '<p><span>Address: </span>'.$row['address'].'</p>';
-								echo '<p><span> Check-In  Time: </span>'.$row['checkInTime'].'</p>';
-								echo '<p><span> Check-Out Time: </span>'.$row['checkOutTime'].'</p>';
+								echo '<p><span>Address: </span>'.$address.'</p>';
+								echo '<p><span> Check-In  Time: </span>'.$checkInTime.'</p>';
+								echo '<p><span> Check-Out Time: </span>'.$checkOutTime.'</p>';
 								echo '</section>';
 								echo '<a href="#" class="view-hotel-btn">View hotel</a>';
 								echo '</div>';
 								echo '</div>';
 
 							}
+						}
 						?>
 					</div>
 					<center>
@@ -99,74 +97,8 @@ if(mysqli_num_rows($result2) > 0) {
 		</div>
 		<!-- Learn courses End -->
 		
-		<section class="page-heading">
-			<div class="container">
-				<h2>gallery</h2>
-			</div>
-		</section>
-		<section class="gallery-images-section" itemprop="image" itemscope itemtype=" http://schema.org/ImageGallery">
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img1.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img1.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img2.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img2.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img3.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img3.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img4.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img4.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img5.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img5.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img6.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img6.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img7.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img7.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img8.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img8.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img9.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img9.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img10.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img10.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img11.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img11.jpg" alt="gallery-images">
-				</a>
-			</div>
-			<div class="gallery-img-wrap">
-				<a href="images/gallery-img12.jpg" data-lightbox="example-set" data-title="Click the right half of the image to move forward.">
-					<img src="images/gallery-img12.jpg" alt="gallery-images">
-				</a>
-			</div>
-		</section>
-		<!-- End of gallery Images -->
+
+		
 		<section class="page-heading">
 			<div class="container">
 				<h2>upcomming events</h2>
@@ -211,7 +143,7 @@ if(mysqli_num_rows($result2) > 0) {
 						<div class="border">
 							<div class="customer">
 								<figure>
-									<img class="customer-img" src="images/customer-img.jpg" alt="Person image">
+									<img class="customer-img" src="images/kimberly1.jpg" alt="Person image">
 									<figcaption>
 										<span itemprop="author">SAGAR KUMAR SAPKOTA</span>
 										<div class="rateYo" itemprop="ratingValue"></div>
