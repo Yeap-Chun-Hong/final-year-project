@@ -1,7 +1,51 @@
+<?php
+require_once ("config.php");
+include('header.php');
+if(isset($_POST['submitted'])){
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+	$login = true;
+	$error = array();
+
+	if(empty($username)){
+		array_push($error, "Username is required.");
+		$login = false;
+	}
+	
+	if(empty($password)){
+		array_push($error, "Password is required.");
+		$login = false;
+	}
+
+	if($login){
+		$query = "SELECT * FROM customer WHERE username = '$username' && password = '$password'";
+		$result = mysqli_query($dbc,$query);
+
+		if(mysqli_num_rows($result) > 0){
+			session_start();
+			$_SESSION['login'] = true;
+			while ($row = mysqli_fetch_array($result)){
+				$_SESSION['custID'] = $row['custID'];
+				$_SESSION['username'] = $row['username'];
+				$_SESSION['password'] = $row['password'];
+				$_SESSION['name'] = $row['custName'];
+				$_SESSION['email'] = $row['email'];
+				$_SESSION['phone'] = $row['hpNo'];
+			}
+			header('Location: index.php');
+			exit();
+		} else{
+			array_push($error, "Invalid credentials.");
+		}
+		mysqli_close($dbc);
+	}
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login V1</title>
+	<title>Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -30,21 +74,21 @@
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" action="login.php" method="post">
 					<span class="login100-form-title">
-						Member Login
+						 Login
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="text" name="username" placeholder="Username">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
+							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
@@ -55,6 +99,13 @@
 						<button class="login100-form-btn">
 							Login
 						</button>
+						<?php
+							if (isset($_POST['submitted'])) {
+								for ($i = 0; $i < count($error); $i++) {
+									echo "<p style='color:red;font-size:16px;'>$error[$i]</p>"; //prompt user the error
+								}
+							}
+						?>
 					</div>
 
 					<div class="text-center p-t-12">
@@ -66,18 +117,19 @@
 						</a>
 					</div>
 
-					<div class="text-center p-t-136">
+					<div class="text-center p-t-10">
 						<a class="txt2" href="#">
 							Create your Account
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>
+					<input type="hidden" name="submitted" value="true"/>
 				</form>
 			</div>
 		</div>
 	</div>
 	
-	
+<?php include("footer.php");?>
 
 	
 <!--===============================================================================================-->	
@@ -88,14 +140,6 @@
 <!--===============================================================================================-->
 	<script src="vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="vendor/tilt/tilt.jquery.min.js"></script>
-	<script >
-		$('.js-tilt').tilt({
-			scale: 1.1
-		})
-	</script>
 <!--===============================================================================================-->
-	<script src="js/main.js"></script>
 
-</body>
-</html>
+
