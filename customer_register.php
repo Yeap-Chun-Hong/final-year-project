@@ -10,7 +10,9 @@ if(isset($_POST['submitted'])){
     $confirm = $_POST['re-password'];
 	$register = true;
 	$error = array();
+	$success = array();
 
+	$name=str_replace(" ", "", $name);
 	if(empty($name)){
 		array_push($error, "Name is required.");
 		$register = false;
@@ -23,26 +25,69 @@ if(isset($_POST['submitted'])){
 		array_push($error, "Username is required.");
 		$register = false;
 	}
+
     if(empty($email)){
 		array_push($error, "Email address is required.");
+		$register = false;
+	}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+		array_push($error, "Invalid email format.");
 		$register = false;
 	}
 	
 	if(empty($phone)){
 		array_push($error, "Phone Number is required.");
 		$register = false;
+	}elseif (!ctype_digit($phone)){
+		array_push($error, "Only numbers are allowed in phone.");
+		$register = false;
 	}
+
     if(empty($password)){
 		array_push($error, "Password is required.");
 		$register = false;
-	}
+	}else if(strlen($password)<8){
+		array_push($error, "Your password must contain at least 8 characters!");
+		$register = false;
+	}elseif(!preg_match("#[0-9]+#",$password)) {
+		array_push($error, "Your password must contain at least 1 number!");
+		$register = false;
+    }
+    elseif(!preg_match("#[A-Z]+#",$password)) {
+		array_push($error, "Your password must contain at least 1 capital letter!");
+		$register = false;
+    }
+    elseif(!preg_match("#[a-z]+#",$password)) {
+		array_push($error, "Your password must contain at least 1 lowercase letter!");
+		$register = false;
+    }
 	
 	if(empty($confirm)){
 		array_push($error, "Confirm Password is required.");
 		$register = false;
+	}else if($confirm != $password){
+		array_push($error, "Confirm Password not matched!");
+		$register = false;
 	}
 
+	//if no error
+	if ($register){
+		$insert = "INSERT INTO customer (username,password,custName,email,hpNo) VALUES ('$username','$password','$name','$email','$phone')";
+		$selectQuery = "SELECT * FROM customer WHERE username='$username'";
+		$check_username = mysqli_query($dbc, $selectQuery);
 
+		if(mysqli_num_rows($check_username)>0){
+			array_push($error, "Username that you have enter already exist!");
+		}else{
+			if (mysqli_query($dbc, $insert)) {
+				array_push($success, "Congratulations, you have registrated successfully.");
+			} else {
+				array_push($error, "Database error. Please try again later");
+			}
+		}
+			mysqli_close($dbc);
+	}else{
+		array_push($error, "Please check again the field.");
+	}
 	
 }
 
@@ -93,7 +138,7 @@ if(isset($_POST['submitted'])){
 					</div>
 
 					<div class="wrap-input100 validate-input">
-						<input class="input100" type="text" name="username" placeholder="Username">
+						<input class="input100" type="text" name="username" placeholder="Username" >
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
@@ -116,10 +161,12 @@ if(isset($_POST['submitted'])){
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
-						<span class="symbol-input100">
+						<span class="symbol-input100" style="padding-bottom:50px;">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
+						<p style="color:#A9A9A9;font-weight:500;font-size: 11px;">Passwords must contain at least eight characters, including at least 1 capital, 1 lowercase letter and 1 number.</p>
 					</div>
+					<div></div>
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="password" name="re-password" placeholder="Confirm Password">
 						<span class="focus-input100"></span>
@@ -135,7 +182,10 @@ if(isset($_POST['submitted'])){
 						<?php
 							if (isset($_POST['submitted'])) {
 								for ($i = 0; $i < count($error); $i++) {
-									echo "<p style='color:red;font-size:15px;'>$error[$i]</p>"; //prompt user the error
+									echo "<p style='color:red;font-size:15px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+								}
+								for ($i = 0; $i < count($success); $i++) {
+									echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
 								}
 							}
 						?>
