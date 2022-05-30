@@ -29,8 +29,7 @@ require_once 'config.php';
 			<div class="main-header">
 				<div class="container">
 					<div class="logo-wrap" itemprop="logo">
-						<img src="images/site-logo.jpg" alt="Logo Image">
-						<!-- <h1>Education</h1> -->
+						<img src="images/site-logo.png" alt="Logo Image" style="width:115px;height56px;">
 					</div>
 					<div class="nav-wrap">
 						<nav class="nav-desktop">

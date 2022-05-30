@@ -118,8 +118,15 @@ if(isset($_POST['submitted'])){
 					</div>
 
 					<div class="text-center p-t-10">
-						<a class="txt2" href="#">
+						<a class="txt2" href="customer_register.php">
 							Create your Account
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+
+					<div class="text-center p-t-10">
+						<a class="txt2" href="#">
+							Merchant Login
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>
