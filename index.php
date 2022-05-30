@@ -18,6 +18,8 @@ $query2 = "SELECT * FROM hotel ORDER BY rating DESC LIMIT 3";
 $result2 = mysqli_query($dbc,$query2);
 ?>
 <!DOCTYPE html>
+	<link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="css/owl.theme.default.css">
 <title>Kuro Hotel Booking Website</title>
 		<div class="banner">
 			<div class="owl-four owl-carousel" itemprop="image">
