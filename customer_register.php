@@ -12,38 +12,37 @@ if(isset($_POST['submitted'])){
 	$error = array();
 	$success = array();
 
-	$name=str_replace(" ", "", $name);
 	if(empty($name)){
 		array_push($error, "Name is required.");
 		$register = false;
-	}else if (!ctype_alpha($name)){
-        array_push($error, "Only alphabets are allowed in name.");
+	}else if (!preg_match ("/^[a-zA-Z\s]+$/",$name)){
+        array_push($error, "Only alphabets are allowed in name!");
 		$register = false;
     }
 	
 	if(empty($username)){
-		array_push($error, "Username is required.");
+		array_push($error, "Username is required!");
 		$register = false;
 	}
 
     if(empty($email)){
-		array_push($error, "Email address is required.");
+		array_push($error, "Email address is required!");
 		$register = false;
 	}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-		array_push($error, "Invalid email format.");
+		array_push($error, "Invalid email format!");
 		$register = false;
 	}
 	
 	if(empty($phone)){
-		array_push($error, "Phone Number is required.");
+		array_push($error, "Phone Number is required!");
 		$register = false;
 	}elseif (!ctype_digit($phone)){
-		array_push($error, "Only numbers are allowed in phone.");
+		array_push($error, "Only numbers are allowed in phone!");
 		$register = false;
 	}
 
     if(empty($password)){
-		array_push($error, "Password is required.");
+		array_push($error, "Password is required!");
 		$register = false;
 	}else if(strlen($password)<8){
 		array_push($error, "Your password must contain at least 8 characters!");
@@ -62,7 +61,7 @@ if(isset($_POST['submitted'])){
     }
 	
 	if(empty($confirm)){
-		array_push($error, "Confirm Password is required.");
+		array_push($error, "Confirm Password is required!");
 		$register = false;
 	}else if($confirm != $password){
 		array_push($error, "Confirm Password not matched!");
@@ -71,7 +70,7 @@ if(isset($_POST['submitted'])){
 
 	//if no error
 	if ($register){
-		$insert = "INSERT INTO customer (username,password,custName,email,hpNo) VALUES ('$username','$password','$name','$email','$phone')";
+		$insert = "INSERT INTO customer (username,password,custName,email,hpNo,picture) VALUES ('$username','$password','$name','$email','$phone','images')";
 		$selectQuery = "SELECT * FROM customer WHERE username='$username'";
 		$check_username = mysqli_query($dbc, $selectQuery);
 
@@ -161,18 +160,18 @@ if(isset($_POST['submitted'])){
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="password" name="password" placeholder="Password">
 						<span class="focus-input100"></span>
-						<span class="symbol-input100" style="padding-bottom:50px;">
+						<span class="symbol-input100" >
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
-						<p style="color:#A9A9A9;font-weight:500;font-size: 11px;">Passwords must contain at least eight characters, including at least 1 capital, 1 lowercase letter and 1 number.</p>
 					</div>
 					<div></div>
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="password" name="re-password" placeholder="Confirm Password">
 						<span class="focus-input100"></span>
-						<span class="symbol-input100">
+						<span class="symbol-input100"style="padding-bottom:50px;">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
+						<p style="color:#A9A9A9;font-weight:500;font-size: 11px;">Passwords must contain at least eight characters, including at least 1 capital, 1 lowercase letter and 1 number.</p>
 					</div>
 					
 					<div class="container-login100-form-btn">
@@ -192,7 +191,7 @@ if(isset($_POST['submitted'])){
 					</div>
 
 					<div class="text-center p-t-10">
-						<a class="txt2" href="#">
+						<a class="txt2" href="login.php">
 							Already Signed Up? Log In Here
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
