@@ -554,7 +554,6 @@ textarea {
 	color: #666;
 	border: 1px solid #ccc;
 	border-radius: 3px;
-	padding: 3px;
 }
 
 input[type="text"]:focus,
@@ -622,17 +621,6 @@ a:hover, a:active {
 }
 
 /*======Page Header=============*/
-
-.top-header {
-	/*background: #1c3961;*/
-}
-
-.top-header a {
-	/*text-decoration: none;*/
-	/*color: #fff;*/
-	/*font-family: 'Raleway', sans-serif;*/
-}
-
 .top-header .container {
 	display: flex;
 	flex: 1;

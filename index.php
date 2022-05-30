@@ -18,8 +18,7 @@ $query2 = "SELECT * FROM hotel ORDER BY rating DESC LIMIT 3";
 $result2 = mysqli_query($dbc,$query2);
 ?>
 <!DOCTYPE html>
-<html>
-
+<title>Kuro Hotel Booking Website</title>
 		<div class="banner">
 			<div class="owl-four owl-carousel" itemprop="image">
 				<?php
@@ -246,5 +245,3 @@ $result2 = mysqli_query($dbc,$query2);
 	<!-- <script type="text/javascript" src="js/jquery.mmenu.all.js"></script> -->
 	<!-- <script type="text/javascript" src="js/jquery.meanmenu.min.js"></script> -->
 	<script type="text/javascript" src="js/custom.js"></script>
-</body>
-</html>
