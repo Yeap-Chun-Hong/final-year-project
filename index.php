@@ -20,7 +20,7 @@ $result2 = mysqli_query($dbc,$query2);
 <!DOCTYPE html>
 	<link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
 	<link rel="stylesheet" type="text/css" href="css/owl.theme.default.css">
-<title>Kuro Hotel Booking Website</title>
+	<title>Kuro Hotel Booking Website</title>
 		<div class="banner">
 			<div class="owl-four owl-carousel" itemprop="image">
 				<?php
@@ -63,8 +63,8 @@ $result2 = mysqli_query($dbc,$query2);
 							while ($row = mysqli_fetch_array($result2)) {
 								$id = $row['hotelID'];
 								$name = $row['hotelName'];
-								$checkInTime = $row['checkInTime'];
-								$checkOutTime = $row['checkOutTime'];
+								$email = $row['email'];
+								$phone = $row['phoneNo'];
 								$address = $row['address'];
 								$rating = number_format($row['rating'],1);
 								$totalRating = $row['totalRating'];
@@ -72,13 +72,13 @@ $result2 = mysqli_query($dbc,$query2);
 				
 							
 								echo '<div class="box-wrap" itemprop="event" itemscope itemtype=" http://schema.org/Course">';
-								echo '<div class="img-wrap" itemprop="image">'.'<img src="data:image;base64,'.base64_encode($hotelBanner).'" alt="courses picture"></div>';
+								echo '<div class="img-wrap" itemprop="image">'.'<img style="height: 200px; width:400px;" src="data:image;base64,'.base64_encode($hotelBanner).'" alt="courses picture"></div>';
 								echo '<div class="box-body" itemprop="description">';
 								echo '<p>'.$name.' '.'⭐'.$rating.' '.'('.$totalRating.')'.'</p>';
 								echo '<section itemprop="time">';
 								echo '<p><span>Address: </span>'.$address.'</p>';
-								echo '<p><span> Check-In  Time: </span>'.$checkInTime.'</p>';
-								echo '<p><span> Check-Out Time: </span>'.$checkOutTime.'</p>';
+								echo '<p><span> Email: </span>'.$email.'</p>';
+								echo '<p><span> Phone Number: </span>'.$phone.'</p>';
 								echo '</section>';
 								echo '<a href="#" class="view-hotel-btn">View hotel</a>';
 								echo '</div>';
@@ -90,7 +90,7 @@ $result2 = mysqli_query($dbc,$query2);
 					</div>
 					<center>
 					<div>
-						<a href="#" class="view-more-btn">View more hotel></a>
+						<a href="all-hotel.php" class="view-more-btn">View more hotel></a>
 					</div>
 					</center>
 				</div>
