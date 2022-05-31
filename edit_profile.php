@@ -11,24 +11,15 @@ if (isset($_POST['submitted'])) {
     $phone = $_POST['phone'];
 	$password = $_POST['password'];
     $confirm = $_POST['confirm'];
-    //$profilePicture = $_POST['picture'];
 
     $success = array();
     $error = array();
     $update = true;
 
-
-    //sql query
-    $query1 = "UPDATE customer SET custName ='$name' WHERE custID = '{$_SESSION['custID']}'";
-    $query2 = "UPDATE customer SET username ='$username' WHERE custID = '{$_SESSION['custID']}'";
-    $query3 = "UPDATE customer SET email ='$email' WHERE custID = '{$_SESSION['custID']}'";
-    $query4 = "UPDATE customer SET hpNo ='$phone' WHERE custID = '{$_SESSION['custID']}'";
-    $query5 = "UPDATE customer SET password ='$password' WHERE custID = '{$_SESSION['custID']}'";
-   // $query6 = "UPDATE customer SET picture ='$profilePicture' WHERE id = '{$_SESSION['custID']}'";
    $selectQuery = "SELECT * FROM customer WHERE username='$username'";
    $check_username = mysqli_query($dbc, $selectQuery);
     
-    if (empty($name) && empty($username) && empty($email) && empty($phone) && empty($password) && empty($confirm) && empty($profilePicture)) {
+    if (empty($name) && empty($username) && empty($email) && empty($phone) && empty($password) && empty($confirm) && empty($_FILES['image']['tmp_name']) ) {
         $update = false;
         array_push($error, "All fields are empty. Please input at least 1 credential to complete the update process!");
     } else if(mysqli_num_rows($check_username)>0){
@@ -36,20 +27,24 @@ if (isset($_POST['submitted'])) {
         $update = false;
     }
     else {
+        //sql query
+        $query1 = "UPDATE customer SET custName ='$name' WHERE custID = '{$_SESSION['custID']}'";
+        $query2 = "UPDATE customer SET username ='$username' WHERE custID = '{$_SESSION['custID']}'";
+        $query3 = "UPDATE customer SET email ='$email' WHERE custID = '{$_SESSION['custID']}'";
+        $query4 = "UPDATE customer SET hpNo ='$phone' WHERE custID = '{$_SESSION['custID']}'";
+        $query5 = "UPDATE customer SET password ='$password' WHERE custID = '{$_SESSION['custID']}'";
+
         if($update){
 
-                if (!empty($name)) {
-                     if (preg_match("/^[a-zA-Z-\s']*$/", $name)) {
-                        mysqli_query($dbc, $query1);
-                        array_push($success, "Name updated.");
-                    } else {
-                        $update = false;
-                        array_push($error, "Only alphabets are allowed in name!");
-                    }
+            if (!empty($name)) {
+                if (preg_match("/^[a-zA-Z-\s']*$/", $name)) {
+                    mysqli_query($dbc, $query1);
+                    array_push($success, "Name updated.");
+                } else {
+                    $update = false;
+                    array_push($error, "Only alphabets are allowed in name!");
                 }
-            
-            
-             
+            }
 
             if (!empty($username)) {
                 mysqli_query($dbc, $query2);
@@ -93,16 +88,26 @@ if (isset($_POST['submitted'])) {
                 }
             }
 
+
+            if(!empty($_FILES['image']['tmp_name'])){
+                $data = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+                $query6 = "UPDATE customer SET picture ='$data' WHERE custID = '{$_SESSION['custID']}'";
+                mysqli_query($dbc, $query6);
+                array_push($success,"Image Updated!");
+
+                
+            }
+
         }
     }
 }
 ?>
-
+    <title>Edit Profile</title>
 	<link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/edit_profile.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <body>
-    <form  action="edit_profile.php" method="post">
+    <form  action="edit_profile.php" method="post" enctype="multipart/form-data">
 
     <div class="container rounded bg-white mt-5 mb-5 mr-5" >
         <div class="row">
@@ -126,7 +131,7 @@ if (isset($_POST['submitted'])) {
                         }
                     }
                     ?>
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="font-size: 15px;"><img class="rounded-circle mt-5" width="150px" src=" <?php echo'data:image;base64,'.base64_encode($prev_profilePicture)?>">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="font-size: 15px;"><img class="mt-5" width="120px" height="120px" src=" <?php echo !empty($prev_profilePicture)?'data:image;base64,'.base64_encode($prev_profilePicture) : 'images/default_profile_picture.png' ?>">
                     <span class="font-weight-bold"><?php echo $prev_name ?></span>
                     <span class="text-black-50"><?php echo $prev_email ?></span>
                     <span class="text-black-50"><?php echo $prev_phone ?></span>
@@ -145,6 +150,7 @@ if (isset($_POST['submitted'])) {
                             <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="edit-profile" name="phone" value=""></div>
                             <div class="col-md-12"><label class="labels">Password</label><input type="password" class="edit-profile" name="password" value=""></div>
                             <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="edit-profile" name="confirm" value=""></div>
+                            <div class="col-md-12"><label class="labels">Image</label><input type="file" class="edit-profile" name="image" value=""></div>
                         </div>
                         
                         <div class="mt-5 text-center"><button class="btn btn-primary btn-lg profile-button" type="submit">Save Profile</button></div>

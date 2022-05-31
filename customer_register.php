@@ -70,7 +70,7 @@ if(isset($_POST['submitted'])){
 
 	//if no error
 	if ($register){
-		$insert = "INSERT INTO customer (username,password,custName,email,hpNo,picture) VALUES ('$username','$password','$name','$email','$phone','images')";
+		$insert = "INSERT INTO customer (username,password,custName,email,hpNo) VALUES ('$username','$password','$name','$email','$phone')";
 		$selectQuery = "SELECT * FROM customer WHERE username='$username'";
 		$check_username = mysqli_query($dbc, $selectQuery);
 
