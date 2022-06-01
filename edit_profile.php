@@ -150,7 +150,7 @@ if (isset($_POST['submitted'])) {
                             <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="edit-profile" name="phone" value=""></div>
                             <div class="col-md-12"><label class="labels">Password</label><input type="password" class="edit-profile" name="password" value=""></div>
                             <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="edit-profile" name="confirm" value=""></div>
-                            <div class="col-md-12"><label class="labels">Image</label><input type="file" class="edit-profile" name="image" value=""></div>
+                            <div class="col-md-12"><label class="labels">Image</label><input type="file" class="edit-profile" name="image" accept="image/*" value=""></div>
                         </div>
                         
                         <div class="mt-5 text-center"><button class="btn btn-primary btn-lg profile-button" type="submit">Save Profile</button></div>

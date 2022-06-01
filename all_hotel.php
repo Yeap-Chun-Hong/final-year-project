@@ -24,20 +24,20 @@ $result2 = mysqli_query($dbc,$query2);
 								$totalRating = $row['totalRating'];
 								$hotelBanner = $row['image1'];
 				
-							
+								
 								echo'<div class="grid" id="cGrid">';
                                 echo'<div class="grid-item" >';
                                 echo'<div class="img-wrap">';
                                 echo'<img style="height: 200px; width:400px;" src="data:image;base64,'.base64_encode($hotelBanner).'">';
                                 echo'</div>';
                                 echo'<div class="box-body">';
-                                echo'<p>'.$name.' '.'⭐'.$rating.' '.'('.$totalRating.')'.'</p>';;
+                                echo'<p>'.$name.' '.'⭐'.$rating.' '.'('.$totalRating.')'.'</p>';
                                 echo'<section>';
                                 echo'<p><span>Address: </span>'.$address.'</p>';
-                                echo'<p><span> Check-In  Time: </span>'.$email.'</p>';
-                                echo'<p><span> Check-Out Time: </span>'.$phone.'</p>';
+                                echo'<p><span> Email: </span>'.$email.'</p>';
+                                echo'<p><span> Phone: </span>'.$phone.'</p>';
                                 echo'</section>';
-                                echo'<a href="#" class="view-hotel-btn">View hotel</a>';
+                                echo'<a class="view-hotel-btn" href="single_hotel.php?id='.$id.'" >View hotel</a>';
                                 echo'</div>';
                                 echo'</div>';
 							}

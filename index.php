@@ -90,7 +90,7 @@ $result2 = mysqli_query($dbc,$query2);
 					</div>
 					<center>
 					<div>
-						<a href="all-hotel.php" class="view-more-btn">View more hotel></a>
+						<a href="all_hotel.php" class="view-more-btn">View more hotel></a>
 					</div>
 					</center>
 				</div>

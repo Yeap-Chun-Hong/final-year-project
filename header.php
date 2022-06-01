@@ -14,6 +14,8 @@ require_once 'config.php';
 	<link rel="stylesheet" type="text/css" href="inner-page-style.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="fontawesome-free-6.1.1-web/css/all.css">
+	<link rel="stylesheet" href="fontawesome-free-6.1.1-web/css/font-awesome.min.css">
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet">
 	
 </head>
@@ -30,7 +32,7 @@ require_once 'config.php';
 						<nav class="nav-desktop">
 							<ul class="menu-list">
 								<li><a href="index.php">Home</a></li>
-								<li><a href="all-hotel.php">Hotel</a></li>
+								<li><a href="all_hotel.php">Hotel</a></li>
 								<li><a href="">About Us</a></li>
 								<li><a href="">Contact</a></li>
 								<li><a href=""><i class="fa fa-heart-o"></i></a></li>

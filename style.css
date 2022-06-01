@@ -491,6 +491,7 @@ img {
 	
 	/* Make sure images are scaled correctly. */
 	max-width: 100%;
+	max-height: 80%;
 	/* Adhere to container width. */
 }
 
@@ -1618,7 +1619,6 @@ ul > li {
 }
 
 .page-content .container, .testimonial-page .container {
-	display: flex;
 	flex: 1;
 	flex-flow: row wrap;
 	justify-content: space-between;
@@ -2180,7 +2180,6 @@ aside .news-letter hr {
 }
 
 .customer-review .button {
-	width: 170px;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -2435,14 +2434,11 @@ aside .news-letter hr {
 }
 
 #course-page .container {
-	padding-top: 5em;
-	padding-bottom: 6.25em;
+	padding-top: 1em;
+	padding-bottom: 1em;
 	margin-top: 0;
 }
 
-#course-page .course-detail {
-	width: 77rem;
-}
 
 #course-page .course-detail h2 {
 	/*font-size: 3rem;*/
@@ -2453,13 +2449,16 @@ aside .news-letter hr {
 #course-page .course-detail header {
 	display: flex;
 	flex-flow: row wrap;
-	margin-top: 2.25em;
 }
 
 .course-detail .course-box {
-	width: 186px;
+	width: 250px;
 	text-align: center;
-	border-right: 1px solid #adadad;
+	margin: 50px 50px 0px 50px;
+}
+
+.course-box img{
+	margin-left: 100px;
 }
 
 .course-detail .course-box:last-child {
@@ -2512,10 +2511,6 @@ aside .news-letter hr {
 .course-detail .course-intro p {
 	margin-top: 1.25em;
 	/*margin-bottom: 2.5em;*/
-}
-
-.course-objective h3 {
-	margin-top: 1.6667em;
 }
 
 .course-objective p {
@@ -2652,6 +2647,7 @@ aside .reserve-course input[type="email"],
 	padding-bottom: 0.875em;
 	border-bottom: 1px solid #adadad;
 	margin-bottom: 1.25em;
+	max-height: 150px;
 }
 
 .testimonial-page .customer-review .row:last-of-type {
@@ -2659,8 +2655,8 @@ aside .reserve-course input[type="email"],
 }
 
 .customer-review .row .img {
-	width: 171px;
-	height: auto;
+	width: 150px;
+	min-height: 100%;
 }
 
 .customer-review .row .rewiew-content {
@@ -2686,16 +2682,13 @@ aside .reserve-course input[type="email"],
 }
 
 .row .rewiew-content footer h4::before {
-	content: "- ";
 	/*font-size: 1.5rem;*/
 	font-weight: bold;
 }
 
 .row .rewiew-content footer h4::after {
-	content: "";
 	/*font-size: 1.5rem;*/
 	font-weight: bold;
-	border: 1px solid #000;
 	margin-left: 0.9em;
 	margin-right: 0.6em;
 }
