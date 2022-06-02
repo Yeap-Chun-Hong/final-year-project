@@ -24,8 +24,6 @@
             $hv_parking = $row['hv_parking'];
             $hv_ac = $row['hv_ac'];
             $hv_lift= $row['hv_lift'];
-
-
         }
     }
     if(isset($_SESSION['login'])){
@@ -145,10 +143,9 @@ if($hv_lift){
                                 </label>
                             </div>
                             </div>';
-                        }
-                    }
-?>
-                    
+							}
+						}
+					?>           
 					<header>
                         
 						<div class="course-box">
@@ -251,8 +248,9 @@ if($hv_lift){
 		</div>
 	</section>
 
-							<h3>Review</h3> 		
-							<a href="#" class="button">Show More Review</a>
+							<h3>Review</h3> 
+							<a href="<?php echo 'hotel_rating.php?id='.$id ?>" class="button">Show More Review</a>
+							</main>		
 							<?php 
 							$query4 = "SELECT * FROM rating WHERE hotelID='$id' ORDER BY ratingID DESC LIMIT 3 ";
 							$result4 = mysqli_query($dbc,$query4);
@@ -269,9 +267,7 @@ if($hv_lift){
 									if(mysqli_num_rows($result5) > 0) {
 										while ($row = mysqli_fetch_array($result5)) {
 											$custName = $row['custName'];
-											$custPic =$row['picture'];
-
-											
+											$custPic =$row['picture'];		
 										}
 									}
 									echo'<section class="testimonial-page">
@@ -279,7 +275,7 @@ if($hv_lift){
 										<main class="customer-review">
 											<div class="row">
 												<div class="img" style="width:150px;">';
-												if(!empty($custPic)){echo'<img src="data:image;base64,'.base64_encode($custPic).' alt="Customer Picture">';}
+												if(!empty($custPic)){echo'<img src="data:image;base64,'.base64_encode($custPic).'" alt="Customer Picture">';}
 												else{echo'<img src="images/default_profile_picture.png">';}
 												echo'</div>
 												<div class="rewiew-content">
@@ -318,11 +314,6 @@ if($hv_lift){
 							}		
 							?>
 									
-							
-
-
-
-
 	</div>
 						</section>
 	</script>
