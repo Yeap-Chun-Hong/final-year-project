@@ -88,6 +88,11 @@ if (isset($_POST['submitted'])) {
                 }
             }
 
+            if(empty($password) && !empty($confirm)){
+                $update = false;
+                array_push($error, "Password is required!");
+            }
+
 
             if(!empty($_FILES['image']['tmp_name'])){
                 $data = addslashes(file_get_contents($_FILES['image']['tmp_name']));
