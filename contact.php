@@ -1,3 +1,7 @@
+<?
+include_once 'contactSub.php';
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,13 +57,18 @@
 				<div class="people-info-wrap">
 					<h2>leave us your info</h2>
 					<p>Send the problem that you have face or give us the command that you need to tell us.</p>
-					<form>
+				
+					<?php if(!empty($statusMsg)){ ?>
+					<div class="status-msg <?php echo $status; ?>"><?php echo $statusMsg; ?></div>
+					<?php}	?>
+
+					<form action="" method="post">
 						<span>
-						<input type="text" placeholder="Full Name*" class="input- name">
-						<input type="email" placeholder="Email*" class="input- email">
+						<input type="name" placeholder="Enter your name*" value="<?php echo !empty($_postData['name'])?$_postData['name']:'';?> "class="input- name">
+						<input type="email" placeholder="Email*"value="<?php echo !empty($_postData['email'])?$_postData['email']:'';?> "class="input- email">
 						</span>
-						<input type="text" placeholder="Subject*" class="input- subject">
-						<textarea placeholder="Messages*" class="input-">
+						<input type="subject" placeholder="Subject*"value="<?php echo !empty($_postData['subject'])?$_postData['subject']:'';?> "class="input- subject">
+						<textarea placeholder="Messages*"value="<?php echo !empty($_postData['message'])?$_postData['message']:'';?> "class="input-">
 							
 						</textarea>
 						<input type="submit" value="submit now">
@@ -128,7 +137,7 @@
 			</div>
 			<div class="footer-last-section">
 				<div class="container">
-					<p>Copyright 2018 &copy; educationpro.com <span> | </span> Theme designed and developed by <a href="https://labtheme.com">Lab Theme</a></p>
+					<p>Copyright 2018 &copy; ProHotelBooking  <span> | </span> Theme designed and developed by <a href="https://labtheme.com">Lab Theme</a></p>
 				</div>
 			</div>
 		</footer>
