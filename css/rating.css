@@ -46,5 +46,6 @@
     font-family: ui-sans-serif, system-ui, sans-serif;
   }
   .rating-label {
+    font-size: 15px;
     margin-block-end: 1rem;
   }

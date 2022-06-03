@@ -101,9 +101,6 @@
 			<div class="container">
 				<div class="people-info-wrap">
 					<h2>Guest Review</h2>
-					
-					
-				
 			</div>
 		</section>
 		
@@ -167,7 +164,7 @@
 												
 												<div class="rewiew-content">
 													<header>
-														<p>No Rating Yet</p>
+														<p>No Review Yet</p>
 													</header>
 													
 												</div>
@@ -191,9 +188,10 @@
 				<div class="people-info-wrap">
 					<h2>Leave Your Review</h2>
 					
-					<form action="<?php echo'hotel_rating.php?id='.$id ?>" method="POST" id="form">
+					<form action="<?php echo'hotel_rating.php?id='.$id ?>" method="POST" >
 						<span>
 						<input type="text" placeholder="Subject*" class="input- name" name="title">
+
 						<label class="rating-label">
 						<strong>Rating</strong>
 							<input
