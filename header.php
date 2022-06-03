@@ -41,6 +41,7 @@ require_once 'config.php';
 									$username = $_SESSION['username'];
 									echo $username;
 									echo 	'<ul class="sub-menu">
+												<li><a href="edit_profile.php">View Booking History</a></li>
 												<li><a href="edit_profile.php">Edit Profile</a></li>
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>

@@ -1,0 +1,17 @@
+img{
+    width: 23.1%;
+
+}
+.thankyou-container{
+    padding:50px;
+    overflow: auto;
+}
+.thankyou-container img{
+display: inline;    
+width: 100px;
+    height: 100px;
+}
+.thankyou-container h1{
+    position: relative;
+    left: 10px;
+}

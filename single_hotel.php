@@ -194,8 +194,6 @@ if($hv_lift){
 						    	<th></th>
 						    	<th>Room Type</th>
 								<th>Room Size (ft)</th>
-								<th>Adult</th>
-								<th>Children</th>
 								<th>Price (RM)</th>
 								<th>Room Left</th>
 								<th>&nbsp;</th>
@@ -214,7 +212,8 @@ if($hv_lift){
 										$price = $row['price'];
 										$room_image = $row['image'];
 										$roomAvailable = $row['roomAvailable'];
-										echo'<tr class="alert" role="alert"> <td>	<a href="data:image;base64,'.base64_encode($room_image).'" data-lightbox="example-set">
+										echo'								<form action="booking.php?hotelid='.$hotelID.'&roomid='.$roomID.'" method="POST">
+										<tr class="alert" role="alert"> <td>	<a href="data:image;base64,'.base64_encode($room_image).'" data-lightbox="example-set">
 										<img class="img" src="data:image;base64,'.base64_encode($room_image).'">									
 										</a></td>';
 										echo'<td>
@@ -224,19 +223,11 @@ if($hv_lift){
 										</div>
 									</td>
 									<td>'.$roomSize.'</td>
-									<td class="quantity">
-									  <div class="input-group">
-									   <input type="number" name="quantity" class="quantity form-control input-number"  value="1" min="1" max="100" step="1">
-									</div>
-								</td>
-								<td class="quantity">
-									  <div class="input-group">
-									  <input type="number" name="quantity" class="quantity form-control input-number"   value="0"min="0" max="100" step="1">
-									</div>
-								</td>
 								<td>'.$price.'</td>
 								<td>'.$roomAvailable.'</td>
-								<td><a class="view-hotel-btn" href="single_hotel.php?id='.$roomID.'">Book</a></td></tr>';
+								<td><input type="submit" class="view-hotel-btn" value="book"></td>
+								<input type="hidden" name="book" value="true"/>
+								</form></tr>';
 									}
 								}
 								?>
