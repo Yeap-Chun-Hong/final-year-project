@@ -35,8 +35,8 @@ require_once 'config.php';
 								<li><a href="all_hotel.php">Hotel</a></li>
 								<li><a href="">About Us</a></li>
 								<li><a href="">Contact</a></li>
-								<li><a href=""><i class="fa fa-heart-o"></i></a></li>
 								<?php if (isset($_SESSION['login'])) {
+									echo'<li><a href=""><i class="fa fa-heart-o"></i></a></li>';
 									echo'<li class="menu-parent">';
 									$username = $_SESSION['username'];
 									echo $username;

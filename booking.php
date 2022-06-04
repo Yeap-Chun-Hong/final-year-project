@@ -4,6 +4,10 @@
     include ('header.php');
     $hotelID = $_GET['hotelid'];
     $roomID = $_GET['roomid'];
+	if(!$_SESSION['login']){
+        header('Location: login.php');
+		exit();	
+	}
 
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
