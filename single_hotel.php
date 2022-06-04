@@ -121,13 +121,15 @@ if($hv_lift){
 <section class="page-content" id="course-page">
 			<div class="container">
 				<main class="course-detail">
+				<input type="hidden" id="custID" value="<?php echo isset($_SESSION['login'])?$_SESSION['custID']:'' ?>"/>
+				<input type="hidden" id="hotelID" value="<?php echo $hotelID ?>"/>
 					<h2><?php echo $name .' '.'⭐'.$rating.' '.'('.$totalRating.')'?></h2>
                     <?php if(isset($_SESSION['login'])){
                         if(isset($favID)){
                             echo'<div id="main-content">
                             <div>
                                 <p>Remove From Favourite</p> 
-                                <input type="checkbox" id="checkbox" checked/>
+                                <input type="checkbox" id="checkbox" checked onclick="myFunction()"/>
 								<label for="checkbox">
                                 <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg"><g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)"><path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2"/><circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/><g id="grp7" opacity="0" transform="translate(7 6)"><circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/><circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/></g><g id="grp6" opacity="0" transform="translate(0 28)"><circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/><circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/></g><g id="grp3" opacity="0" transform="translate(52 28)"><circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/><circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/></g><g id="grp2" opacity="0" transform="translate(44 6)" fill="#CC8EF5"><circle id="oval2" transform="matrix(-1 0 0 1 10 0)" cx="5" cy="6" r="2"/><circle id="oval1" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp5" opacity="0" transform="translate(14 50)" fill="#91D2FA"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp4" opacity="0" transform="translate(35 50)" fill="#F48EA7"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp1" opacity="0" transform="translate(24)" fill="#9FC7FA"><circle id="oval1" cx="2.5" cy="3" r="2"/><circle id="oval2" cx="7.5" cy="2" r="2"/></g></g></svg>
                                 </label>
@@ -137,7 +139,7 @@ if($hv_lift){
                             echo'<div id="main-content">
                             <div>
                                 <p>Add to Favourite</p> 
-                                <input type="checkbox" id="checkbox" />
+                                <input type="checkbox" id="checkbox" onclick="myFunction()" />
                                 <label for="checkbox">
                                 <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg"><g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)"><path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2"/><circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/><g id="grp7" opacity="0" transform="translate(7 6)"><circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/><circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/></g><g id="grp6" opacity="0" transform="translate(0 28)"><circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/><circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/></g><g id="grp3" opacity="0" transform="translate(52 28)"><circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/><circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/></g><g id="grp2" opacity="0" transform="translate(44 6)" fill="#CC8EF5"><circle id="oval2" transform="matrix(-1 0 0 1 10 0)" cx="5" cy="6" r="2"/><circle id="oval1" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp5" opacity="0" transform="translate(14 50)" fill="#91D2FA"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp4" opacity="0" transform="translate(35 50)" fill="#F48EA7"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp1" opacity="0" transform="translate(24)" fill="#9FC7FA"><circle id="oval1" cx="2.5" cy="3" r="2"/><circle id="oval2" cx="7.5" cy="2" r="2"/></g></g></svg>
                                 </label>
@@ -307,8 +309,32 @@ if($hv_lift){
 									
 	</div>
 						</section>
-	</script>
-	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+						<script>
+function myFunction() {
+  var checkBox = document.getElementById("checkbox");
+  var custID= $("#custID").val();
+  var hotelID= $("#hotelID").val();
+  if (checkBox.checked == true){
+	$.ajax({
+                        type: "POST",
+                        url: "fav.php",
+                        data: "custID=" + custID+ "&hotelID=" + hotelID,
+                        success: function(data) {
+                           alert("Add to favourite successfully.");
+                        }
+                    });
+  } else {
+	$.ajax({
+                        type: "POST",
+                        url: "unfav.php",
+                        data: "custID=" + custID+ "&hotelID=" + hotelID,
+                        success: function(data) {
+                           alert("Remove from favourite successfully.");
+                        }
+                    });  }
+}
+</script>	
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="js/lightbox.js"></script>
 	<script type="text/javascript" src="js/all.js"></script>
 	<script type="text/javascript" src="js/isotope.pkgd.min.js"></script>
