@@ -19,6 +19,13 @@
             $custID = $row['custID'];
             $hotelID = $row['hotelID'];
             $roomID = $row['roomID'];
+            $status = $row['status'];
+            $paymentMethod = $row['payment'];
+            $get_hotel = "SELECT * FROM hotel WHERE hotelID='$hotelID' ";
+            $result = mysqli_query($dbc,$get_hotel);
+                            while ($row = mysqli_fetch_array($result)) {
+                                $hotelName = $row['hotelName'];
+                            }
         }
        
     }
@@ -36,6 +43,7 @@
     $result3 =  mysqli_query($dbc,$getRoomDetails);
     if(mysqli_num_rows($result3) > 0) {
         while ($row = mysqli_fetch_array($result3)) {
+          $roomName = $row['roomName'];
             $roomPrice = $row['price'];
             $roomAvailable = $row['roomAvailable'];
         }
@@ -105,6 +113,12 @@ if(isset($_POST['submitted'])){
       <table>
         <tbody>
         <tr>
+            <td>Hotel Name &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $hotelName?></td>
+          </tr>
+          <tr>
+            <td>Room Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $roomName?></td>
+          </tr>
+        <tr>
             <td>Booking Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $bookingDate.' '.$time?></td>
           </tr>
         <tr>
@@ -173,28 +187,28 @@ if(isset($_POST['submitted'])){
           <label for="visa"><svg class="icon">
               <use xlink:href="#icon-visa" />
             </svg>Visa Payment</label>
-          <input checked id="visa" name="payment-method" type="radio"  value="Visa Payment"/>
+          <input checked id="visa" name="payment-method" type="radio"  value="Visa Payment" <?php echo $paymentMethod=='Visa Payment'?'disabled':'' ?>/>
         </div>
 
         <div class="form__radio">
           <label for="paypal"><img src="images/download.png" class="icon" />Touch 'n Go</label>
-          <input id="paypal" name="payment-method" type="radio" value="TNG ewallet"/>
+          <input id="paypal" name="payment-method" type="radio" value="TNG ewallet" <?php echo $paymentMethod=='TNG ewallet'?'checked disabled':'' ?>/>
         </div>
 
         <div class="form__radio">
           <label for="mastercard">
             <img src="images/cash.svg" class="icon" />Cash</label>
-          <input id="mastercard" name="payment-method" type="radio" value="Cash"/>
+          <input id="mastercard" name="payment-method" type="radio" value="Cash" <?php echo $paymentMethod=='Cash'?'checked disabled':'' ?>/>
         </div>
       </div>
     </fieldset>
     <div>
      
     </div>
-    <button class="button button--full" type="submit"><svg class="icon">
+    <?php echo $status!='Completed'?$roomAvailable >0?'<button class="button button--full" type="submit"><svg class="icon">
           <use xlink:href="#icon-shopping-bag" />
-        </svg>Checkout Now</button>
-        <input type="hidden" name="submitted" value="true"/>
+        </svg>Checkout Now</button><input type="hidden" name="submitted" value="true"/>'    : '<button class="button button--full" type="button" style="background:grey;" disabled>Fully booked</button>'
+        :'' ?>
   </form>
 </div>
 
