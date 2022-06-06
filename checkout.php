@@ -93,7 +93,9 @@ if(isset($_POST['submitted'])){
           <tr>
             <td>Email  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :<?php echo $custEmail?></td>
           </tr>
-         
+          <tr>
+            <td>Booking Ticket   &nbsp;&nbsp;&nbsp; :<?php echo '#B'.str_pad($bookingID, 4, '0', STR_PAD_LEFT); ?></td>
+          </tr>
         </tbody>
       </table>
     </div>
