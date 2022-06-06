@@ -35,23 +35,39 @@
         $adult = $_POST['adult'];
         $children = $_POST['children'];
         $numRoom = $_POST['num_room'];
+		$error = array();
+		$booking = true;
+		if($checkOutDate < $checkInDate){
+			array_push($error, "Check-out date should not be earlier than check-in date.");
+			$booking = false;
+		}
+		if($adult <= 0){
+			array_push($error, "Please enter proper number of adults.");
+			$booking = false;
+		}
+		if($children < 1){
+			array_push($error, "Please enter proper number of children.");
+			$booking = false;
+		}
+		if($numRoom < 1){
+			array_push($error, "Please enter proper number of room.");
+			$booking = false;
+		}
+		if($booking){
+			$insert = "INSERT INTO booking (bookingID,bookingDate,checkInDate,checkOutDate,time,room,adult,children,price,payment,status,custID,hotelID,roomID) 
+			VALUES ('','$bookingDate','$checkInDate','$checkOutDate','$bookingTime','$numRoom','$adult','$children','','-','New','$custID','$hotelID','$roomID')";
+			mysqli_query($dbc, $insert);
 
-
-        $insert = "INSERT INTO booking (bookingID,bookingDate,checkInDate,checkOutDate,time,room,adult,children,price,payment,status,custID,hotelID,roomID) 
-                    VALUES ('','$bookingDate','$checkInDate','$checkOutDate','$bookingTime','$numRoom','$adult','$children','','-','New','$custID','$hotelID','$roomID')";
-        mysqli_query($dbc, $insert);
-
-    $getBookingID = "SELECT * FROM booking WHERE hotelID='$hotelID' &&custID='$custID' && roomID='$roomID' ORDER BY bookingID DESC LIMIT 1  ";
-    $result =  mysqli_query($dbc,$getBookingID);
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $bookingID = $row['bookingID'];
-        }
-        header('Location: checkout.php?id='.$bookingID);
-			exit();
-
-    }
-        
+			$getBookingID = "SELECT * FROM booking WHERE hotelID='$hotelID' &&custID='$custID' && roomID='$roomID' ORDER BY bookingID DESC LIMIT 1  ";
+			$result =  mysqli_query($dbc,$getBookingID);
+			if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$bookingID = $row['bookingID'];
+			}
+			header('Location: checkout.php?id='.$bookingID);
+				exit();
+			}
+		}      
 }
 ?>
 <!DOCTYPE html>
@@ -138,16 +154,25 @@
 									<div class="form-btn">
 										<button class="submit-btn">Check Out</button>
 									</div>
-                                    <input type="hidden" name="submitted" value="true"/>
+									
+									</div>
 								</div>
+								<?php
+											if (isset($_POST['submitted'])) {
+												for ($i = 0; $i < count($error); $i++) {
+													echo "<p style='color:red;font-size:16px;'>$error[$i]</p>"; //prompt user the error
+												}
+											}
+										?>
 							</div>
+							<input type="hidden" name="submitted" value="true"/>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</body>
 
 </html>
 
