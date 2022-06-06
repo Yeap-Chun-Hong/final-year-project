@@ -169,8 +169,14 @@ if($hv_lift){
 					<article>
 						<section class="course-intro">
 							<h3>Introduction</h3>
-
 							<p><?php echo $desc ?></p>
+							<h3>Information</h3>
+							<p>Address: <?php echo $address ?></p>
+							<p>Email: <?php echo $email ?></p>
+							<p>Contact Number: <?php echo $phone ?></p>
+							<p>Check Out Time: <?php echo $checkOutTime ?></p>
+							<p>Check In Time: <?php echo $checkInTime ?></p>
+
 						</section>
 
 						<section class="course-objective">
@@ -306,6 +312,7 @@ if($hv_lift){
 								</section>';
 							}		
 							?>
+							
 									
 	</div>
 						</section>
