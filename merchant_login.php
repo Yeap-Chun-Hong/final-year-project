@@ -18,21 +18,17 @@ if(isset($_POST['submitted'])){
 	}
 
 	if($login){
-		$query = "SELECT * FROM customer WHERE username = '$username' && password = '$password'";
+		$query = "SELECT * FROM hotel WHERE username = '$username' && password = '$password'";
 		$result = mysqli_query($dbc,$query);
 
 		if(mysqli_num_rows($result) > 0){
 			session_start();
-			$_SESSION['login'] = true;
+			$_SESSION['merchant_login'] = true;
 			while ($row = mysqli_fetch_array($result)){
-				$_SESSION['custID'] = $row['custID'];
-				$_SESSION['username'] = $row['username'];
-				$_SESSION['password'] = $row['password'];
-				$_SESSION['name'] = $row['custName'];
-				$_SESSION['email'] = $row['email'];
-				$_SESSION['phone'] = $row['hpNo'];
+				$_SESSION['hotelID'] = $row['hotelID'];
+                $_SESSION['username'] = $row['username'];
 			}
-			header('Location: index.php');
+			header('Location: merchant_index.php');
 			exit();
 		} else{
 			array_push($error, "Invalid credentials.");
@@ -45,7 +41,7 @@ if(isset($_POST['submitted'])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login</title>
+	<title>Merchant Login</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -71,12 +67,12 @@ if(isset($_POST['submitted'])){
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic" >
-					<img src="images/img-01.png" alt="IMG">
+					<img src="images/merchant.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" action="login.php" method="post">
+				<form class="login100-form validate-form" action="merchant_login.php" method="post">
 					<span class="login100-form-title">
-						 Login
+						 Merchant Login
 					</span>
 
 					<div class="wrap-input100 validate-input" >
@@ -119,14 +115,14 @@ if(isset($_POST['submitted'])){
 
 					<div class="text-center p-t-10">
 						<a class="txt2" href="customer_register.php">
-							Create your Account
+							Join Us Now
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>
 
 					<div class="text-center p-t-10">
-						<a class="txt2" href="merchant_login.php">
-							Merchant Login
+						<a class="txt2" href="login.php">
+							Customer Login
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>

@@ -1,6 +1,6 @@
 <?php
-    include ('header.php');
-    $hotelID = $_GET['id'];
+include('merchant_header.php');
+    $hotelID = $_SESSION['hotelID'];
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
     if(mysqli_num_rows($result) > 0) {
@@ -105,6 +105,15 @@ if($hv_lift){
         }
     }
 }
+$total=0;
+$number_fav = "SELECT * FROM favourite WHERE hotelID='$hotelID' ";
+$result1 =  mysqli_query($dbc,$number_fav);
+if(mysqli_num_rows($result1) > 0) {
+    while ($row = mysqli_fetch_array($result1)) {
+        $total ++;
+    }
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -121,38 +130,18 @@ if($hv_lift){
 <section class="page-content" id="course-page">
 			<div class="container">
 				<main class="course-detail">
-				<input type="hidden" id="custID" value="<?php echo isset($_SESSION['login'])?$_SESSION['custID']:'' ?>"/>
-				<input type="hidden" id="hotelID" value="<?php echo $hotelID ?>"/>
 					<h2><?php echo $name .' '.'⭐'.$rating.' '.'('.$totalRating.')'?></h2>
-                    <?php if(isset($_SESSION['login'])){
-                        if(isset($favID)){
-                            echo'<div id="main-content">
-                            <div>
-                                <p>Remove From Favourite</p> 
-                                <input type="checkbox" id="checkbox" checked onclick="myFunction()"/>
-								<label for="checkbox">
-                                <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg"><g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)"><path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2"/><circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/><g id="grp7" opacity="0" transform="translate(7 6)"><circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/><circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/></g><g id="grp6" opacity="0" transform="translate(0 28)"><circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/><circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/></g><g id="grp3" opacity="0" transform="translate(52 28)"><circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/><circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/></g><g id="grp2" opacity="0" transform="translate(44 6)" fill="#CC8EF5"><circle id="oval2" transform="matrix(-1 0 0 1 10 0)" cx="5" cy="6" r="2"/><circle id="oval1" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp5" opacity="0" transform="translate(14 50)" fill="#91D2FA"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp4" opacity="0" transform="translate(35 50)" fill="#F48EA7"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp1" opacity="0" transform="translate(24)" fill="#9FC7FA"><circle id="oval1" cx="2.5" cy="3" r="2"/><circle id="oval2" cx="7.5" cy="2" r="2"/></g></g></svg>
-                                </label>
+                    <div id="main-content">
+                        <div>
+                            <p>Favourite by <?php echo $total;?> customer<?php echo ($total>1)? 's':''?></p> 
+                           
                             </div>
-                            </div>';
-                        }else{
-                            echo'<div id="main-content">
-                            <div>
-                                <p>Add to Favourite</p> 
-                                <input type="checkbox" id="checkbox" onclick="myFunction()" />
-                                <label for="checkbox">
-                                <svg id="heart-svg" viewBox="467 392 58 57" xmlns="http://www.w3.org/2000/svg"><g id="Group" fill="none" fill-rule="evenodd" transform="translate(467 392)"><path d="M29.144 20.773c-.063-.13-4.227-8.67-11.44-2.59C7.63 28.795 28.94 43.256 29.143 43.394c.204-.138 21.513-14.6 11.44-25.213-7.214-6.08-11.377 2.46-11.44 2.59z" id="heart" fill="#AAB8C2"/><circle id="main-circ" fill="#E2264D" opacity="0" cx="29.5" cy="29.5" r="1.5"/><g id="grp7" opacity="0" transform="translate(7 6)"><circle id="oval1" fill="#9CD8C3" cx="2" cy="6" r="2"/><circle id="oval2" fill="#8CE8C3" cx="5" cy="2" r="2"/></g><g id="grp6" opacity="0" transform="translate(0 28)"><circle id="oval1" fill="#CC8EF5" cx="2" cy="7" r="2"/><circle id="oval2" fill="#91D2FA" cx="3" cy="2" r="2"/></g><g id="grp3" opacity="0" transform="translate(52 28)"><circle id="oval2" fill="#9CD8C3" cx="2" cy="7" r="2"/><circle id="oval1" fill="#8CE8C3" cx="4" cy="2" r="2"/></g><g id="grp2" opacity="0" transform="translate(44 6)" fill="#CC8EF5"><circle id="oval2" transform="matrix(-1 0 0 1 10 0)" cx="5" cy="6" r="2"/><circle id="oval1" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp5" opacity="0" transform="translate(14 50)" fill="#91D2FA"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp4" opacity="0" transform="translate(35 50)" fill="#F48EA7"><circle id="oval1" transform="matrix(-1 0 0 1 12 0)" cx="6" cy="5" r="2"/><circle id="oval2" transform="matrix(-1 0 0 1 4 0)" cx="2" cy="2" r="2"/></g><g id="grp1" opacity="0" transform="translate(24)" fill="#9FC7FA"><circle id="oval1" cx="2.5" cy="3" r="2"/><circle id="oval2" cx="7.5" cy="2" r="2"/></g></g></svg>
-                                </label>
-                            </div>
-                            </div>';
-							}
-						}
-					?>           
+                            </div>      
 					<header>
                         
 						<div class="course-box">
 						<a href="<?php echo 'data:image;base64,'.base64_encode($image1)?>" data-lightbox="example-set">
-							<img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>"style="" >
+							<img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>"style="height:350px;" >
 						</a>
 					    </div>
 
@@ -168,9 +157,9 @@ if($hv_lift){
 					</header>
 					<article>
 						<section class="course-intro">
-							<h3>Introduction</h3>
+							<h3>Introduction <a href="edit_merchant_profile.php">Edit Introduction</a></h3>
 							<p><?php echo $desc ?></p>
-							<h3>Information</h3>
+							<h3>Information <a href="edit_merchant_profile.php">Edit Information</a></h3>
 							<p>Address: <?php echo $address ?></p>
 							<p>Email: <?php echo $email ?></p>
 							<p>Contact Number: <?php echo $phone ?></p>
@@ -180,7 +169,7 @@ if($hv_lift){
 						</section>
 
 						<section class="course-objective">
-							<h3>Facilities</h3>
+							<h3>Facilities <a href="edit_merchant_profile.php">Edit Facilities</a></h3>
 							<ul>
 								<?php echo ($hv_wifi)?'<li>'.$facName1.' '.'<i class="fa fa-wifi" aria-hidden="true"></i></li>':'' ?> 
 								<?php echo ($hv_pool)?'<li>'.$facName2.' '.'<i class="fas fa-swimming-pool" aria-hidden="true"></i></li>':'' ?> 
@@ -233,7 +222,7 @@ if($hv_lift){
 									<td>'.$roomSize.'</td>
 								<td>'.$price.'</td>
 								<td>'.$roomAvailable.'</td>
-								<td><button type="submit" class="view-hotel-btn" value="book">Book</button></td>
+								<td><input type="submit" class="view-hotel-btn" value="book"></td>
 								<input type="hidden" name="book" value="true"/>
 								</form></tr>';
 									}
@@ -247,8 +236,7 @@ if($hv_lift){
 		</div>
 	</section>
 
-							<h3>Review</h3> 
-							<a href="<?php echo 'hotel_rating.php?id='.$id ?>" class="button">Show More Review</a>
+							<h3>Review <a href="merchant_rating.php" class="button">Show More Review</a></h3> 
 							</main>		
 							<?php 
 							$query4 = "SELECT * FROM rating WHERE hotelID='$id' ORDER BY ratingID DESC LIMIT 3 ";
@@ -301,7 +289,7 @@ if($hv_lift){
 												
 												<div class="rewiew-content">
 													<header>
-														<p>No Rating Yet</p>
+														<p>No Review Yet</p>
 													</header>
 													
 												</div>
@@ -316,33 +304,7 @@ if($hv_lift){
 									
 	</div>
 						</section>
-						<script>
-function myFunction() {
-  var checkBox = document.getElementById("checkbox");
-  var custID= $("#custID").val();
-  var hotelID= $("#hotelID").val();
-  if (checkBox.checked == true){
-	$.ajax({
-                        type: "POST",
-                        url: "fav.php",
-                        data: "custID=" + custID+ "&hotelID=" + hotelID,
-                        success: function(data) {
-                           alert("Add to favourite successfully.");
-						   window.location.reload();
-                        }
-                    });
-  } else {
-	$.ajax({
-                        type: "POST",
-                        url: "unfav.php",
-                        data: "custID=" + custID+ "&hotelID=" + hotelID,
-                        success: function(data) {
-                           alert("Remove from favourite successfully.");
-						   window.location.reload();
-                        }
-                    });  }
-}
-</script>	
+
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="js/lightbox.js"></script>
 	<script type="text/javascript" src="js/all.js"></script>
@@ -355,7 +317,6 @@ function myFunction() {
 </body>
 </html>
 
-
 <?php
-    include ('footer.php');
+include('footer.php');
 ?>
