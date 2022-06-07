@@ -37,6 +37,10 @@
         $numRoom = $_POST['num_room'];
 		$error = array();
 		$booking = true;
+		if($checkInDate < $bookingDate || $checkOutDate < $bookingDate){
+			array_push($error, "Check-In/Out date should not be earlier than today.");
+			$booking = false;
+		}
 		if($checkOutDate < $checkInDate){
 			array_push($error, "Check-out date should not be earlier than check-in date.");
 			$booking = false;
@@ -45,7 +49,7 @@
 			array_push($error, "Please enter proper number of adults.");
 			$booking = false;
 		}
-		if($children < 1){
+		if($children < 0){
 			array_push($error, "Please enter proper number of children.");
 			$booking = false;
 		}
@@ -121,13 +125,13 @@
 								<div class="col-md-3">
 									<div class="form-group">
 										<span class="form-label">Check-In Date</span>
-										<input class="form-control" type="date" name="checkin" required>
+										<input class="form-control" type="date" name="checkin" min="<?= date('Y-m-d'); ?>" required>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="form-group">
 										<span class="form-label">Check-Out Date</span>
-										<input class="form-control" type="date" name="checkout" required>
+										<input class="form-control" type="date" name="checkout" min="<?= date('Y-m-d'); ?>" required>
 									</div>
 								</div>
 								<div class="col-md-2">
