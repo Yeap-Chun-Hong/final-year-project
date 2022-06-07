@@ -29,6 +29,7 @@
         }
     }
 
+
 	if(isset($_POST['submitted'])){
 		$title = $_POST['title'];
 		$message = $_POST['message'];
@@ -38,6 +39,12 @@
 		$review=true;
 		if(isset($_SESSION['login'])){
 			$custID= $_SESSION['custID'];
+			$query = "SELECT * FROM rating WHERE custID='$custID'";
+			$result =  mysqli_query($dbc,$query);
+			if(mysqli_num_rows($result) > 0) {
+				array_push($error, "You have reviewed this hotel.");
+				$review = false;
+			}
 			if(empty($message)){
 				array_push($error, "Message is required.");
 				$review = false;
@@ -75,8 +82,6 @@
 				} else {
 					array_push($error, "Database error. Please try again later");
 				}
-			}else{
-				array_push($error, "Please check again the field.");
 			}
 
 		}else{
@@ -105,7 +110,6 @@
 		</section>
 		
 				<?php 
-				echo'';
 							$query4 = "SELECT * FROM rating WHERE hotelID='$id' ORDER BY ratingID DESC ";
 							$result4 = mysqli_query($dbc,$query4);
 							if(mysqli_num_rows($result4) > 0) {
