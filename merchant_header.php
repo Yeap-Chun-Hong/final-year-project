@@ -32,13 +32,14 @@ require_once 'config.php';
 						<nav class="nav-desktop">
 							<ul class="menu-list">
 								<li><a href="merchant_index.php">Home</a></li>
-                                <li><a href="all_hotel.php">Edit Room</a></li>
-								<li><a href="all_hotel.php">Booking History</a></li>
+
 								<?php if (isset($_SESSION['merchant_login'])) {
 									echo'<li class="menu-parent">';
-									$username = $_SESSION['username'];
+									$username = $_SESSION['hotelName'];
 									echo $username;
 									echo 	'<ul class="sub-menu">
+                                    <li><a href="all_hotel.php">Edit Room</a></li>
+                                    <li><a href="merchant_booking_history.php">View Booking</a></li>
 												<li><a href="edit_merchant_profile.php">Edit Hotel Profile</a></li>
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>

@@ -27,6 +27,7 @@ if(isset($_POST['submitted'])){
 			while ($row = mysqli_fetch_array($result)){
 				$_SESSION['hotelID'] = $row['hotelID'];
                 $_SESSION['username'] = $row['username'];
+				$_SESSION['hotelName'] = $row['hotelName'];
 			}
 			header('Location: merchant_index.php');
 			exit();
