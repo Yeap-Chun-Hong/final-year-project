@@ -1,11 +1,12 @@
-<?
-include_once 'contactSub.php';
+<?php
+require_once ("config.php");
+include('header.php');
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>education</title>
+	<title>contact us</title>
 	<meta name="viewport" content="width=device-width">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="css/all.css">
@@ -17,50 +18,13 @@ include_once 'contactSub.php';
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div id="page" class="site" >
-		<header class="site-header">
-			<!-- Top header Close -->
-			<div class="main-header">
-				<div class="container">
-					<div class="logo-wrap" itemprop="logo">
-						<img src="images/site-logo.png" alt="Logo Image" style="width:115px;height56px;">
-					</div>
-					<div class="nav-wrap">
-						<nav class="nav-desktop">
-							<ul class="menu-list">
-								<li><a href="index.php">Home</a></li>
-								<li><a href="all-hotel.php">Hotel</a></li>
-								<li><a href="">About Us</a></li>
-								<li><a href="">Contact</a></li>
-								<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-								<?php if (isset($_SESSION['login'])) {
-									echo'<li class="menu-parent">';
-									$username = $_SESSION['username'];
-									echo $username;
-									echo 	'<ul class="sub-menu">
-												<li><a href="edit_profile.php">Edit Profile</a></li>
-												<li><a href="logout.php">Log Out</a></li>
-											</ul>
-								</li>';			
-									}else{echo '<li><a href="login.php">Login / Register</a></li>';}
-								?>	
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</header>
-		<!-- Header Close -->
+	
 		
 		<section class="contact-page-section">
 			<div class="container">
 				<div class="people-info-wrap">
 					<h2>leave us your info</h2>
 					<p>Send the problem that you have face or give us the command that you need to tell us.</p>
-				
-					<?php if(!empty($statusMsg)){ ?>
-					<div class="status-msg <?php echo $status; ?>"><?php echo $statusMsg; ?></div>
-					<?php}	?>
 
 					<form action="" method="post">
 						<span>
