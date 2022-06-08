@@ -8205,6 +8205,7 @@ h1, h2, h3, h4, h5,
   .table tbody td.quantity {
     width: 10%; }
   .table tbody td .img {
+    max-width:200px;
  }
   .table tbody td .email span {
     display: block; 
