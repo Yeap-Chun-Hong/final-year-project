@@ -38,7 +38,6 @@ require_once 'config.php';
 									$username = $_SESSION['hotelName'];
 									echo $username;
 									echo 	'<ul class="sub-menu">
-                                    <li><a href="all_hotel.php">Edit Room</a></li>
                                     <li><a href="merchant_booking_history.php">View Booking</a></li>
 												<li><a href="edit_merchant_profile.php">Edit Hotel Profile</a></li>
 												<li><a href="logout.php">Log Out</a></li>

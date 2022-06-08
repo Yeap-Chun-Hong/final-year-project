@@ -149,21 +149,22 @@ if($hv_lift){
 						}
 					?>           
 					<header>
-                        
 						<div class="course-box">
-						<a href="<?php echo 'data:image;base64,'.base64_encode($image1)?>" data-lightbox="example-set">
-							<img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>"style="" >
-						</a>
-					    </div>
-
-						<div class="course-box">
+                            <a href="<?php echo 'data:image;base64,'.base64_encode($image1)?>" data-lightbox="example-set">
+                                <img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>" style="height:175px;">
+                            </a>
                             <a href="<?php echo 'data:image;base64,'.base64_encode($image2)?>" data-lightbox="example-set">
                                 <img src=" <?php echo 'data:image;base64,'.base64_encode($image2)  ?>" style="height:175px;">
                             </a>
-                            <a href="<?php echo 'data:image;base64,'.base64_encode($image3)?>" data-lightbox="example-set">
-                                <img src=" <?php echo 'data:image;base64,'.base64_encode($image3)  ?>" style="height:175px;">
-                            </a>
 						</div>
+                        
+						<div class="course-box">
+						<a href="<?php echo 'data:image;base64,'.base64_encode($image3)?>" data-lightbox="example-set">
+							<img src=" <?php echo 'data:image;base64,'.base64_encode($image3)  ?>"style="350px;" >
+						</a>
+					    </div>
+
+						
 					
 					</header>
 					<article>

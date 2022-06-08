@@ -138,21 +138,22 @@ if(mysqli_num_rows($result1) > 0) {
                             </div>
                             </div>      
 					<header>
-                        
-						<div class="course-box">
-						<a href="<?php echo 'data:image;base64,'.base64_encode($image1)?>" data-lightbox="example-set">
-							<img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>"style="height:350px;" >
-						</a>
-					    </div>
-
-						<div class="course-box">
+					<div class="course-box">
+                            <a href="<?php echo 'data:image;base64,'.base64_encode($image1)?>" data-lightbox="example-set">
+                                <img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>" style="height:175px;">
+                            </a>
                             <a href="<?php echo 'data:image;base64,'.base64_encode($image2)?>" data-lightbox="example-set">
                                 <img src=" <?php echo 'data:image;base64,'.base64_encode($image2)  ?>" style="height:175px;">
                             </a>
-                            <a href="<?php echo 'data:image;base64,'.base64_encode($image3)?>" data-lightbox="example-set">
-                                <img src=" <?php echo 'data:image;base64,'.base64_encode($image3)  ?>" style="height:175px;">
-                            </a>
 						</div>
+                        
+						<div class="course-box">
+						<a href="<?php echo 'data:image;base64,'.base64_encode($image3)?>" data-lightbox="example-set">
+							<img src=" <?php echo 'data:image;base64,'.base64_encode($image3)  ?>"style="height:350px;" >
+						</a>
+					    </div>
+
+						
 					
 					</header>
 					<article>
@@ -179,7 +180,7 @@ if(mysqli_num_rows($result1) > 0) {
 								<?php echo ($hv_lift)?'<li>'.$facName6.' '.'<i class="fa fa-caret-square-o-up"></i></li>':'' ?> 
 								<?php echo ((!$hv_wifi &&!$hv_pool &&!$hv_nsr &&!$hv_parking &&!$hv_ac &&!$hv_lift))?'<li>No facilities provided.</li>':'' ?> 
 							</ul>
-							<h3>Availability</h3>
+							<h3>Room <a href="add_room.php">Add Room</a></h3>
 							<section class="ftco-section">
 		<div class="container">
 			<div class="row">
@@ -198,7 +199,7 @@ if(mysqli_num_rows($result1) > 0) {
 						  </thead>
 						  <tbody>
 								<?php 
-								$query3 = "SELECT * FROM room WHERE hotelID='$id' && roomAvailable>'0'";
+								$query3 = "SELECT * FROM room WHERE hotelID='$id'";
 								$result3 = mysqli_query($dbc,$query3);
 								if(mysqli_num_rows($result3) > 0) {
 									while ($row = mysqli_fetch_array($result3)) {
@@ -209,7 +210,7 @@ if(mysqli_num_rows($result1) > 0) {
 										$price = $row['price'];
 										$room_image = $row['image'];
 										$roomAvailable = $row['roomAvailable'];
-										echo'								<form action="booking.php?hotelid='.$hotelID.'&roomid='.$roomID.'" method="POST">
+										echo'
 										<tr class="alert" role="alert"> <td>	<a href="data:image;base64,'.base64_encode($room_image).'" data-lightbox="example-set">
 										<img class="img" src="data:image;base64,'.base64_encode($room_image).'">									
 										</a></td>';
@@ -222,9 +223,7 @@ if(mysqli_num_rows($result1) > 0) {
 									<td>'.$roomSize.'</td>
 								<td>'.$price.'</td>
 								<td>'.$roomAvailable.'</td>
-								<td><input type="submit" class="view-hotel-btn" value="book"></td>
-								<input type="hidden" name="book" value="true"/>
-								</form></tr>';
+								<td><a href="edit_room.php?id='.$roomID.'">Edit</a></td></tr>';
 									}
 								}
 								?>
