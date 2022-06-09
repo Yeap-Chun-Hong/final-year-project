@@ -151,20 +151,20 @@ if($hv_lift){
 					<header>
 						<div class="course-box">
                             <a href="<?php echo 'data:image;base64,'.base64_encode($image1)?>" data-lightbox="example-set">
-                                <img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>" style="height:175px;">
-                            </a>
-                            <a href="<?php echo 'data:image;base64,'.base64_encode($image2)?>" data-lightbox="example-set">
-                                <img src=" <?php echo 'data:image;base64,'.base64_encode($image2)  ?>" style="height:175px;">
+                                <img src=" <?php echo 'data:image;base64,'.base64_encode($image1)  ?>" >
                             </a>
 						</div>
+						<div class="course-box">
+						<a href="<?php echo 'data:image;base64,'.base64_encode($image2)?>" data-lightbox="example-set">
+							<img src=" <?php echo 'data:image;base64,'.base64_encode($image2)  ?>" >
+						</a>
+					    </div>
                         
 						<div class="course-box">
 						<a href="<?php echo 'data:image;base64,'.base64_encode($image3)?>" data-lightbox="example-set">
-							<img src=" <?php echo 'data:image;base64,'.base64_encode($image3)  ?>"style="350px;" >
+							<img src=" <?php echo 'data:image;base64,'.base64_encode($image3)  ?>" >
 						</a>
 					    </div>
-
-						
 					
 					</header>
 					<article>

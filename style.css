@@ -2452,11 +2452,13 @@ aside .news-letter hr {
 .course-detail .course-box {
 	width: 250px;
 	text-align: center;
-	margin: 50px 50px 0px 50px;
 }
 
 .course-box img{
 	margin-left: 100px;
+	min-height: 200px;
+	margin-left: 10px;
+	padding-left: 10px;
 }
 
 .course-detail .course-box:last-child {
