@@ -26,9 +26,9 @@ if(isset($_SESSION['admin_login'])){
         $success = array();
         $update = true;
 
-        $query1 = "UPDATE hotel SET username ='$username' WHERE hotelID = '{$_SESSION['hotelID']}'";
-        $query2 = "UPDATE hotel SET password ='$password' WHERE hotelID = '{$_SESSION['hotelID']}'";
-        $query3 = "UPDATE hotel SET active ='$active_status' WHERE hotelID = '{$_SESSION['hotelID']}'";
+        $query1 = "UPDATE hotel SET username ='$username' WHERE hotelID = '$hotelID'";
+        $query2 = "UPDATE hotel SET password ='$password' WHERE hotelID = '$hotelID'";
+        $query3 = "UPDATE hotel SET active ='$active_status' WHERE hotelID = '$hotelID'";
 
         
 
@@ -95,8 +95,12 @@ if(isset($_SESSION['admin_login'])){
 				<div class="row">
                     
 					<div class="booking-form">
-                        
-						<form action="edit_merchant_profile.php" method="POST" enctype="multipart/form-data">
+                        <?php
+                        if(isset($_SESSION['admin_login'])){
+                            echo'<form action="edit_merchant_profile.php?id='.$hotelID.'" method="POST" enctype="multipart/form-data">';
+                        }else{
+                            echo'<form action="edit_merchant_profile.php" method="POST" enctype="multipart/form-data">';                        }
+                        ?>
 							<div class="form-group">
                             <h3>Edit Merchant Profile </h3>
 							</div>

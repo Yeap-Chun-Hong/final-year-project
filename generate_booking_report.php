@@ -1,6 +1,11 @@
 <?php
 require_once('config.php');
-$hotelID = $_GET['id'];
+if(isset($_GET['id'])){
+    $hotelID = $_GET['id'];
+    $query = "SELECT * FROM booking WHERE hotelID='$hotelID'";
+}else{
+    $query = "SELECT * FROM booking ";
+}
 //excel file name
 $fileName = date('Ymd')." Booking_Record.xls";
 
@@ -20,7 +25,6 @@ $excelData = "<table border=1><thead>
     <th>Status</th>
 </tr>
 </thead><tbody>";
-$query = "SELECT * FROM booking WHERE hotelID='$hotelID'";
 $result1 = mysqli_query($dbc,$query);
 if(mysqli_num_rows($result1) > 0) {
     while ($row = mysqli_fetch_array($result1)) {

@@ -24,6 +24,7 @@
             $hv_parking = $row['hv_parking'];
             $hv_ac = $row['hv_ac'];
             $hv_lift= $row['hv_lift'];
+			$status = $row['active'];
         }
     }
     if(isset($_SESSION['login'])){
@@ -131,7 +132,15 @@ if(mysqli_num_rows($result1) > 0) {
 				<main class="course-detail">
 				<input type="hidden" id="custID" value="<?php echo isset($_SESSION['login'])?$_SESSION['custID']:'' ?>"/>
 				<input type="hidden" id="hotelID" value="<?php echo $hotelID ?>"/>
-					<h2><?php echo $name .' '.'⭐'.$rating.' '.'('.$totalRating.')'?></h2>
+					<h2><?php echo $name .' '.'⭐'.$rating.' '.'('.$totalRating.')'?>
+						<?php 
+							echo $status?"Active ":"Inactive ";
+
+						if(isset($_SESSION['admin_login'])){
+							echo '<a href="edit_merchant_profile.php?id='.$hotelID.'">Manage merchant profile</a>';
+						}
+						?>
+					</h2>
                     <?php if(isset($_SESSION['login'])){
                         if(isset($favID)){
                             echo'<div id="main-content">
@@ -154,7 +163,7 @@ if(mysqli_num_rows($result1) > 0) {
                             </div>
                             </div>';
 							}
-						}else if(isset($_SESSION['admin_login'])){
+						}else if(isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])){
 							echo '<div id="main-content">
 							<div>
 							<p>Favourite by '. $total .' customer';

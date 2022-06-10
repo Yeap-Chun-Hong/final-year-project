@@ -16,7 +16,7 @@ include('header.php');
 	<section class="page-content" id="course-page">
 		<div class="container">
 			<h3>Manage Bookings</h3>
-			<a href="<?php echo 'generate_booking_report.php?id='.$hotelID ?>">Export to Excel</a>
+			<a href="generate_booking_report.php">Export to Excel</a>
 			<section class="ftco-section">
 				<div class="container">
 					<div class="row">
