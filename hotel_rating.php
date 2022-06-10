@@ -39,7 +39,7 @@
 		$review=true;
 		if(isset($_SESSION['login'])){
 			$custID= $_SESSION['custID'];
-			$query = "SELECT * FROM rating WHERE custID='$custID'";
+			$query = "SELECT * FROM rating WHERE custID='$custID' && hotelID='$hotelID'";
 			$result =  mysqli_query($dbc,$query);
 			if(mysqli_num_rows($result) > 0) {
 				array_push($error, "You have reviewed this hotel.");
@@ -70,13 +70,14 @@
 					$query5 = "SELECT * FROM rating WHERE hotelID='$hotelID' ";
 					$result5 = mysqli_query($dbc,$query5);
 					if(mysqli_num_rows($result5) > 0) {
+						$rate=0;
+						$totalRate=0;
 						while ($row = mysqli_fetch_array($result5)) {
-							$rate = $row['rate'];
-							$rating += $rate;
-							
+							$rate += $row['rate'];
+							$totalRate ++;
 						}
-						$rating = $rating / $totalRating;
-						$rating_query = "UPDATE hotel SET rating ='$rating' WHERE hotelID = '$hotelID'";
+						$rate = $rate / $totalRate;
+						$rating_query = "UPDATE hotel SET rating ='$rate', totalRating='$totalRate' WHERE hotelID = '$hotelID'";
 						mysqli_query($dbc, $rating_query);
 					}
 				} else {
@@ -179,53 +180,44 @@
 								</section>';
 							}		
 							?>
-					
-					
-
-							
-									
-							
-
-
-									<section class="contact-page-section">
-			<div class="container">
-				<div class="people-info-wrap">
-					<h2>Leave Your Review</h2>
-					
-					<form action="<?php echo'hotel_rating.php?id='.$id ?>" method="POST" >
-						<span>
-						<input type="text" placeholder="Subject*" class="input- name" name="title">
-
-						<label class="rating-label">
-						<strong>Rating</strong>
-							<input
-								class="rating"
-								min="1"
-								max="5"
-								oninput="this.style.setProperty('--value', this.value)"
-								step="1"
-								type="range"
-								value="1"
-								name="rating">
-							</label>						
-						</span>
-						<textarea name="message" class="input- subject" placeholder="Message*" rows="5" cols="40"></textarea>
-						<input type="submit" value="submit">
-						<?php
-							if (isset($_POST['submitted'])) {
-								for ($i = 0; $i < count($error); $i++) {
-									echo "<p style='color:red;font-size:15px;text-align:center;'>$error[$i]</p>"; //prompt user the error
-								}
-								for ($i = 0; $i < count($success); $i++) {
-									echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
-								}
-							}
-						?>
-						<input type="hidden" name="submitted" value="true"/>
-					</form>
-				</div>
-
+	<?php if(!isset($_SESSION['merchant_login']) && !isset($_SESSION['admin_login'] )){
+		echo '<section class="contact-page-section">
+		<div class="container">
+			<div class="people-info-wrap">
+				<h2>Leave Your Review</h2>
 				
+				<form action="hotel_rating.php?id='.$id.'" method="POST" >
+					<span>
+					<input type="text" placeholder="Subject*" class="input- name" name="title">
+
+					<label class="rating-label">
+					<strong>Rating</strong>
+						<input
+							class="rating"
+							min="1"
+							max="5"
+							oninput="this.style.setProperty(';echo"'--value'"; echo', this.value)"
+							step="1"
+							type="range"
+							value="1"
+							name="rating">
+						</label>						
+					</span>
+					<textarea name="message" class="input- subject" placeholder="Message*" rows="5" cols="40"></textarea>
+					<input type="submit" value="submit">';
+					if (isset($_POST['submitted'])) {
+						for ($i = 0; $i < count($error); $i++) {
+							echo "<p style='color:red;font-size:15px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+						}
+						for ($i = 0; $i < count($success); $i++) {
+							echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
+						}
+					}
+				echo '<input type="hidden" name="submitted" value="true"/>';
+				echo '					</form>
+				</div>';
+	}	
+	?>		
 			</div>
 		</section>
 		
