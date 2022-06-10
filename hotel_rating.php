@@ -63,9 +63,6 @@
 				$insert = "INSERT INTO rating (title,message,rate,hotelID,custID) VALUES ('$title','$message','$rating','$hotelID','$custID')";
 				if (mysqli_query($dbc, $insert)) {
 					array_push($success, "Thank you for reviewing us!.");
-					$totalRating++;
-					$addTotalRating = "UPDATE hotel SET totalRating ='$totalRating' WHERE hotelID = '$hotelID'";
-					mysqli_query($dbc, $addTotalRating);
 
 					$query5 = "SELECT * FROM rating WHERE hotelID='$hotelID' ";
 					$result5 = mysqli_query($dbc,$query5);
