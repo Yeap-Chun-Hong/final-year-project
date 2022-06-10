@@ -14,7 +14,7 @@ if(mysqli_num_rows($result) > 0) {
 	}
 }
 
-$query2 = "SELECT * FROM hotel ORDER BY rating DESC LIMIT 3";
+$query2 = "SELECT * FROM hotel WHERE active='1' ORDER BY rating DESC LIMIT 3";
 $result2 = mysqli_query($dbc,$query2);
 ?>
 <!DOCTYPE html>

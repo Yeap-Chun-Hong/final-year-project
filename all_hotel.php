@@ -1,7 +1,7 @@
 <?php
 require_once ("config.php");
 include('header.php');
-$query2 = "SELECT * FROM hotel ORDER BY rating DESC";
+$query2 = "SELECT * FROM hotel WHERE active='1' ORDER BY rating DESC";
 $result2 = mysqli_query($dbc,$query2);
 ?>
 		<title>Kuro Hotel Booking Website</title>

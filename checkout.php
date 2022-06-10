@@ -1,8 +1,6 @@
 <?php
     include ('header.php');
     $bookingID = $_GET['id'];
-    $adultPrice = 100.00;
-    $childrenPrice = 50.00;
 
     $getBookingDetails = "SELECT * FROM booking WHERE bookingID ='$bookingID' ";
     $result =  mysqli_query($dbc,$getBookingDetails);
@@ -23,11 +21,14 @@
             $paymentMethod = $row['payment'];
             $get_hotel = "SELECT * FROM hotel WHERE hotelID='$hotelID' ";
             $result = mysqli_query($dbc,$get_hotel);
-                            while ($row = mysqli_fetch_array($result)) {
-                                $hotelName = $row['hotelName'];
-                            }
-        }
-       
+            if(mysqli_num_rows($result) > 0) {
+              while ($row = mysqli_fetch_array($result)) {
+                $hotelName = $row['hotelName'];
+                $childrenPrice = $row['childPrice'];
+                $adultPrice= $row['adultPrice'];
+              }
+            }
+        }    
     }
     $getCustDetails = "SELECT * FROM customer WHERE custID ='$custID' ";
     $result2 =  mysqli_query($dbc,$getCustDetails);
@@ -68,7 +69,7 @@ if(isset($_POST['submitted'])){
                 WHERE bookingID = '$bookingID'";
     mysqli_query($dbc, $update);
 
-    $roomAvailable--;
+    $roomAvailable-=$room;
     $updateRoomAvailable = "UPDATE room SET roomAvailable ='$roomAvailable' WHERE roomID = '$roomID'";
     mysqli_query($dbc, $updateRoomAvailable);
 

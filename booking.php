@@ -23,6 +23,7 @@
         while ($row = mysqli_fetch_array($result2)) {
 			$roomName = $row['roomName'];
             $roomPrice =$row['price'];
+			$roomAvailable = $row['roomAvailable'];
         }
     }
 
@@ -54,6 +55,9 @@
 			$booking = false;
 		}
 		if($numRoom < 1){
+			array_push($error, "Please enter proper number of room.");
+			$booking = false;
+		}else if($numRoom > $roomAvailable){
 			array_push($error, "Please enter proper number of room.");
 			$booking = false;
 		}
@@ -149,7 +153,7 @@
                                 <div class="col-md-2">
 									<div class="form-group">
 										<span class="form-label">Number of Room</span>
-                                        <input type="number" name="num_room" class="quantity form-control input-number"  value="1" min="1" max="100" step="1">
+                                        <input type="number" name="num_room" class="quantity form-control input-number"  value="1" min="1" max="<?php echo $roomAvailable?>" step="1">
 									</div>
 								</div>
 							</div>
