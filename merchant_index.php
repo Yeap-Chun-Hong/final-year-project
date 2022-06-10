@@ -157,9 +157,9 @@ if(mysqli_num_rows($result1) > 0) {
 					</header>
 					<article>
 						<section class="course-intro">
-							<h3>Introduction <a href="edit_merchant_profile.php">Edit Introduction</a></h3>
+							<h3>Introduction <a href="edit_hotel_details.php">Edit Introduction</a></h3>
 							<p><?php echo $desc ?></p>
-							<h3>Information <a href="edit_merchant_profile.php">Edit Information</a></h3>
+							<h3>Information <a href="edit_hotel_details.php">Edit Information</a></h3>
 							<p>Address: <?php echo $address ?></p>
 							<p>Email: <?php echo $email ?></p>
 							<p>Contact Number: <?php echo $phone ?></p>
@@ -169,7 +169,7 @@ if(mysqli_num_rows($result1) > 0) {
 						</section>
 
 						<section class="course-objective">
-							<h3>Facilities <a href="edit_merchant_profile.php">Edit Facilities</a></h3>
+							<h3>Facilities <a href="edit_hotel_details.php">Edit Facilities</a></h3>
 							<ul>
 								<?php echo ($hv_wifi)?'<li>'.$facName1.' '.'<i class="fa fa-wifi" aria-hidden="true"></i></li>':'' ?> 
 								<?php echo ($hv_pool)?'<li>'.$facName2.' '.'<i class="fas fa-swimming-pool" aria-hidden="true"></i></li>':'' ?> 
