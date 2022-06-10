@@ -2,34 +2,23 @@
 require_once ("config.php");
 include('header.php');
 if(isset($_POST['submitted'])){
-    $name = $_POST['name'];
-	$username = $_POST['username'];
+    $hotelName = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-	$password = $_POST['password'];
-    $confirm = $_POST['re-password'];
+	$address = $_POST['address'];
 	$register = true;
 	$error = array();
 	$success = array();
-
-	if(empty($name)){
-		array_push($error, "Name is required.");
-		$register = false;
-	}else if (!preg_match ("/^[a-zA-Z\s]+$/",$name)){
-        array_push($error, "Only alphabets are allowed in name!");
-		$register = false;
-    }
-	
-	if(empty($username)){
-		array_push($error, "Username is required!");
-		$register = false;
-	}
-
     if(empty($email)){
 		array_push($error, "Email address is required!");
 		$register = false;
 	}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
 		array_push($error, "Invalid email format!");
+		$register = false;
+	}
+
+	if(empty($hotelName)){
+		array_push($error, "Hotel Name is required!");
 		$register = false;
 	}
 	
@@ -40,45 +29,27 @@ if(isset($_POST['submitted'])){
 		array_push($error, "Only numbers are allowed in phone!");
 		$register = false;
 	}
-
-    if(empty($password)){
-		array_push($error, "Password is required!");
-		$register = false;
-	}else if(strlen($password)<8){
-		array_push($error, "Your password must contain at least 8 characters!");
-		$register = false;
-	}elseif(!preg_match("#[0-9]+#",$password)) {
-		array_push($error, "Your password must contain at least 1 number!");
-		$register = false;
-    }
-    elseif(!preg_match("#[A-Z]+#",$password)) {
-		array_push($error, "Your password must contain at least 1 capital letter!");
-		$register = false;
-    }
-    elseif(!preg_match("#[a-z]+#",$password)) {
-		array_push($error, "Your password must contain at least 1 lowercase letter!");
-		$register = false;
-    }
-	
-	if(empty($confirm)){
-		array_push($error, "Confirm Password is required!");
-		$register = false;
-	}else if($confirm != $password){
-		array_push($error, "Confirm Password not matched!");
+    if(empty($address)){
+		array_push($error, "Address is required!");
 		$register = false;
 	}
 
 	//if no error
-	if ($register){
-		$insert = "INSERT INTO customer (username,password,custName,email,hpNo) VALUES ('$username','$password','$name','$email','$phone')";
-		$selectQuery = "SELECT * FROM customer WHERE username='$username'";
+    if ($register){
+		$insert = "INSERT INTO hotel (hotelName,address,email,phoneNo) VALUES ('$hotelName','$address','$email','$phone')";
+		$selectQuery = "SELECT * FROM hotel WHERE email='$email'";
 		$check_username = mysqli_query($dbc, $selectQuery);
 
 		if(mysqli_num_rows($check_username)>0){
-			array_push($error, "Username that you have enter already exist!");
+			array_push($error, "Email that you have enter already exist!");
 		}else{
 			if (mysqli_query($dbc, $insert)) {
-				array_push($success, "Congratulations, you have registered successfully.");
+				array_push($success, "Congratulations, you have registered successfully. We will contact you soon.");
+                $to_email = $email;
+                $subject = "Thank you for registering as merchant";
+                $body = "Hi,".$hotelName.". Thank you for joining us in Kuro Hotel Booking Website. We will verified your application soon.";
+                $headers = "From: Kuro Hotel Booking Website";
+                mail($to_email, $subject, $body,$headers);       
 			} else {
 				array_push($error, "Database error. Please try again later");
 			}
@@ -120,29 +91,13 @@ if(isset($_POST['submitted'])){
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic" >
-					<img src="images/img-01.png" alt="IMG">
+					<img src="images/merchant.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" action="customer_register.php" method="post">
+				<form class="login100-form validate-form" action="merchant_register.php" method="post">
 					<span class="login100-form-title">
-						 Register
+						 Merchant Register
 					</span>
-
-					<div class="wrap-input100 validate-input" >
-						<input class="input100" type="text" name="name" placeholder="Full Name">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-user-o" aria-hidden="true"></i>
-						</span>
-					</div>
-
-					<div class="wrap-input100 validate-input">
-						<input class="input100" type="text" name="username" placeholder="Username" >
-						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-user-circle-o" aria-hidden="true"></i>
-						</span>
-					</div>
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="text" name="email" placeholder="Email">
 						<span class="focus-input100"></span>
@@ -150,29 +105,30 @@ if(isset($_POST['submitted'])){
 							<i class="fa fa-envelope" aria-hidden="true"></i>
 						</span>
 					</div>
-                    <div class="wrap-input100 validate-input">
-						<input class="input100" type="number" name="phone" placeholder="Phone Number">
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="text" name="name" placeholder="Hotel Name">
 						<span class="focus-input100"></span>
-						<p style="color:#A9A9A9;font-weight:500;font-size: 11px;">eg: 0123456789</p>
-						<span class="symbol-input100" style="padding-bottom:14px;">
+						<span class="symbol-input100">
+							<i class="fa fa-user-o" aria-hidden="true"></i>
+						</span>
+					</div>
+
+
+                    
+                    <div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="phone" placeholder="Phone Number">
+						<span class="focus-input100"></span>
+                        <p style="color:#A9A9A9;font-weight:500;font-size: 14px;">eg: 0123456789</p>
+						<span class="symbol-input100"style="padding-bottom:20px;">
 							<i class="fa fa-phone" aria-hidden="true"></i>
 						</span>
 					</div>
                     <div class="wrap-input100 validate-input">
-						<input class="input100" type="password" name="password" placeholder="Password">
+						<input class="input100" type="text" name="address" placeholder="Address">
 						<span class="focus-input100"></span>
-						<span class="symbol-input100" >
-							<i class="fa fa-lock" aria-hidden="true"></i>
+						<span class="symbol-input100">
+							<i class="fa fa-address-card-o" aria-hidden="true"></i>
 						</span>
-					</div>
-					<div></div>
-                    <div class="wrap-input100 validate-input">
-						<input class="input100" type="password" name="re-password" placeholder="Confirm Password">
-						<span class="focus-input100"></span>
-						<span class="symbol-input100" style="padding-bottom:50px;">
-							<i class="fa fa-lock" aria-hidden="true"></i>
-						</span>
-						<p style="color:#A9A9A9;font-weight:500;font-size: 11px;">Passwords must contain at least eight characters, including at least 1 capital, 1 lowercase letter and 1 number.</p>
 					</div>
 					
 					<div class="container-login100-form-btn">
@@ -191,16 +147,9 @@ if(isset($_POST['submitted'])){
 						?>
 					</div>
 
-					<div class="text-center p-t-10">
-						<a class="txt2" href="login.php">
-							Already Signed Up? Log In Here
-							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
-						</a>
-					</div>
-
                     <div class="text-center p-t-12">
-						<a class="txt2" href="merchant_register.php">
-							Merchant Register
+						<a class="txt2" href="merchant_login.php">
+							Merchant Login
                             <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
 					</div>

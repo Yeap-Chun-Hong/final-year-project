@@ -115,7 +115,7 @@ if(isset($_POST['submitted'])){
 					</div>
 
 					<div class="text-center p-t-10">
-						<a class="txt2" href="customer_register.php">
+						<a class="txt2" href="merchant_register.php">
 							Join Us Now
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
