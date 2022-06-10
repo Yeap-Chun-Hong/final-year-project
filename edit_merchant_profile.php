@@ -58,9 +58,8 @@ $hotelID = $_SESSION['hotelID'];
             mysqli_query($dbc, $query3);
 
             if($update){
-            array_push($success, "Profile updated!");
-
-        }        
+                array_push($success, "Profile updated!");
+            }        
     }
 ?>
 <!DOCTYPE html>

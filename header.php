@@ -53,9 +53,10 @@ require_once 'config.php';
 									$username = $_SESSION['username'];
 									echo $username;
 									echo 	'<ul class="sub-menu">
-									<li><a href="admin_view_booking.php">Manage Bookings</a></li>
-									<li><a href="manage_new_merchant.php">Manage Newly Registered Merchant</a></li>
-
+												<li><a href="admin_view_booking.php">Manage Bookings</a></li>
+												<li><a href="manage_new_merchant.php">Manage Newly Registered Merchant</a></li>
+												<li><a href="edit_banner.php">Edit Banner</a></li>
+												<li><a href="manage_new_merchant.php">Edit About Us</a></li>
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>
 								</li>';			

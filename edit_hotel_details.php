@@ -138,7 +138,7 @@ $hotelID = $_SESSION['hotelID'];
                 $query = "UPDATE hotel SET image3='$img3'WHERE hotelID = '{$_SESSION['hotelID']}'";
                 mysqli_query($dbc, $query);
             }
-            array_push($success,"Profile Updated!");   
+            array_push($success,"Hotel Updated!");   
 
         }
 
