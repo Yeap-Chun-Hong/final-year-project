@@ -19,7 +19,7 @@
   $to_email = $email;
   $subject = "Rejected Application as Merchant";
   $body = "Hi,".$hotelName.". Your application as merchant had been rejected.
-        \n\tHotelName: ".$hotelName."
+        \n\tHotel Name: ".$hotelName."
         \n\tAddress: ".$address."
         \n\tContact: ".$contact.
         "\n\nWe appreciate that you are interested in Kuro Hotel Booking Website.";
