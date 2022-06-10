@@ -46,7 +46,20 @@ require_once 'config.php';
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>
 								</li>';			
-									}else{echo '<li><a href="login.php">Login / Register</a></li>';}
+									}else if(!isset($_SESSION['login']) && !isset($_SESSION['admin_login'])){echo '<li><a href="login.php">Login / Register</a></li>';}
+								?>	
+								<?php if (isset($_SESSION['admin_login'])) {
+									echo'<li class="menu-parent">';
+									$username = $_SESSION['username'];
+									echo $username;
+									echo 	'<ul class="sub-menu">
+									<li><a href="admin_view_booking.php">Manage Bookings</a></li>
+									<li><a href="manage_new_merchant.php">Manage Newly Registered Merchant</a></li>
+
+												<li><a href="logout.php">Log Out</a></li>
+											</ul>
+								</li>';			
+									}
 								?>	
 							</ul>
 						</nav>

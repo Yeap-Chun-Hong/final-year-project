@@ -206,10 +206,10 @@ if(isset($_POST['submitted'])){
     <div>
      
     </div>
-    <?php echo $status!='Completed'?$roomAvailable >0?'<button class="button button--full" type="submit"><svg class="icon">
+    <?php echo isset($_SESSION['custID'])?$status!='Completed'?$roomAvailable >0?'<button class="button button--full" type="submit"><svg class="icon">
           <use xlink:href="#icon-shopping-bag" />
         </svg>Checkout Now</button><input type="hidden" name="submitted" value="true"/>'    : '<button class="button button--full" type="button" style="background:grey;" disabled>Fully booked</button>'
-        :'' ?>
+        :'':'' ?>
   </form>
 </div>
 
