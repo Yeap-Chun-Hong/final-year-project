@@ -1,6 +1,10 @@
 <?php
-include('merchant_header.php');
-$hotelID = $_SESSION['hotelID'];
+include('header.php');
+if(isset($_SESSION['admin_login'])){
+    $hotelID = $_GET['id'];
+}else{
+    $hotelID = $_SESSION['hotelID'];
+}
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
     if(mysqli_num_rows($result) > 0) {

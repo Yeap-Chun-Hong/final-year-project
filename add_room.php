@@ -1,6 +1,10 @@
 <?php
-include('merchant_header.php');
-$hotelID = $_SESSION['hotelID'];
+include('header.php');
+if(isset($_SESSION['admin_login'])){
+    $hotelID = $_GET['id'];
+}else{
+    $hotelID = $_SESSION['hotelID'];
+}
 if(isset($_POST['submitted'])){
     $roomName = $_POST['name'];
     $roomSize = $_POST['size'];
@@ -99,8 +103,14 @@ if(isset($_POST['submitted'])){
                     
 					<div class="booking-form">
                         
-						<form action="add_room.php" method="POST" enctype="multipart/form-data">
-							<div class="form-group">
+					<?php
+                        if(isset($_SESSION['admin_login'])){
+                            echo '<form action="add_room.php?id='.$hotelID.'" method="POST" enctype="multipart/form-data">';
+                        }else{
+                            echo '<form action="add_room.php" method="POST" enctype="multipart/form-data">';
+                        }
+                         ?>							
+						 <div class="form-group">
                             <h3>Add Room </h3>
 							</div>
 							<div class="row">

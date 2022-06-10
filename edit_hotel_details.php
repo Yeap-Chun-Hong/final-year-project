@@ -1,6 +1,10 @@
 <?php
-include('merchant_header.php');
-$hotelID = $_SESSION['hotelID'];
+include('header.php');
+if(isset($_SESSION['admin_login'])){
+    $hotelID = $_GET['id'];
+}else{
+    $hotelID = $_SESSION['hotelID'];
+}
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
     if(mysqli_num_rows($result) > 0) {
@@ -56,54 +60,54 @@ $hotelID = $_SESSION['hotelID'];
                     description ='$desc',
                     childPrice = '$childrenPrice',
                     adultPrice = '$adultPrice'
-            WHERE hotelID = '{$_SESSION['hotelID']}'";
+            WHERE hotelID = '$hotelID'";
             mysqli_query($dbc, $query1);
             if(isset($_POST['facilities'])){
                 if(in_array('Free Wi-Fi', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_wifi =true WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_wifi =true WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }else{
-                    $query = "UPDATE hotel SET hv_wifi =false WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_wifi =false WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }
     
                 if(in_array('Swimming Pool', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_pool =true WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_pool =true WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }else{
-                    $query = "UPDATE hotel SET hv_pool =false WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_pool =false WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }
     
                 if(in_array('Non-Smoking Room', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_nsr =true WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_nsr =true WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }else{
-                    $query = "UPDATE hotel SET hv_nsr =false WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_nsr =false WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }
     
                 if(in_array('Parking', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_parking =true WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_parking =true WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }else{
-                    $query = "UPDATE hotel SET hv_parking =false WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_parking =false WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }
     
                 if(in_array('Air Conditioning', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_ac =true WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_ac =true WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }else{
-                    $query = "UPDATE hotel SET hv_ac =false WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_ac =false WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }
     
                 if(in_array('Lift', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_lift =true WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_lift =true WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }else{
-                    $query = "UPDATE hotel SET hv_lift =false WHERE hotelID = '{$_SESSION['hotelID']}'";
+                    $query = "UPDATE hotel SET hv_lift =false WHERE hotelID = '$hotelID'";
                     mysqli_query($dbc, $query);
                 }
             }else{
@@ -114,7 +118,7 @@ $hotelID = $_SESSION['hotelID'];
                         hv_nsr =false,
                         hv_pool =false,
                         hv_wifi =false
-                        WHERE hotelID = '{$_SESSION['hotelID']}'";
+                        WHERE hotelID = '$hotelID'";
                 mysqli_query($dbc, $query);
             }
 
@@ -123,19 +127,19 @@ $hotelID = $_SESSION['hotelID'];
             if(!empty($_FILES['image']['tmp_name'])){
                 $cover = file_get_contents($_FILES['image']['tmp_name']);
                 $cover = mysqli_real_escape_string($dbc,$cover);
-                $query = "UPDATE hotel SET image1='$cover'WHERE hotelID = '{$_SESSION['hotelID']}'";
+                $query = "UPDATE hotel SET image1='$cover'WHERE hotelID = '$hotelID'";
                 mysqli_query($dbc, $query);
             }
             if(!empty($_FILES['img2']['tmp_name'])){
                 $img2 = file_get_contents($_FILES['img2']['tmp_name']);
                 $img2 = mysqli_real_escape_string($dbc,$img2);
-                $query = "UPDATE hotel SET image2='$img2'WHERE hotelID = '{$_SESSION['hotelID']}'";
+                $query = "UPDATE hotel SET image2='$img2'WHERE hotelID = '$hotelID'";
                 mysqli_query($dbc, $query);
             }
             if(!empty($_FILES['img3']['tmp_name'])){
                 $img3 = file_get_contents($_FILES['img3']['tmp_name']);
                 $img3 = mysqli_real_escape_string($dbc,$img3);
-                $query = "UPDATE hotel SET image3='$img3'WHERE hotelID = '{$_SESSION['hotelID']}'";
+                $query = "UPDATE hotel SET image3='$img3'WHERE hotelID = '$hotelID'";
                 mysqli_query($dbc, $query);
             }
             array_push($success,"Hotel Updated!");   
@@ -175,8 +179,14 @@ $hotelID = $_SESSION['hotelID'];
 				<div class="row">
                     
 					<div class="booking-form">
-                        
-						<form action="edit_hotel_details.php" method="POST" enctype="multipart/form-data">
+                        <?php
+                        if(isset($_SESSION['admin_login'])){
+                            echo '<form action="edit_hotel_details.php?id='.$hotelID.'" method="POST" enctype="multipart/form-data">';
+                        }else{
+                            echo '<form action="edit_hotel_details.php" method="POST" enctype="multipart/form-data">';
+                        }
+                         ?>
+						
 							<div class="form-group">
                             <h3>Edit Hotel Profile </h3>
 							</div>

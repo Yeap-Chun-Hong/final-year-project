@@ -29,7 +29,7 @@ if(isset($_POST['submitted'])){
                 $_SESSION['username'] = $row['username'];
 				$_SESSION['hotelName'] = $row['hotelName'];
 			}
-			header('Location: merchant_index.php');
+			header('Location: single_hotel.php?id='.$_SESSION['hotelID'].'');
 			exit();
 		} else{
 			array_push($error, "Invalid credentials.");

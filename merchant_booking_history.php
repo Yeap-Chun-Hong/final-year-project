@@ -1,5 +1,5 @@
 <?php
-include('merchant_header.php');
+include('header.php');
 $hotelID = $_SESSION['hotelID'];
 ?>
 <!DOCTYPE html>

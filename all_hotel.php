@@ -1,7 +1,11 @@
 <?php
 require_once ("config.php");
 include('header.php');
-$query2 = "SELECT * FROM hotel WHERE active='1' ORDER BY rating DESC";
+if(isset($_SESSION['admin_login'])){
+	$query2 = "SELECT * FROM hotel ORDER BY rating DESC";
+}else{
+	$query2 = "SELECT * FROM hotel WHERE active='1' ORDER BY rating DESC";
+}
 $result2 = mysqli_query($dbc,$query2);
 ?>
 		<title>Kuro Hotel Booking Website</title>
@@ -23,6 +27,7 @@ $result2 = mysqli_query($dbc,$query2);
 								$rating = number_format($row['rating'],1);
 								$totalRating = $row['totalRating'];
 								$hotelBanner = $row['image1'];
+								$active = $row['active'];
 				
 								
 								echo'<div class="grid" id="cGrid">';
@@ -36,6 +41,14 @@ $result2 = mysqli_query($dbc,$query2);
                                 echo'<p><span>Address: </span>'.$address.'</p>';
                                 echo'<p><span> Email: </span>'.$email.'</p>';
                                 echo'<p><span> Phone: </span>'.$phone.'</p>';
+								if(isset($_SESSION['admin_login'])){
+									if($active == true){
+										echo'<p><span> Status: </span>Active</p>';
+
+									}else{
+										echo'<p><span> Status: </span>Inactive</p>';
+									}
+								}
                                 echo'</section>';
                                 echo'<a class="view-hotel-btn" href="single_hotel.php?id='.$id.'" >View hotel</a>';
                                 echo'</div>';

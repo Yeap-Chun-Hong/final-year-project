@@ -1,6 +1,6 @@
 <?php
-include('merchant_header.php');
-$hotelID = $_SESSION['hotelID'];
+include('header.php');
+
 $roomID = $_GET['id'];
 $get_room_details = "SELECT * FROM room WHERE roomID='$roomID'";
 $result =  mysqli_query($dbc,$get_room_details);

@@ -105,6 +105,14 @@ if($hv_lift){
         }
     }
 }
+$total=0;
+$number_fav = "SELECT * FROM favourite WHERE hotelID='$hotelID' ";
+$result1 =  mysqli_query($dbc,$number_fav);
+if(mysqli_num_rows($result1) > 0) {
+    while ($row = mysqli_fetch_array($result1)) {
+        $total ++;
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -146,7 +154,16 @@ if($hv_lift){
                             </div>
                             </div>';
 							}
+						}else if(isset($_SESSION['admin_login'])){
+							echo '<div id="main-content">
+							<div>
+							<p>Favourite by '. $total .' customer';
+							if($total>1){echo 's';}
+							echo'
+							</div>
+                            </div> ';
 						}
+						
 					?>           
 					<header>
 						<div class="course-box">
@@ -169,9 +186,9 @@ if($hv_lift){
 					</header>
 					<article>
 						<section class="course-intro">
-							<h3>Introduction</h3>
+							<h3>Introduction <?php echo isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])?'<a href="edit_hotel_details.php?id='.$hotelID.'">Edit Introduction</a>':''?></h3>
 							<p><?php echo $desc ?></p>
-							<h3>Information</h3>
+							<h3>Information <?php echo isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])?'<a href="edit_hotel_details.php?id='.$hotelID.'">Edit Information</a>':''?></h3>
 							<p>Address: <?php echo $address ?></p>
 							<p>Email: <?php echo $email ?></p>
 							<p>Contact Number: <?php echo $phone ?></p>
@@ -181,7 +198,7 @@ if($hv_lift){
 						</section>
 
 						<section class="course-objective">
-							<h3>Facilities</h3>
+							<h3>Facilities <?php echo isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])?'<a href="edit_hotel_details.php?id='.$hotelID.'">Edit Facilities</a>':''?></h3>
 							<ul>
 								<?php echo ($hv_wifi)?'<li>'.$facName1.' '.'<i class="fa fa-wifi" aria-hidden="true"></i></li>':'' ?> 
 								<?php echo ($hv_pool)?'<li>'.$facName2.' '.'<i class="fas fa-swimming-pool" aria-hidden="true"></i></li>':'' ?> 
@@ -191,7 +208,7 @@ if($hv_lift){
 								<?php echo ($hv_lift)?'<li>'.$facName6.' '.'<i class="fa fa-caret-square-o-up"></i></li>':'' ?> 
 								<?php echo ((!$hv_wifi &&!$hv_pool &&!$hv_nsr &&!$hv_parking &&!$hv_ac &&!$hv_lift))?'<li>No facilities provided.</li>':'' ?> 
 							</ul>
-							<h3>Availability</h3>
+							<h3>Availability <?php echo isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])?'<a href="add_room.php?id='.$hotelID.'">Add Room</a>':''?></h3>
 							<section class="ftco-section">
 		<div class="container">
 			<div class="row">
@@ -205,12 +222,16 @@ if($hv_lift){
 								<th>Room Size (ft)</th>
 								<th>Price (RM)</th>
 								<th>Room Left</th>
-								<th>&nbsp;</th>
-						    </tr>
+								<th>&nbsp;</th>						    
+							</tr>
 						  </thead>
 						  <tbody>
 								<?php 
-								$query3 = "SELECT * FROM room WHERE hotelID='$id' && roomAvailable>'0'";
+								if(isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])){
+									$query3 = "SELECT * FROM room WHERE hotelID='$id'";
+								}else{
+									$query3 = "SELECT * FROM room WHERE hotelID='$id' && roomAvailable>'0'";
+								}
 								$result3 = mysqli_query($dbc,$query3);
 								if(mysqli_num_rows($result3) > 0) {
 									while ($row = mysqli_fetch_array($result3)) {
@@ -233,10 +254,15 @@ if($hv_lift){
 									</td>
 									<td>'.$roomSize.'</td>
 								<td>'.$price.'</td>
-								<td>'.$roomAvailable.'</td>
-								<td><button type="submit" class="view-hotel-btn" value="book">Book</button></td>
-								<input type="hidden" name="book" value="true"/>
-								</form></tr>';
+								<td>'.$roomAvailable.'</td>';
+								if(isset($_SESSION['admin_login']) ||isset($_SESSION['merchant_login']) ){
+									echo '<td><a href="edit_room.php?id='.$roomID.'">Edit</a></td>';
+								}else{
+									echo'<td><button type="submit" class="view-hotel-btn" value="book">Book</button></td>
+									<input type="hidden" name="book" value="true"/>';
+								}
+
+								echo '</form></tr>';
 									}
 								}
 								?>
@@ -248,8 +274,7 @@ if($hv_lift){
 		</div>
 	</section>
 
-							<h3>Review</h3> 
-							<a href="<?php echo 'hotel_rating.php?id='.$id ?>" class="button">Show More Review</a>
+							<h3>Review <a href="<?php echo 'hotel_rating.php?id='.$id ?>" class="button">Show More Review</a></h3> 
 							</main>		
 							<?php 
 							$query4 = "SELECT * FROM rating WHERE hotelID='$id' ORDER BY ratingID DESC LIMIT 3 ";

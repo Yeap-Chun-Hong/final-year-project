@@ -31,10 +31,15 @@ require_once 'config.php';
 					<div class="nav-wrap">
 						<nav class="nav-desktop">
 							<ul class="menu-list">
-								<li><a href="index.php">Home</a></li>
-								<li><a href="all_hotel.php">Hotel</a></li>
-								<li><a href="">About Us</a></li>
-								<li><a href="">Contact</a></li>
+								<li> <?php echo isset($_SESSION['merchant_login'])?'<a href="single_hotel.php?id='.$_SESSION['hotelID'].'">Home</a>':'<a href="index.php">Home</a>' ?></li>
+								<?php 
+								if( !isset($_SESSION['merchant_login'])){
+									echo '<li><a href="all_hotel.php">Hotel</a></li>
+									<li><a href="">About Us</a></li>
+									<li><a href="">Contact</a></li>';
+								}
+								?>
+								
 								<?php if (isset($_SESSION['login'])) {
 									echo'<li><a href="view_fav.php"><i class="fa fa-heart-o"></i></a></li>';
 									echo'<li class="menu-parent">';
@@ -46,7 +51,7 @@ require_once 'config.php';
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>
 								</li>';			
-									}else if(!isset($_SESSION['login']) && !isset($_SESSION['admin_login'])){echo '<li><a href="login.php">Login / Register</a></li>';}
+									}else if(!isset($_SESSION['login']) && !isset($_SESSION['admin_login']) && !isset($_SESSION['merchant_login'])){echo '<li><a href="login.php">Login / Register</a></li>';}
 								?>	
 								<?php if (isset($_SESSION['admin_login'])) {
 									echo'<li class="menu-parent">';
@@ -60,6 +65,18 @@ require_once 'config.php';
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>
 								</li>';			
+									}
+								?>	
+								<?php if (isset($_SESSION['merchant_login'])) {
+									echo'<li class="menu-parent">';
+									$username = $_SESSION['hotelName'];
+									echo $username;
+									echo 	'<ul class="sub-menu">
+                                    			<li><a href="merchant_booking_history.php">View Booking</a></li>
+												<li><a href="edit_merchant_profile.php">Edit Hotel Profile</a></li>
+												<li><a href="logout.php">Log Out</a></li>
+											</ul>
+										</li>';			
 									}
 								?>	
 							</ul>
