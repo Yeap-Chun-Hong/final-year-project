@@ -36,7 +36,7 @@ require_once 'config.php';
 								if( !isset($_SESSION['merchant_login'])){
 									echo '<li><a href="all_hotel.php">Hotel</a></li>
 									<li><a href="">About Us</a></li>
-									<li><a href="">Contact</a></li>';
+									<li><a href="contact.php">Contact</a></li>';
 								}
 								?>
 								
