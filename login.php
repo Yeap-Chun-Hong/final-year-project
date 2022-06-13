@@ -102,7 +102,7 @@ if(isset($_POST['submitted'])){
 						<?php
 							if (isset($_POST['submitted'])) {
 								for ($i = 0; $i < count($error); $i++) {
-									echo "<p style='color:red;font-size:16px;'>$error[$i]</p>"; //prompt user the error
+									echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
 								}
 							}
 						?>
