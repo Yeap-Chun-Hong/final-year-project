@@ -31,7 +31,7 @@ if(mysqli_num_rows($result) > 0) {
 <section class="about-upper-section" itemprop="mainContentofPage">
 			<div class="container">
 				<article class="who-we-are">
-					<h2 class="top-heading">About Us</h2>
+					<h2 class="top-heading">About Us <?php echo isset($_SESSION['admin_login'])?'<a href="edit_about.php" style="font-size:15px;">Edit</a>':'' ?> </h2>
 					<p><?php echo $desc?></p>
 				</article>
 				<div class="our-story">
@@ -52,7 +52,7 @@ if(mysqli_num_rows($result) > 0) {
 
 		<section class="team-members" itemprop="contributor">
 			<div class="container">
-				<h2 class="top-heading">meet our team</h2>
+				<h2 class="top-heading">meet our team <?php echo isset($_SESSION['admin_login'])?'<a href="add_team.php" style="font-size:15px;">Add Team Members</a>':'' ?></h2>
 				<article class="developer-grid">
 					<div class="row">
                     <?php
@@ -62,6 +62,7 @@ if(mysqli_num_rows($result) > 0) {
                     if(mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_array($result)) {
                             $i++;
+                            $memberID = $row['id'];
                             $name = $row['name'];
                             $post = $row['post'];
                             $image = $row['img'];
@@ -71,8 +72,12 @@ if(mysqli_num_rows($result) > 0) {
                                         <img src="'.'data:image;base64,'.base64_encode($image).'">
                                         <div class="box-content">
                                             <h3 class="name">'.$name.'</h3>
-                                            <span class="post">'.$post.'</span>
-                                        </div>
+                                            <span class="post">'.$post.'</span>';
+                                            if(isset($_SESSION['admin_login'])){
+                                                echo '<a href="edit_team.php?id='.$memberID.'" style="font-size:15px;">Edit Team Member</a><br>';
+                                                echo '<a href="delete_team.php?id='.$memberID.'" style="font-size:15px;">Delete</a>';
+                                            }
+                                        echo'</div>
                                     </div>
                                 </div>';
                                 if($i == 1){
