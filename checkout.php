@@ -157,7 +157,7 @@ if(isset($_POST['submitted'])){
           <tr>
             <td>Subtotal</td>
             <td align="right"><?php echo number_format($totalFees,2)?></td>
-            <td align="right"><?php echo number_format($days,2)?></td>
+            <td align="right"><?php echo $days ?></td>
             <td align="right"><?php echo number_format($subtotal,2)?></td>
           </tr>
         </tbody>
@@ -188,18 +188,18 @@ if(isset($_POST['submitted'])){
           <label for="visa"><svg class="icon">
               <use xlink:href="#icon-visa" />
             </svg>Visa Payment</label>
-          <input checked id="visa" name="payment-method" type="radio"  value="Visa Payment" <?php echo $paymentMethod=='Visa Payment'?'disabled':'' ?>/>
+          <input checked id="visa" name="payment-method" type="radio"  value="Visa Payment" <?php echo $paymentMethod=='Visa Payment'?'checked':'' ?> <?php echo ($paymentMethod == '-')?'':'disabled' ?>/>
         </div>
 
         <div class="form__radio">
           <label for="paypal"><img src="images/download.png" class="icon" />Touch 'n Go</label>
-          <input id="paypal" name="payment-method" type="radio" value="TNG ewallet" <?php echo $paymentMethod=='TNG ewallet'?'checked disabled':'' ?>/>
+          <input id="paypal" name="payment-method" type="radio" value="TNG ewallet" <?php echo $paymentMethod=='TNG ewallet'?'checked':'' ?> <?php echo ($paymentMethod == '-')?'':'disabled' ?>/>
         </div>
 
         <div class="form__radio">
           <label for="mastercard">
             <img src="images/cash.svg" class="icon" />Cash</label>
-          <input id="mastercard" name="payment-method" type="radio" value="Cash" <?php echo $paymentMethod=='Cash'?'checked disabled':'' ?>/>
+          <input id="mastercard" name="payment-method" type="radio" value="Cash" <?php echo $paymentMethod=='Cash'?'checked':'' ?> <?php echo ($paymentMethod == '-')?'':'disabled' ?>/>
         </div>
       </div>
     </fieldset>
