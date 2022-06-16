@@ -2,6 +2,7 @@
     include ('header.php');
 ?>
 <link type="text/css" rel="stylesheet" href="css/thankyou.css" />
+<title>Thank You for booking with us!</title>
 <center>
 <img src = "images/thankyou.gif">
 <center>

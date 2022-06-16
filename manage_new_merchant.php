@@ -12,10 +12,10 @@ include('header.php');
 
 	
 	<script type="text/javascript" src="js/favourite.js"></script>
-	<title>Manage Bookings</title>
+	<title>Manage Newly Registered Merchant</title>
 	<section class="page-content" id="course-page">
 		<div class="container">
-			<h3>Manage Bookings</h3>
+			<h3>Manage Newly Registered Merchant</h3>
 			<section class="ftco-section">
 				<div class="container">
 					<div class="row">

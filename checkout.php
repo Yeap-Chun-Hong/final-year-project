@@ -79,6 +79,7 @@ if(isset($_POST['submitted'])){
 }
 ?>
 	<link rel="stylesheet" type="text/css" href="css/checkout.css">
+	<title>Checkout</title>
 
 <div class="iphone">
   <header class="header">

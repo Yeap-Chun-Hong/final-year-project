@@ -136,7 +136,7 @@
 										<div class="customer">
 											<figure>';
 											if(!empty($custPic)){echo'<img class="customer-img" src="data:image;base64,'.base64_encode($custPic).'" alt="Customer Picture">';}
-												else{echo'<img src="images/default_profile_picture.png">';}
+												else{echo'<img class="customer-img" src="images/default_profile_picture.png">';}
 												echo '<figcaption>
 													<span itemprop="author">'.$custName.'</span><br>';
 													for($i=0;$i<$rate;$i++){echo '⭐';}												

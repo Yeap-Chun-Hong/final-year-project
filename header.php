@@ -36,7 +36,7 @@ require_once 'config.php';
 								if( !isset($_SESSION['merchant_login'])){
 									echo '<li><a href="all_hotel.php">Hotel</a></li>
 									<li><a href="about_us.php">About Us</a></li>
-									<li><a href="contact.php">Contact</a></li>';
+									<li><a href="contact.php">Contact Us</a></li>';
 								}
 								?>
 								
@@ -61,7 +61,6 @@ require_once 'config.php';
 												<li><a href="admin_view_booking.php">Manage Bookings</a></li>
 												<li><a href="manage_new_merchant.php">Manage Newly Registered Merchant</a></li>
 												<li><a href="edit_banner.php">Edit Banner</a></li>
-												<li><a href="manage_new_merchant.php">Edit About Us</a></li>
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>
 								</li>';			
