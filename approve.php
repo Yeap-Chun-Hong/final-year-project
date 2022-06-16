@@ -17,8 +17,9 @@
         $username .= $characters[rand(0, $charactersLength - 1)];
         $password .= $characters[rand(0, $charactersLength - 1)];
     }
+    $encrypted_pw=base64_encode($password);
 
-  $approve = "UPDATE hotel SET approve ='1',username='$username',password='$password' where hotelID='$hotelID'";
+  $approve = "UPDATE hotel SET approve ='1',username='$username',password='$encrypted_pw' where hotelID='$hotelID'";
   mysqli_query($dbc, $approve);
   $to_email = $email;
   $subject = "Approved Application as Merchant";

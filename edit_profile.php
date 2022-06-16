@@ -10,6 +10,7 @@ if (isset($_POST['submitted'])) {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
 	$password = $_POST['password'];
+    $encrypted_pw = base64_encode($password);
     $confirm = $_POST['confirm'];
 
     $success = array();
@@ -32,7 +33,7 @@ if (isset($_POST['submitted'])) {
         $query2 = "UPDATE customer SET username ='$username' WHERE custID = '{$_SESSION['custID']}'";
         $query3 = "UPDATE customer SET email ='$email' WHERE custID = '{$_SESSION['custID']}'";
         $query4 = "UPDATE customer SET hpNo ='$phone' WHERE custID = '{$_SESSION['custID']}'";
-        $query5 = "UPDATE customer SET password ='$password' WHERE custID = '{$_SESSION['custID']}'";
+        $query5 = "UPDATE customer SET password ='$encrypted_pw' WHERE custID = '{$_SESSION['custID']}'";
 
         if($update){
 
@@ -81,7 +82,7 @@ if (isset($_POST['submitted'])) {
                             array_push($error, "Confirm Password not matched!");
                         }
                     } else {
-                        array_push($error, "Passwords must contain at least eight characters, including at least 1 capital letter, 1 lowercase letter and 1 numberQ");
+                        array_push($error, "Passwords must contain at least eight characters, including at least 1 capital letter, 1 lowercase letter and 1 number!");
                     }
                 } else {
                     array_push($error, "Your password must contain at least 8 characters!");

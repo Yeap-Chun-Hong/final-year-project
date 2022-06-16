@@ -4,6 +4,8 @@ include('header.php');
 if(isset($_POST['submitted'])){
 	$username = $_POST['username'];
 	$password = $_POST['password'];
+	$encrypted_pw = base64_encode($password);
+	echo $encrypted_pw;
 	$login = true;
 	$error = array();
 
@@ -18,7 +20,7 @@ if(isset($_POST['submitted'])){
 	}
 
 	if($login){
-		$query = "SELECT * FROM admin WHERE username = '$username' && password = '$password'";
+		$query = "SELECT * FROM admin WHERE username = '$username' && password = '$encrypted_pw'";
 		$result = mysqli_query($dbc,$query);
 
 		if(mysqli_num_rows($result) > 0){

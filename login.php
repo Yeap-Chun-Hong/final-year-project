@@ -4,6 +4,7 @@ include('header.php');
 if(isset($_POST['submitted'])){
 	$username = $_POST['username'];
 	$password = $_POST['password'];
+	$password = base64_encode($password);
 	$login = true;
 	$error = array();
 
@@ -18,7 +19,7 @@ if(isset($_POST['submitted'])){
 	}
 
 	if($login){
-		$query = "SELECT * FROM customer WHERE username = '$username' && password = '$password'";
+		$query = "SELECT * FROM customer WHERE (email= '$username'||username = '$username') && password = '$password'";
 		$result = mysqli_query($dbc,$query);
 
 		if(mysqli_num_rows($result) > 0){
@@ -112,8 +113,8 @@ if(isset($_POST['submitted'])){
 						<span class="txt1">
 							Forgot
 						</span>
-						<a class="txt2" href="#">
-							Username / Password?
+						<a class="txt2" href="forget_pass.php">
+							Password?
 						</a>
 					</div>
 

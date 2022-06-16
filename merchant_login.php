@@ -4,6 +4,7 @@ include('header.php');
 if(isset($_POST['submitted'])){
 	$username = $_POST['username'];
 	$password = $_POST['password'];
+	$password = base64_encode($password);
 	$login = true;
 	$error = array();
 
@@ -109,8 +110,8 @@ if(isset($_POST['submitted'])){
 						<span class="txt1">
 							Forgot
 						</span>
-						<a class="txt2" href="#">
-							Username / Password?
+						<a class="txt2" href="merchant_forget_pass.php">
+							 Password?
 						</a>
 					</div>
 

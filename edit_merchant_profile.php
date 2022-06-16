@@ -19,6 +19,7 @@ if(isset($_SESSION['admin_login'])){
         $active_status = $_POST['active_status'];
         $password = $_POST['password'];
         $confirm = $_POST['confirm'];
+        $encrypted_pw = base64_encode($password);
         
 
 
@@ -27,7 +28,7 @@ if(isset($_SESSION['admin_login'])){
         $update = true;
 
         $query1 = "UPDATE hotel SET username ='$username' WHERE hotelID = '$hotelID'";
-        $query2 = "UPDATE hotel SET password ='$password' WHERE hotelID = '$hotelID'";
+        $query2 = "UPDATE hotel SET password ='$encrypted_pw' WHERE hotelID = '$hotelID'";
         $query3 = "UPDATE hotel SET active ='$active_status' WHERE hotelID = '$hotelID'";
 
         
@@ -154,8 +155,6 @@ if(isset($_SESSION['admin_login'])){
 									</div>
 								</div>
 
-                        
-                            
 								<?php
 											if (isset($_POST['submitted'])) {
 												for ($i = 0; $i < count($error); $i++) {

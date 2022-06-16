@@ -70,9 +70,17 @@ if(isset($_POST['submitted'])){
 
 	//if no error
 	if ($register){
+		$password = base64_encode($password);
 		$insert = "INSERT INTO customer (username,password,custName,email,hpNo) VALUES ('$username','$password','$name','$email','$phone')";
 		$selectQuery = "SELECT * FROM customer WHERE username='$username'";
 		$check_username = mysqli_query($dbc, $selectQuery);
+
+		$selectQuery = "SELECT * FROM customer WHERE email='$email'";
+		$check_email = mysqli_query($dbc, $selectQuery);
+
+		if(mysqli_num_rows($check_email)>0){
+			array_push($error, "Email that you have enter already exist!");
+		}
 
 		if(mysqli_num_rows($check_username)>0){
 			array_push($error, "Username that you have enter already exist!");
