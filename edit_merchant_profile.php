@@ -1,10 +1,12 @@
 <?php
-include('header.php');
-if(isset($_SESSION['admin_login'])){
-    $hotelID = $_GET['id'];
-}else{
-    $hotelID = $_SESSION['hotelID'];
-}
+    include('header.php');
+    if(isset($_SESSION['admin_login'])){
+        $hotelID = $_GET['id']; // if admin login then get hotel id from link
+    }else{
+        $hotelID = $_SESSION['hotelID']; // if merchant login then get hotel id from session
+    }
+    
+    //fetch hotel data
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
     if(mysqli_num_rows($result) > 0) {
@@ -19,10 +21,9 @@ if(isset($_SESSION['admin_login'])){
         $active_status = $_POST['active_status'];
         $password = $_POST['password'];
         $confirm = $_POST['confirm'];
+        //encrypt password
         $encrypted_pw = base64_encode($password);
         
-
-
         $error = array();
         $success = array();
         $update = true;
@@ -32,29 +33,29 @@ if(isset($_SESSION['admin_login'])){
         $query3 = "UPDATE hotel SET active ='$active_status' WHERE hotelID = '$hotelID'";
 
         
+        //validate data, if not empty then update into database
+        if (!empty($username)) {
+            mysqli_query($dbc, $query1);
+        }
 
-            if (!empty($username)) {
-                mysqli_query($dbc, $query1);
-            }
-
-            if (!empty($password)) {
-                if (strlen($password) >= 8) {
-                    if (preg_match("#[0-9]+#",$password) && preg_match("#[A-Z]+#",$password) && preg_match("#[a-z]+#",$password)) {
-                        if ($password == $confirm) {
-                            mysqli_query($dbc, $query2);
-                        } else {
-                            array_push($error, "Confirm Password not matched!");
-                            $update = false;
-                        }
+        if (!empty($password)) {
+            if (strlen($password) >= 8) {
+                if (preg_match("#[0-9]+#",$password) && preg_match("#[A-Z]+#",$password) && preg_match("#[a-z]+#",$password)) {
+                    if ($password == $confirm) {
+                        mysqli_query($dbc, $query2);
                     } else {
-                        array_push($error, "Passwords must contain at least eight characters, including at least 1 capital letter, 1 lowercase letter and 1 numberQ");
+                        array_push($error, "Confirm Password not matched!");
                         $update = false;
                     }
                 } else {
-                    array_push($error, "Your password must contain at least 8 characters!");
+                    array_push($error, "Passwords must contain at least eight characters, including at least 1 capital letter, 1 lowercase letter and 1 numberQ");
                     $update = false;
                 }
+            } else {
+                array_push($error, "Your password must contain at least 8 characters!");
+                $update = false;
             }
+        }
 
             if(empty($password) && !empty($confirm)){
                 $update = false;
@@ -156,15 +157,15 @@ if(isset($_SESSION['admin_login'])){
 								</div>
 
 								<?php
-											if (isset($_POST['submitted'])) {
-												for ($i = 0; $i < count($error); $i++) {
-													echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
-												}
-                                                for ($i = 0; $i < count($success); $i++) {
-                                                    echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
-                                                }
-											}
-										?>
+                                    if (isset($_POST['submitted'])) {
+                                        for ($i = 0; $i < count($error); $i++) {
+                                            echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+                                        }
+                                        for ($i = 0; $i < count($success); $i++) {
+                                            echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
+                                        }
+                                    }
+                                ?>
 							</div>
 							<input type="hidden" name="submitted" value="true"/>
 						</form>

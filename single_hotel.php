@@ -1,5 +1,7 @@
 <?php
     include ('header.php');
+
+	//fetch hotel data
     $hotelID = $_GET['id'];
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
@@ -27,93 +29,98 @@
 			$status = $row['active'];
         }
     }
+
+	// if user login, fetch the favourite date
     if(isset($_SESSION['login'])){
-        $custID = $_SESSION['custID'];
+    	$custID = $_SESSION['custID'];
    
-    $query2 = "SELECT * FROM favourite WHERE custID='$custID' && hotelID='$id'";
-    $result2 =  mysqli_query($dbc,$query2);
+		$query2 = "SELECT * FROM favourite WHERE custID='$custID' && hotelID='$id'";
+		$result2 =  mysqli_query($dbc,$query2);
 
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result2)) {
-            $favID = $row['favID'];
-            $hotelID = $row['hotelID'];
-        }
-    }
-}
+		if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result2)) {
+				$favID = $row['favID'];
+				$hotelID = $row['hotelID'];
+			}
+		}
+	}
 
-if($hv_wifi){
-	$query = "SELECT * FROM facilities WHERE facID='1' ";
-    $result =  mysqli_query($dbc,$query);
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $facID1 = $row['facID'];
-			$facName1 = $row['facName'];
-        }
-    }
-}
+	//fetch the checkbox data if true
+	if($hv_wifi){
+		$query = "SELECT * FROM facilities WHERE facID='1' ";
+		$result =  mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$facID1 = $row['facID'];
+				$facName1 = $row['facName'];
+			}
+		}
+	}
 
-if($hv_pool){
-	$query = "SELECT * FROM facilities WHERE facID='2' ";
-    $result =  mysqli_query($dbc,$query);
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $facID2 = $row['facID'];
-			$facName2 = $row['facName'];
-        }
-    }
-}
+	if($hv_pool){
+		$query = "SELECT * FROM facilities WHERE facID='2' ";
+		$result =  mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$facID2 = $row['facID'];
+				$facName2 = $row['facName'];
+			}
+		}
+	}
 
-if($hv_nsr){
-	$query = "SELECT * FROM facilities WHERE facID='3' ";
-    $result =  mysqli_query($dbc,$query);
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $facID3 = $row['facID'];
-			$facName3 = $row['facName'];
-        }
-    }
-}
+	if($hv_nsr){
+		$query = "SELECT * FROM facilities WHERE facID='3' ";
+		$result =  mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$facID3 = $row['facID'];
+				$facName3 = $row['facName'];
+			}
+		}
+	}
 
-if($hv_parking){
-	$query = "SELECT * FROM facilities WHERE facID='4' ";
-    $result =  mysqli_query($dbc,$query);
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $facID4 = $row['facID'];
-			$facName4 = $row['facName'];
-        }
-    }
-}
+	if($hv_parking){
+		$query = "SELECT * FROM facilities WHERE facID='4' ";
+		$result =  mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$facID4 = $row['facID'];
+				$facName4 = $row['facName'];
+			}
+		}
+	}
 
-if($hv_ac){
-	$query = "SELECT * FROM facilities WHERE facID='5' ";
-    $result =  mysqli_query($dbc,$query);
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $facID5 = $row['facID'];
-			$facName5 = $row['facName'];
-        }
-    }
-}
+	if($hv_ac){
+		$query = "SELECT * FROM facilities WHERE facID='5' ";
+		$result =  mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$facID5 = $row['facID'];
+				$facName5 = $row['facName'];
+			}
+		}
+	}
 
-if($hv_lift){
-	$query = "SELECT * FROM facilities WHERE facID='6' ";
-    $result =  mysqli_query($dbc,$query);
-    if(mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $facID5 = $row['facID'];
-			$facName6 = $row['facName'];
-        }
-    }
-}
-$total=0;
-$number_fav = "SELECT * FROM favourite WHERE hotelID='$hotelID' ";
-$result1 =  mysqli_query($dbc,$number_fav);
-if(mysqli_num_rows($result1) > 0) {
-    while ($row = mysqli_fetch_array($result1)) {
-        $total ++;
-    }
-}
+	if($hv_lift){
+		$query = "SELECT * FROM facilities WHERE facID='6' ";
+		$result =  mysqli_query($dbc,$query);
+		if(mysqli_num_rows($result) > 0) {
+			while ($row = mysqli_fetch_array($result)) {
+				$facID5 = $row['facID'];
+				$facName6 = $row['facName'];
+			}
+		}
+	}
+
+	//calculate total customer that favourite this hotel
+	$total=0;
+	$number_fav = "SELECT * FROM favourite WHERE hotelID='$hotelID' ";
+	$result1 =  mysqli_query($dbc,$number_fav);
+	if(mysqli_num_rows($result1) > 0) {
+		while ($row = mysqli_fetch_array($result1)) {
+			$total ++;
+		}
+	}
 
 ?>
 <!DOCTYPE html>
@@ -127,7 +134,7 @@ if(mysqli_num_rows($result1) > 0) {
 	
 	<script type="text/javascript" src="js/favourite.js"></script>
 	<title><?php echo $name?></title>
-<section class="page-content" id="course-page">
+		<section class="page-content" id="course-page">
 			<div class="container">
 				<main class="course-detail">
 				<input type="hidden" id="custID" value="<?php echo isset($_SESSION['login'])?$_SESSION['custID']:'' ?>"/>
@@ -142,6 +149,7 @@ if(mysqli_num_rows($result1) > 0) {
 						?>
 					</h2>
                     <?php if(isset($_SESSION['login'])){
+							//validate for favourite, if true , then check the checkbox, allows user to remove favourite when click the love agian
                         if(isset($favID)){
                             echo'<div id="main-content">
                             <div>
@@ -153,6 +161,7 @@ if(mysqli_num_rows($result1) > 0) {
                             </div>
                             </div>';
                         }else{
+							//allows user to add favourite when click the love 
                             echo'<div id="main-content">
                             <div>
                                 <p>Add to Favourite</p> 
@@ -164,15 +173,15 @@ if(mysqli_num_rows($result1) > 0) {
                             </div>';
 							}
 						}else if(isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])){
+							//allow admin and merchant to view the insight of how many number of favourites
 							echo '<div id="main-content">
-							<div>
-							<p>Favourite by '. $total .' customer';
-							if($total>1){echo 's';}
+									<div>
+										<p>Favourite by '. $total .' customer';
+										if($total>1){echo 's';}
 							echo'
-							</div>
-                            </div> ';
+									</div>
+                            	</div> ';
 						}
-						
 					?>           
 					<header>
 						<div class="course-box">
@@ -236,14 +245,16 @@ if(mysqli_num_rows($result1) > 0) {
 						  </thead>
 						  <tbody>
 								<?php 
+								//allow admin and merchant to see all of the room include no remaining left room
 								if(isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])){
 									$query3 = "SELECT * FROM room WHERE hotelID='$id'";
-								}else{
+								}else{ //user can only view the room that is available (room>0)
 									$query3 = "SELECT * FROM room WHERE hotelID='$id' && roomAvailable>'0'";
 								}
 								$result3 = mysqli_query($dbc,$query3);
 								if(mysqli_num_rows($result3) > 0) {
 									while ($row = mysqli_fetch_array($result3)) {
+										//display data in website
 										$roomID = $row['roomID'];
 										$roomName = $row['roomName'];
 										$roomSize = $row['roomSize'];
@@ -251,7 +262,7 @@ if(mysqli_num_rows($result1) > 0) {
 										$price = $row['price'];
 										$room_image = $row['image'];
 										$roomAvailable = $row['roomAvailable'];
-										echo'								<form action="booking.php?hotelid='.$hotelID.'&roomid='.$roomID.'" method="POST">
+										echo'<form action="booking.php?hotelid='.$hotelID.'&roomid='.$roomID.'" method="POST">
 										<tr class="alert" role="alert"> <td>	<a href="data:image;base64,'.base64_encode($room_image).'" data-lightbox="example-set">
 										<img class="img" src="data:image;base64,'.base64_encode($room_image).'">									
 										</a></td>';
@@ -264,13 +275,13 @@ if(mysqli_num_rows($result1) > 0) {
 									<td>'.$roomSize.'</td>
 								<td>'.$price.'</td>
 								<td>'.$roomAvailable.'</td>';
+								//allows admin/merchant to edit room details while user to book the room
 								if(isset($_SESSION['admin_login']) ||isset($_SESSION['merchant_login']) ){
 									echo '<td><a href="edit_room.php?id='.$roomID.'">Edit</a></td>';
 								}else{
 									echo'<td><button type="submit" class="view-hotel-btn" value="book">Book</button></td>
 									<input type="hidden" name="book" value="true"/>';
 								}
-
 								echo '</form></tr>';
 									}
 								}
@@ -283,75 +294,75 @@ if(mysqli_num_rows($result1) > 0) {
 		</div>
 	</section>
 
-							<h3>Review <a href="<?php echo 'hotel_rating.php?id='.$id ?>" class="button">Show More Review</a></h3> 
-							</main>		
-							<?php 
-							$query4 = "SELECT * FROM rating WHERE hotelID='$id' ORDER BY ratingID DESC LIMIT 3 ";
-							$result4 = mysqli_query($dbc,$query4);
-							if(mysqli_num_rows($result4) > 0) {
-								while ($row = mysqli_fetch_array($result4)) {
-									$ratingID = $row['ratingID'];
-									$title = $row['title'];
-									$message = $row['message'];
-									$rate = $row['rate'];
-									$custID = $row['custID'];
+	<h3>Review <a href="<?php echo 'hotel_rating.php?id='.$id ?>" class="button">Show More Review</a></h3> 
+	</main>		
+	<?php 
+		//display 3 latest review in this section
+		$query4 = "SELECT * FROM rating WHERE hotelID='$id' ORDER BY ratingID DESC LIMIT 3 ";
+		$result4 = mysqli_query($dbc,$query4);
+		if(mysqli_num_rows($result4) > 0) {
+			while ($row = mysqli_fetch_array($result4)) {
+				$ratingID = $row['ratingID'];
+				$title = $row['title'];
+				$message = $row['message'];
+				$rate = $row['rate'];
+				$custID = $row['custID'];
 
-									$query5 = "SELECT * FROM customer WHERE custID='$custID' ";
-									$result5 = mysqli_query($dbc,$query5);
-									if(mysqli_num_rows($result5) > 0) {
-										while ($row = mysqli_fetch_array($result5)) {
-											$custName = $row['custName'];
-											$custPic =$row['picture'];		
-										}
-									}
-									echo'<section class="testimonial-page">
-									<div class="container">
-										<main class="customer-review">
-											<div class="row">
-												<div class="img" style="width:150px;">';
-												if(!empty($custPic)){echo'<img src="data:image;base64,'.base64_encode($custPic).'" alt="Customer Picture">';}
-												else{echo'<img src="images/default_profile_picture.png">';}
-												echo'</div>
-												<div class="rewiew-content">
-													<header>
-														<h3>'.$title.'</h3>
-														<p>'.$message.'</p>
-													</header>
-													<footer>
-														<span><h4>'.$custName.'</h4><br><h4>'; 
-														for($i=0;$i<$rate;$i++){echo '⭐';}
-													echo'</h4></span></footer>
-												</div>
-											</div>					
-										</main>
-										
-									</div>
-								</section>';
-								}
-							}else{
-								echo'<section class="testimonial-page">
-									<div class="container">
-										<main class="customer-review">
-											<div class="row">
-												
-												<div class="rewiew-content">
-													<header>
-														<p>No Rating Yet</p>
-													</header>
-													
-												</div>
-											</div>					
-										</main>
-										
-									</div>
-								</section>';
-							}		
-							?>
+				$query5 = "SELECT * FROM customer WHERE custID='$custID' ";
+				$result5 = mysqli_query($dbc,$query5);
+				if(mysqli_num_rows($result5) > 0) {
+					while ($row = mysqli_fetch_array($result5)) {
+						$custName = $row['custName'];
+						$custPic =$row['picture'];		
+					}
+				}
+				echo'<section class="testimonial-page">
+				<div class="container">
+					<main class="customer-review">
+						<div class="row">
+							<div class="img" style="width:150px;">';
+							if(!empty($custPic)){echo'<img src="data:image;base64,'.base64_encode($custPic).'" alt="Customer Picture">';}
+							else{echo'<img src="images/default_profile_picture.png">';}
+							echo'</div>
+							<div class="rewiew-content">
+								<header>
+									<h3>'.$title.'</h3>
+									<p>'.$message.'</p>
+								</header>
+								<footer>
+									<span><h4>'.$custName.'</h4><br><h4>'; 
+									for($i=0;$i<$rate;$i++){echo '⭐';}
+								echo'</h4></span></footer>
+							</div>
+						</div>					
+					</main>
+					
+				</div>
+			</section>';
+			}
+		}else{
+			echo'<section class="testimonial-page">
+				<div class="container">
+					<main class="customer-review">
+						<div class="row">
 							
-									
+							<div class="rewiew-content">
+								<header>
+									<p>No Rating Yet</p>
+								</header>
+								
+							</div>
+						</div>					
+					</main>
+					
+				</div>
+			</section>';
+		}		
+	?>
+		
 	</div>
-						</section>
-						<script>
+</section>
+<script>
 function myFunction() {
   var checkBox = document.getElementById("checkbox");
   var custID= $("#custID").val();
@@ -389,7 +400,6 @@ function myFunction() {
 	<script type="text/javascript" src="js/custom.js"></script>
 </body>
 </html>
-
 
 <?php
     include ('footer.php');

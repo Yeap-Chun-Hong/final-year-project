@@ -34,28 +34,28 @@ include('header.php');
 									</thead>
 									<tbody>
 										<?php 
-										$query3 = "SELECT * FROM hotel WHERE approve='0' && rejected_at is NULL";
-										$result3 = mysqli_query($dbc,$query3);
-										if(mysqli_num_rows($result3) > 0) {
-											while ($row = mysqli_fetch_array($result3)) {
-												$hotelID = $row['hotelID'];
-												$hotelName = $row['hotelName'];
-												$hotelAddress = $row['address'];
-												$hotelEmail = $row['email'];
-												$hotelContact = $row['phoneNo'];
+											//fetch the merchant which is newly register and did not been rejected
+											$query3 = "SELECT * FROM hotel WHERE approve='0' && rejected_at is NULL";
+											$result3 = mysqli_query($dbc,$query3);
+											if(mysqli_num_rows($result3) > 0) {
+												while ($row = mysqli_fetch_array($result3)) {
+													$hotelID = $row['hotelID'];
+													$hotelName = $row['hotelName'];
+													$hotelAddress = $row['address'];
+													$hotelEmail = $row['email'];
+													$hotelContact = $row['phoneNo'];
 
-
-												echo'
-												<tr class="alert" role="alert">';
-												echo'<td>'.$hotelName.'</td>
-												<td>'.$hotelAddress.'</td>
-												<td>'.$hotelEmail.'</td>
-												<td>'.$hotelContact.'</td>';
-												echo '<td><a href="reject.php?id='.$hotelID.'">Reject</a></td>';
-												echo '<td><a href="approve.php?id='.$hotelID.'">Approve</a></td>';
-												echo'</tr>';
+													echo'
+													<tr class="alert" role="alert">';
+													echo'<td>'.$hotelName.'</td>
+													<td>'.$hotelAddress.'</td>
+													<td>'.$hotelEmail.'</td>
+													<td>'.$hotelContact.'</td>';
+													echo '<td><a href="reject.php?id='.$hotelID.'">Reject</a></td>';
+													echo '<td><a href="approve.php?id='.$hotelID.'">Approve</a></td>';
+													echo'</tr>';
+												}
 											}
-										}
 										?>
 									</tbody>
 								</table>

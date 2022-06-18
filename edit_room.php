@@ -15,6 +15,7 @@ if(mysqli_num_rows($result) > 0) {
     }
 }
 
+//handle the form
 if(isset($_POST['submitted'])){
     $roomName = $_POST['name'];
     $roomSize = $_POST['size'];
@@ -26,6 +27,7 @@ if(isset($_POST['submitted'])){
     $success = array();
     $update = true;
 
+    //data validation
     if(!is_numeric($roomSize)){
         array_push($error, "Only number allowed in Room Size");
 		$update = false;
@@ -51,7 +53,10 @@ if(isset($_POST['submitted'])){
     }
 
     if($update){
+        //format the price to 2 decimal points
         $price = number_format($_POST['price'],2);
+
+        //update room data table
         $query1 = "UPDATE room SET 
         roomName ='$roomName' ,
         roomSize ='$roomSize' ,
@@ -68,11 +73,9 @@ if(isset($_POST['submitted'])){
             mysqli_query($dbc, $query);
         }
 
-
+        //prompt success message
         array_push($success,'Room Updated!');
     }
-
-
 }
 ?>
 <!DOCTYPE html>
@@ -102,12 +105,10 @@ if(isset($_POST['submitted'])){
 		<div class="section-center">
 			<div class="container">
 				<div class="row">
-                    
 					<div class="booking-form">
-                        
 						<form action="<?php echo 'edit_room.php?id='.$roomID?>" method="POST" enctype="multipart/form-data">
 							<div class="form-group">
-                            <h3>Edit Room </h3>
+                                <h3>Edit Room </h3>
 							</div>
 							<div class="row">
 								<div class="col-md-6">
@@ -153,7 +154,6 @@ if(isset($_POST['submitted'])){
 								</div>
 							</div>
 
-                          
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-btn">
@@ -163,15 +163,15 @@ if(isset($_POST['submitted'])){
 									</div>
 								</div>
 								<?php
-											if (isset($_POST['submitted'])) {
-												for ($i = 0; $i < count($error); $i++) {
-													echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
-												}
-                                                for ($i = 0; $i < count($success); $i++) {
-                                                    echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
-                                                }
-											}
-										?>
+                                    if (isset($_POST['submitted'])) {
+                                        for ($i = 0; $i < count($error); $i++) {
+                                            echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+                                        }
+                                        for ($i = 0; $i < count($success); $i++) {
+                                            echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
+                                        }
+                                    }
+                                ?>
 							</div>
 							<input type="hidden" name="submitted" value="true"/>
 						</form>

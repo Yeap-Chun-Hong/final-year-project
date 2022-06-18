@@ -1,38 +1,41 @@
 <?php
-include('header.php');
-$adminID = $_SESSION['adminID'];
+	include('header.php');
+	//retrieve admin id from session
+	$adminID = $_SESSION['adminID']; 
 
-$details = "SELECT * FROM aboutus ";
-$result =  mysqli_query($dbc,$details);
-if(mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_array($result)) {
-        $desc = $row['description'];
-    }
-}
+	//retrieve description
+	$details = "SELECT * FROM aboutus ";
+	$result =  mysqli_query($dbc,$details);
+	if(mysqli_num_rows($result) > 0) {
+		while ($row = mysqli_fetch_array($result)) {
+			$desc = $row['description'];
+		}
+	}
 
-if(isset($_POST['submitted'])){
-    $desc = $_POST['desc'];
+	if(isset($_POST['submitted'])){
+		$desc = $_POST['desc'];
+		$error = array(); //error message
+		$success = array(); //success message
+		$update = true;
 
-    $error = array();
-    $success = array();
-    $update = true;
+		//data validation
+		if(empty($desc)){
+			array_push($error,'Introduction is needed!');
+			$update = false;
+		}
 
-    if(empty($desc)){
-        array_push($error,'Introduction is needed!');
-        $update = false;
-    }
+		if($update){
+			//update data
+			$query1 = "UPDATE aboutus SET 
+			description ='$desc' ,
+			adminID ='$adminID' ";
 
-    if($update){
-        $query1 = "UPDATE aboutus SET 
-        description ='$desc' ,
-        adminID ='$adminID' ";
+			mysqli_query($dbc, $query1);
 
-        mysqli_query($dbc, $query1);
-        array_push($success,'Introduction Updated!');
-    }
-
-
-}
+			//prompt success message
+			array_push($success,'Introduction Updated!');
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,8 +80,6 @@ if(isset($_POST['submitted'])){
 								</div>
 							</div>
                             
-
-                          
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-btn">
@@ -88,15 +89,15 @@ if(isset($_POST['submitted'])){
 									</div>
 								</div>
 								<?php
-											if (isset($_POST['submitted'])) {
-												for ($i = 0; $i < count($error); $i++) {
-													echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
-												}
-                                                for ($i = 0; $i < count($success); $i++) {
-                                                    echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
-                                                }
-											}
-										?>
+									if (isset($_POST['submitted'])) {
+										for ($i = 0; $i < count($error); $i++) {
+											echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+										}
+										for ($i = 0; $i < count($success); $i++) {
+											echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
+										}
+									}
+								?>
 							</div>
 							<input type="hidden" name="submitted" value="true"/>
 						</form>

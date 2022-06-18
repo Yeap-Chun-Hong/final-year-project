@@ -38,39 +38,39 @@ include('header.php');
 									</thead>
 									<tbody>
 										<?php 
-										$query3 = "SELECT * FROM booking";
-										$result3 = mysqli_query($dbc,$query3);
-										if(mysqli_num_rows($result3) > 0) {
-											while ($row = mysqli_fetch_array($result3)) {
-												$bookingID = $row['bookingID'];
-												$bookingDate = $row['bookingDate'];
-												$bookingTime = $row['time'];
-												$checkInDate = $row['checkInDate'];
-												$checkOutDate = $row['checkOutDate'];
-												$status = $row['status'];
-												$custID = $row['custID'];
+										//fetch all booking data
+											$query3 = "SELECT * FROM booking";
+											$result3 = mysqli_query($dbc,$query3);
+											if(mysqli_num_rows($result3) > 0) {
+												while ($row = mysqli_fetch_array($result3)) {
+													$bookingID = $row['bookingID'];
+													$bookingDate = $row['bookingDate'];
+													$bookingTime = $row['time'];
+													$checkInDate = $row['checkInDate'];
+													$checkOutDate = $row['checkOutDate'];
+													$status = $row['status'];
+													$custID = $row['custID'];
 
-												$get_cust = "SELECT * FROM customer WHERE custID='$custID' ";
-												$result = mysqli_query($dbc,$get_cust);
-												while ($row = mysqli_fetch_array($result)) {
-													$custName = $row['custName'];
-													$cust_contact = $row['hpNo'];
+													//get customer details
+													$get_cust = "SELECT * FROM customer WHERE custID='$custID' ";
+													$result = mysqli_query($dbc,$get_cust);
+													while ($row = mysqli_fetch_array($result)) {
+														$custName = $row['custName'];
+														$cust_contact = $row['hpNo'];
+													}
+
+													echo'<tr class="alert" role="alert"> <td>#B'.str_pad($bookingID, 4, '0', STR_PAD_LEFT).'	</td>'; //format booking id to #B000x
+													echo'<td>'.$custName.'</td>
+													<td>'.$cust_contact.'</td>
+													<td>'.$bookingDate.' '.$bookingTime.'</td>
+													<td>'.$checkInDate.'</td>
+													<td>'.$checkOutDate.'</td>
+													<td>'.$status.'</td>';
+													echo '<td><a href="checkout.php?id='.$bookingID.'">Show Details</a></td>';
+													echo '<td><a href="delete_booking.php?id='.$bookingID.'">Delete</a></td>';
+													echo'</tr>';
 												}
-
-												echo'
-												<tr class="alert" role="alert"> <td>#B'.str_pad($bookingID, 4, '0', STR_PAD_LEFT).'	</td>';
-												echo'<td>'.$custName.'</td>
-												<td>'.$cust_contact.'</td>
-												<td>'.$bookingDate.' '.$bookingTime.'</td>
-												<td>'.$checkInDate.'</td>
-												<td>'.$checkOutDate.'</td>
-												<td>'.$status.'</td>';
-												echo '<td><a href="checkout.php?id='.$bookingID.'">Show Details</a></td>';
-												
-												echo '<td><a href="delete_booking.php?id='.$bookingID.'">Delete</a></td>';
-												echo'</tr>';
 											}
-										}
 										?>
 									</tbody>
 								</table>
@@ -94,15 +94,14 @@ include('header.php');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>    
     <script>
-$(document).ready(function () {
-    $('#table').DataTable({
-        paging: true,
-        ordering: true,
-        info: true,
-        pagelength:5
-    });
-});
-    </script>
+		$(document).ready(function () {
+			$('#table').DataTable({
+				paging: true,
+				ordering: true,
+				info: true,
+			});
+		});
+			</script>
 
 <?php
 include('footer.php');

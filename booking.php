@@ -1,14 +1,20 @@
 <?php
+	//set to Malaysia timezone
     date_default_timezone_set("Asia/Kuala_Lumpur");
 
     include ('header.php');
+
+	//retrieve hotel id and room id from link
     $hotelID = $_GET['hotelid'];
     $roomID = $_GET['roomid'];
+
+	//if user did not login, redirect user to login page
 	if(!$_SESSION['login']){
         header('Location: login.php');
 		exit();	
 	}
 
+	//retrieve hotel data
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
     if(mysqli_num_rows($result) > 0) {
@@ -17,6 +23,7 @@
         }
     }
 
+	//retrieve room data
     $query2 = "SELECT * FROM room WHERE roomID='$roomID'";
     $result2 =  mysqli_query($dbc,$query2);
     if(mysqli_num_rows($result2) > 0) {
@@ -28,6 +35,7 @@
     }
 
     if(isset($_POST['submitted'])){
+		//if the form is submitted, get the data from the input
         $bookingDate = date("Y-m-d");
         $bookingTime = date("H:i:s");
         $custID = $_SESSION['custID'];
@@ -36,44 +44,80 @@
         $adult = $_POST['adult'];
         $children = $_POST['children'];
         $numRoom = $_POST['num_room'];
-		$error = array();
-		$booking = true;
-		if($checkInDate < $bookingDate || $checkOutDate < $bookingDate){
+		$error = array(); //error message
+		$booking = true; //boolean to allow booking
+
+		//data validation
+		if(empty($checkInDate)){ //Prompt error message if Check In Date is empty
+			array_push($error, "Check In Date is required!"); 
+			$booking = false;
+		}
+
+		if(empty($checkOutDate)){ //Prompt error message if Check Out Date is empty
+			array_push($error, "Check Out Date is required!"); 
+			$booking = false;
+		}
+
+		if(is_null($adult)){ //Prompt error message if Number of Adult is empty
+			array_push($error, "Number of Adult is required!"); 
+			$booking = false;
+		}
+		echo $adult;
+		if(is_null($children)){ //Prompt error message if Number of Children is empty
+			array_push($error, "Number of Children is required!"); 
+			$booking = false;
+		}
+
+		if(is_null($numRoom)){ //Prompt error message if Number of Room is empty
+			array_push($error, "Number of Room is required!"); 
+			$booking = false;
+		}
+
+		if($checkInDate < $bookingDate || $checkOutDate < $bookingDate){ //Prompt error message if Check-In/Out date earlier than today's date
 			array_push($error, "Check-In/Out date should not be earlier than today.");
 			$booking = false;
 		}
-		if($checkOutDate < $checkInDate){
+
+		if($checkOutDate <= $checkInDate){ //Prompt error message if check out date earlier than check in date
 			array_push($error, "Check-out date should not be earlier than check-in date.");
 			$booking = false;
 		}
-		if($adult <= 0){
+
+		if($adult <= 0){ //Prompt error message if number of adult less than or equal 0
 			array_push($error, "Please enter proper number of adults.");
 			$booking = false;
 		}
-		if($children < 0){
+
+		if($children < 0){ //Prompt error message if number of children less than 0
 			array_push($error, "Please enter proper number of children.");
 			$booking = false;
 		}
-		if($numRoom < 1){
+
+		if($numRoom < 1){ //Prompt error message if number of room less than or equal 0
 			array_push($error, "Please enter proper number of room.");
 			$booking = false;
-		}else if($numRoom > $roomAvailable){
+		}else if($numRoom > $roomAvailable){ //Prompt error message if number of room more than room available
 			array_push($error, "Please enter proper number of room.");
 			$booking = false;
 		}
+
 		if($booking){
+			//insert data to database
 			$insert = "INSERT INTO booking (bookingID,bookingDate,checkInDate,checkOutDate,time,room,adult,children,price,payment,status,custID,hotelID,roomID) 
 			VALUES ('','$bookingDate','$checkInDate','$checkOutDate','$bookingTime','$numRoom','$adult','$children','','-','New','$custID','$hotelID','$roomID')";
 			mysqli_query($dbc, $insert);
 
+			//get booking id
 			$getBookingID = "SELECT * FROM booking WHERE hotelID='$hotelID' &&custID='$custID' && roomID='$roomID' ORDER BY bookingID DESC LIMIT 1  ";
 			$result =  mysqli_query($dbc,$getBookingID);
 			if(mysqli_num_rows($result) > 0) {
 			while ($row = mysqli_fetch_array($result)) {
 				$bookingID = $row['bookingID'];
 			}
+
+			//redirect user to checkout page
 			header('Location: checkout.php?id='.$bookingID);
-				exit();
+			exit();
 			}
 		}      
 }
@@ -166,12 +210,12 @@
 									</div>
 								</div>
 								<?php
-											if (isset($_POST['submitted'])) {
-												for ($i = 0; $i < count($error); $i++) {
-													echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
-												}
-											}
-										?>
+									if (isset($_POST['submitted'])) {
+										for ($i = 0; $i < count($error); $i++) {
+											echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+										}
+									}
+								?>
 							</div>
 							<input type="hidden" name="submitted" value="true"/>
 						</form>
@@ -181,9 +225,7 @@
 		</div>
 	</div>
 </body>
-
 </html>
-
 
 <?php
     include ('footer.php');

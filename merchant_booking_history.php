@@ -1,6 +1,6 @@
 <?php
 include('header.php');
-$hotelID = $_SESSION['hotelID'];
+$hotelID = $_SESSION['hotelID']; //retrieve hotel id
 ?>
 <!DOCTYPE html>
 	<link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
@@ -38,6 +38,7 @@ $hotelID = $_SESSION['hotelID'];
 									</thead>
 									<tbody>
 										<?php 
+										//fetch booking data which is booked by the customer in this hotel
 										$query3 = "SELECT * FROM booking WHERE hotelID='$hotelID' ORDER BY bookingID DESC ";
 										$result3 = mysqli_query($dbc,$query3);
 										if(mysqli_num_rows($result3) > 0) {
@@ -50,6 +51,7 @@ $hotelID = $_SESSION['hotelID'];
 												$status = $row['status'];
 												$custID = $row['custID'];
 
+												//get customer details
 												$get_cust = "SELECT * FROM customer WHERE custID='$custID' ";
 												$result = mysqli_query($dbc,$get_cust);
 												while ($row = mysqli_fetch_array($result)) {
@@ -65,8 +67,7 @@ $hotelID = $_SESSION['hotelID'];
 												<td>'.$checkInDate.'</td>
 												<td>'.$checkOutDate.'</td>
 												<td>'.$status.'</td>';
-												if($status == 'Completed'){echo '<td><a href="checkout.php?id='.$bookingID.'">Show Details</a></td>';}
-												else{echo'<td></td>';}
+												echo '<td><a href="checkout.php?id='.$bookingID.'">Show Details</a></td>';
 												echo'</tr>';
 											}
 										}
@@ -93,15 +94,15 @@ $hotelID = $_SESSION['hotelID'];
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>    
     <script>
-$(document).ready(function () {
-    $('#table').DataTable({
-        paging: true,
-        ordering: true,
-        info: true,
-        pagelength:5
-    });
-});
-    </script>
+		$(document).ready(function () {
+			$('#table').DataTable({
+				paging: true,
+				ordering: true,
+				info: true,
+				pagelength:5
+			});
+		});
+			</script>
 
 <?php
 include('footer.php');

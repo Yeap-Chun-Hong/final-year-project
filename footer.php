@@ -20,7 +20,7 @@
 			</div>
 			<div class="footer-last-section">
 				<div class="container">
-					<p>Copyright 2018 &copy; educationpro.com <span> | </span> Theme designed and developed by <a href="https://labtheme.com">Lab Theme</a></p>
+					<p>Copyright 2022 &copy; <span> | </span> All Right Reserved</p>
 				</div>
 			</div>
 		</footer>

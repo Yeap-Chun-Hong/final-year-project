@@ -1,10 +1,12 @@
 <?php
-include('header.php');
-if(isset($_SESSION['admin_login'])){
-    $hotelID = $_GET['id'];
-}else{
-    $hotelID = $_SESSION['hotelID'];
-}
+    include('header.php');
+    if(isset($_SESSION['admin_login'])){
+        $hotelID = $_GET['id']; // if admin login then get hotel id from link
+    }else{
+        $hotelID = $_SESSION['hotelID']; // if merchant login then get hotel id from session
+    }
+
+    //fetch hotel data
     $query1 = "SELECT * FROM hotel WHERE hotelID='$hotelID'";
     $result =  mysqli_query($dbc,$query1);
     if(mysqli_num_rows($result) > 0) {
@@ -41,15 +43,159 @@ if(isset($_SESSION['admin_login'])){
         $desc = $_POST['desc'];
         $checkInTime = $_POST['check-in'];
         $checkOutTime = $_POST['check-out'];
-        $childrenPrice = number_format($_POST['child_price'],2);
-        $adultPrice= number_format($_POST['adult_price'],2);
+        $childrenPrice = $_POST['child_price'];
+        $adultPrice= $_POST['adult_price'];
 
 
         $error = array();
         $success = array();
         $update = true;
 
+        //data validation
+        if(empty($name)){
+            array_push($error, "Hotel Name is required!");
+            $update = false;
+        }
+
+        if(empty($address)){
+            array_push($error, "Hotel Address is required!");
+            $update = false;
+        }
+
+        if(empty($email)){
+            array_push($error, "Hotel Email is required!");
+            $update = false;
+        }else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+			array_push($error, "Invalid email format!");
+			$update = false;
+		}
+
+		if(empty($phone)){
+			array_push($error, "Phone Number is required!");
+			$update = false;
+		}elseif (!ctype_digit($phone)){
+			array_push($error, "Only numbers are allowed in phone!");
+			$update = false;
+		}
+
+        if(empty($desc)){
+            array_push($error, "Hotel Introduction is required!");
+            $update = false;
+        }
+
+        if(empty($checkInTime)){
+            array_push($error, "Check In Time is required!");
+            $update = false;
+        }
+
+        if(empty($checkOutTime)){
+            array_push($error, "Check Out Time is required!");
+            $update = false;
+        }
+
+        if(!is_numeric($childrenPrice)){
+            array_push($error, "Children Price is required!");
+            $update = false;
+        }else if($childrenPrice <= 0){
+            array_push($error, "Please enter proper children price!");
+            $update = false;
+        }
+
+        if(!is_numeric($adultPrice)){
+            array_push($error, "Adult Price is required!");
+            $update = false;
+        }else if($adultPrice <= 0){
+            array_push($error, "Please enter proper adult price!");
+            $update = false;
+        }
+
+        //update facilities
+        if(isset($_POST['facilities'])){
+            if(in_array('Free Wi-Fi', $_POST['facilities'])){
+                $query = "UPDATE hotel SET hv_wifi =true WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }else{
+                $query = "UPDATE hotel SET hv_wifi =false WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }
+
+            if(in_array('Swimming Pool', $_POST['facilities'])){
+                $query = "UPDATE hotel SET hv_pool =true WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }else{
+                $query = "UPDATE hotel SET hv_pool =false WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }
+
+            if(in_array('Non-Smoking Room', $_POST['facilities'])){
+                $query = "UPDATE hotel SET hv_nsr =true WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }else{
+                $query = "UPDATE hotel SET hv_nsr =false WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }
+
+            if(in_array('Parking', $_POST['facilities'])){
+                $query = "UPDATE hotel SET hv_parking =true WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }else{
+                $query = "UPDATE hotel SET hv_parking =false WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }
+
+            if(in_array('Air Conditioning', $_POST['facilities'])){
+                $query = "UPDATE hotel SET hv_ac =true WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }else{
+                $query = "UPDATE hotel SET hv_ac =false WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }
+
+            if(in_array('Lift', $_POST['facilities'])){
+                $query = "UPDATE hotel SET hv_lift =true WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }else{
+                $query = "UPDATE hotel SET hv_lift =false WHERE hotelID = '$hotelID'";
+                mysqli_query($dbc, $query);
+            }
+        }else{
+            $query = "UPDATE hotel SET 
+                    hv_lift =false,
+                    hv_ac =false,
+                    hv_parking =false,
+                    hv_nsr =false,
+                    hv_pool =false,
+                    hv_wifi =false
+                    WHERE hotelID = '$hotelID'";
+            mysqli_query($dbc, $query);
+        }
+
+        //update image
+        if(!empty($_FILES['image']['tmp_name'])){
+            $cover = file_get_contents($_FILES['image']['tmp_name']);
+            $cover = mysqli_real_escape_string($dbc,$cover);
+            $query = "UPDATE hotel SET image1='$cover'WHERE hotelID = '$hotelID'";
+            mysqli_query($dbc, $query);
+        }
+        if(!empty($_FILES['img2']['tmp_name'])){
+            $img2 = file_get_contents($_FILES['img2']['tmp_name']);
+            $img2 = mysqli_real_escape_string($dbc,$img2);
+            $query = "UPDATE hotel SET image2='$img2'WHERE hotelID = '$hotelID'";
+            mysqli_query($dbc, $query);
+        }
+        if(!empty($_FILES['img3']['tmp_name'])){
+            $img3 = file_get_contents($_FILES['img3']['tmp_name']);
+            $img3 = mysqli_real_escape_string($dbc,$img3);
+            $query = "UPDATE hotel SET image3='$img3'WHERE hotelID = '$hotelID'";
+            mysqli_query($dbc, $query);
+        }
+
         if($update){
+            //format price to 2 decimal points
+            $childrenPrice = number_format($_POST['child_price'],2);
+            $adultPrice= number_format($_POST['adult_price'],2);
+
+            //update data
             $query1 = "UPDATE hotel SET 
                     hotelName ='$name' ,
                     checkInTime ='$checkInTime' ,
@@ -62,92 +208,10 @@ if(isset($_SESSION['admin_login'])){
                     adultPrice = '$adultPrice'
             WHERE hotelID = '$hotelID'";
             mysqli_query($dbc, $query1);
-            if(isset($_POST['facilities'])){
-                if(in_array('Free Wi-Fi', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_wifi =true WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }else{
-                    $query = "UPDATE hotel SET hv_wifi =false WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }
-    
-                if(in_array('Swimming Pool', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_pool =true WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }else{
-                    $query = "UPDATE hotel SET hv_pool =false WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }
-    
-                if(in_array('Non-Smoking Room', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_nsr =true WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }else{
-                    $query = "UPDATE hotel SET hv_nsr =false WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }
-    
-                if(in_array('Parking', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_parking =true WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }else{
-                    $query = "UPDATE hotel SET hv_parking =false WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }
-    
-                if(in_array('Air Conditioning', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_ac =true WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }else{
-                    $query = "UPDATE hotel SET hv_ac =false WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }
-    
-                if(in_array('Lift', $_POST['facilities'])){
-                    $query = "UPDATE hotel SET hv_lift =true WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }else{
-                    $query = "UPDATE hotel SET hv_lift =false WHERE hotelID = '$hotelID'";
-                    mysqli_query($dbc, $query);
-                }
-            }else{
-                $query = "UPDATE hotel SET 
-                        hv_lift =false,
-                        hv_ac =false,
-                        hv_parking =false,
-                        hv_nsr =false,
-                        hv_pool =false,
-                        hv_wifi =false
-                        WHERE hotelID = '$hotelID'";
-                mysqli_query($dbc, $query);
-            }
 
-            
-            
-            if(!empty($_FILES['image']['tmp_name'])){
-                $cover = file_get_contents($_FILES['image']['tmp_name']);
-                $cover = mysqli_real_escape_string($dbc,$cover);
-                $query = "UPDATE hotel SET image1='$cover'WHERE hotelID = '$hotelID'";
-                mysqli_query($dbc, $query);
-            }
-            if(!empty($_FILES['img2']['tmp_name'])){
-                $img2 = file_get_contents($_FILES['img2']['tmp_name']);
-                $img2 = mysqli_real_escape_string($dbc,$img2);
-                $query = "UPDATE hotel SET image2='$img2'WHERE hotelID = '$hotelID'";
-                mysqli_query($dbc, $query);
-            }
-            if(!empty($_FILES['img3']['tmp_name'])){
-                $img3 = file_get_contents($_FILES['img3']['tmp_name']);
-                $img3 = mysqli_real_escape_string($dbc,$img3);
-                $query = "UPDATE hotel SET image3='$img3'WHERE hotelID = '$hotelID'";
-                mysqli_query($dbc, $query);
-            }
+            //prompt success message
             array_push($success,"Hotel Updated!");   
-
-        }
-
-
-           
+        }      
     }
 ?>
 <!DOCTYPE html>
@@ -180,13 +244,12 @@ if(isset($_SESSION['admin_login'])){
                     
 					<div class="booking-form">
                         <?php
-                        if(isset($_SESSION['admin_login'])){
-                            echo '<form action="edit_hotel_details.php?id='.$hotelID.'" method="POST" enctype="multipart/form-data">';
-                        }else{
-                            echo '<form action="edit_hotel_details.php" method="POST" enctype="multipart/form-data">';
-                        }
+                            if(isset($_SESSION['admin_login'])){
+                                echo '<form action="edit_hotel_details.php?id='.$hotelID.'" method="POST" enctype="multipart/form-data">';
+                            }else{
+                                echo '<form action="edit_hotel_details.php" method="POST" enctype="multipart/form-data">';
+                            }
                          ?>
-						
 							<div class="form-group">
                             <h3>Edit Hotel Profile </h3>
 							</div>
@@ -276,13 +339,13 @@ if(isset($_SESSION['admin_login'])){
                                 <div class="col-md-3">
 									<div class="form-group">
 										<span class="form-label">Adult Price</span>
-                                        <input class="form-control" type="number" min="1" step="0.01" name="adult_price"  value="<?php echo number_format($adultPrice,2) ?>">							
+                                        <input class="form-control" type="number" min="1" step="0.01" name="adult_price"  value="<?php echo $adultPrice ?>">							
                                     </div>
 								</div>
                                 <div class="col-md-3">
 									<div class="form-group">
 										<span class="form-label">Children Price</span>
-                                        <input class="form-control" type="number" min="1" step="0.01" name="child_price"  value="<?php echo number_format($childrenPrice,2) ?>">							
+                                        <input class="form-control" type="number" min="1" step="0.01" name="child_price"  value="<?php echo $childrenPrice ?>">							
                                     </div>
 								</div>
 							</div>
@@ -314,15 +377,15 @@ if(isset($_SESSION['admin_login'])){
 									</div>
 								</div>
 								<?php
-											if (isset($_POST['submitted'])) {
-												for ($i = 0; $i < count($error); $i++) {
-													echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
-												}
-                                                for ($i = 0; $i < count($success); $i++) {
-                                                    echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
-                                                }
-											}
-										?>
+                                    if (isset($_POST['submitted'])) {
+                                        for ($i = 0; $i < count($error); $i++) {
+                                            echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+                                        }
+                                        for ($i = 0; $i < count($success); $i++) {
+                                            echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
+                                        }
+                                    }
+                                ?>
 							</div>
 							<input type="hidden" name="submitted" value="true"/>
 						</form>

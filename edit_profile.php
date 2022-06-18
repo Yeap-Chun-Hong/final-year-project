@@ -20,10 +20,11 @@ if (isset($_POST['submitted'])) {
    $selectQuery = "SELECT * FROM customer WHERE username='$username'";
    $check_username = mysqli_query($dbc, $selectQuery);
     
+   //if all fields are empty, prompt error 
     if (empty($name) && empty($username) && empty($email) && empty($phone) && empty($password) && empty($confirm) && empty($_FILES['image']['tmp_name']) ) {
         $update = false;
         array_push($error, "All fields are empty. Please input at least 1 credential to complete the update process!");
-    } else if(mysqli_num_rows($check_username)>0){
+    } else if(mysqli_num_rows($check_username)>0){ //prevent repeated username and cause error
         array_push($error, "Username that you have enter already exist!");
         $update = false;
     }
@@ -36,7 +37,7 @@ if (isset($_POST['submitted'])) {
         $query5 = "UPDATE customer SET password ='$encrypted_pw' WHERE custID = '{$_SESSION['custID']}'";
 
         if($update){
-
+            //update the following data if it is not empty
             if (!empty($name)) {
                 if (preg_match("/^[a-zA-Z-\s']*$/", $name)) {
                     mysqli_query($dbc, $query1);
@@ -94,16 +95,12 @@ if (isset($_POST['submitted'])) {
                 array_push($error, "Password is required!");
             }
 
-
             if(!empty($_FILES['image']['tmp_name'])){
                 $data = addslashes(file_get_contents($_FILES['image']['tmp_name']));
                 $query6 = "UPDATE customer SET picture ='$data' WHERE custID = '{$_SESSION['custID']}'";
                 mysqli_query($dbc, $query6);
                 array_push($success,"Image Updated!");
-
-                
             }
-
         }
     }
 }
@@ -119,23 +116,21 @@ if (isset($_POST['submitted'])) {
         <div class="row">
                 <div class="col-md-3 border-right">
                     <?php 
-                    if (isset($_SESSION['login'])) {
-
-                        //fetch user details from usertable
-                        $query = "SELECT * FROM customer WHERE custID = '{$_SESSION['custID']}'";
-                    
-                        $result = mysqli_query($dbc, $query);
-                    
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_array($result)) {
-                                $prev_name = $row['custName'];
-                                $prev_username = $row['username'];
-                                $prev_email = $row['email'];
-                                $prev_phone = $row['hpNo'];
-                                $prev_profilePicture = $row['picture'];
+                        if (isset($_SESSION['login'])) {
+                            //fetch user details from usertable
+                            $query = "SELECT * FROM customer WHERE custID = '{$_SESSION['custID']}'";
+                            $result = mysqli_query($dbc, $query);
+                        
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_array($result)) {
+                                    $prev_name = $row['custName'];
+                                    $prev_username = $row['username'];
+                                    $prev_email = $row['email'];
+                                    $prev_phone = $row['hpNo'];
+                                    $prev_profilePicture = $row['picture'];
+                                }
                             }
                         }
-                    }
                     ?>
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5" style="font-size: 15px;"><img class="mt-5" width="120px" height="120px" src=" <?php echo !empty($prev_profilePicture)?'data:image;base64,'.base64_encode($prev_profilePicture) : 'images/default_profile_picture.png' ?>">
                     <span class="font-weight-bold"><?php echo $prev_name ?></span>

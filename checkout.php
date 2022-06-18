@@ -1,7 +1,8 @@
 <?php
     include ('header.php');
-    $bookingID = $_GET['id'];
+    $bookingID = $_GET['id']; //get booking id
 
+    //fetch booking details
     $getBookingDetails = "SELECT * FROM booking WHERE bookingID ='$bookingID' ";
     $result =  mysqli_query($dbc,$getBookingDetails);
     if(mysqli_num_rows($result) > 0) {
@@ -19,17 +20,22 @@
             $roomID = $row['roomID'];
             $status = $row['status'];
             $paymentMethod = $row['payment'];
-            $get_hotel = "SELECT * FROM hotel WHERE hotelID='$hotelID' ";
-            $result = mysqli_query($dbc,$get_hotel);
-            if(mysqli_num_rows($result) > 0) {
-              while ($row = mysqli_fetch_array($result)) {
-                $hotelName = $row['hotelName'];
-                $childrenPrice = $row['childPrice'];
-                $adultPrice= $row['adultPrice'];
-              }
-            }
+
+            
         }    
     }
+    //get hotel details
+    $get_hotel = "SELECT * FROM hotel WHERE hotelID='$hotelID' ";
+    $result = mysqli_query($dbc,$get_hotel);
+    if(mysqli_num_rows($result) > 0) {
+      while ($row = mysqli_fetch_array($result)) {
+        $hotelName = $row['hotelName'];
+        $childrenPrice = $row['childPrice'];
+        $adultPrice= $row['adultPrice'];
+      }
+    }
+
+    //get customer details
     $getCustDetails = "SELECT * FROM customer WHERE custID ='$custID' ";
     $result2 =  mysqli_query($dbc,$getCustDetails);
     if(mysqli_num_rows($result2) > 0) {
@@ -40,6 +46,7 @@
         }
     }
 
+    //get room details
     $getRoomDetails = "SELECT * FROM room WHERE roomID ='$roomID' ";
     $result3 =  mysqli_query($dbc,$getRoomDetails);
     if(mysqli_num_rows($result3) > 0) {
@@ -50,36 +57,42 @@
         }
     }
 
-    $adultTotal = $adultPrice *$adult;
-    $childrenTotal = $childrenPrice * $children;
-    $roomTotal= $roomPrice *$room;
-    $days = (strtotime($checkOutDate) - strtotime($checkInDate)) / (60 * 60 * 24);
-    $totalFees = $roomPrice * $room  + ($adult * $adultPrice) + ($children * $childrenPrice);
-    $subtotal = $totalFees * $days;
-    $tax = $subtotal *0.1;
-    $total = $subtotal + $tax;
+    //calculate prices
+    $adultTotal = $adultPrice *$adult; //total adult fees
+    $childrenTotal = $childrenPrice * $children; //total children fees
+    $roomTotal= $roomPrice *$room; //total room fees
+    $days = (strtotime($checkOutDate) - strtotime($checkInDate)) / (60 * 60 * 24); //calculate the days 
+
+    //calculate the total fees and multiply by days 
+    $totalFees = $roomTotal  + $adultTotal + $childrenTotal; 
+    $subtotal = $totalFees * $days; 
+    
+    $tax = $subtotal *0.1; // 10% tax
+    $total = $subtotal + $tax;    //total amount need to pay
 
 if(isset($_POST['submitted'])){
-    $paymentMethod = $_POST['payment-method'];
-    $update = "UPDATE booking SET 
-                price ='$total',
-                payment = '$paymentMethod',
-                status = 'Completed',
-                price = '$total' 
-                WHERE bookingID = '$bookingID'";
-    mysqli_query($dbc, $update);
+  //update data if checkout button is clicked
+  $paymentMethod = $_POST['payment-method'];
+  $update = "UPDATE booking SET 
+              price ='$total',
+              payment = '$paymentMethod',
+              status = 'Completed',
+              price = '$total' 
+              WHERE bookingID = '$bookingID'";
+  mysqli_query($dbc, $update);
 
-    $roomAvailable-=$room;
-    $updateRoomAvailable = "UPDATE room SET roomAvailable ='$roomAvailable' WHERE roomID = '$roomID'";
-    mysqli_query($dbc, $updateRoomAvailable);
+  //minus the room that have been booked and update to database
+  $roomAvailable-=$room;
+  $updateRoomAvailable = "UPDATE room SET roomAvailable ='$roomAvailable' WHERE roomID = '$roomID'";
+  mysqli_query($dbc, $updateRoomAvailable);
 
-    header('Location: thankyou.php');
-    exit();
-
+  //redirect user to thank you page
+  header('Location: thankyou.php');
+  exit();
 }
 ?>
-	<link rel="stylesheet" type="text/css" href="css/checkout.css">
-	<title>Checkout</title>
+<link rel="stylesheet" type="text/css" href="css/checkout.css">
+<title>Checkout</title>
 
 <div class="iphone">
   <header class="header">
@@ -207,10 +220,15 @@ if(isset($_POST['submitted'])){
     <div>
      
     </div>
-    <?php echo isset($_SESSION['custID'])?$status!='Completed'?$roomAvailable >0?'<button class="button button--full" type="submit"><svg class="icon">
+    <?php 
+      //if status is complete, hide the checkout button
+      //if room available is 0, show fully booked
+      //if not customer login, hide the checkout button to prevent other user checkout
+      echo isset($_SESSION['custID'])?$status!='Completed'?$roomAvailable >0?'<button class="button button--full" type="submit"><svg class="icon">
           <use xlink:href="#icon-shopping-bag" />
         </svg>Checkout Now</button><input type="hidden" name="submitted" value="true"/>'    : '<button class="button button--full" type="button" style="background:grey;" disabled>Fully booked</button>'
-        :'':'' ?>
+        :'':'' 
+    ?>
   </form>
 </div>
 

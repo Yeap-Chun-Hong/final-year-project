@@ -1,27 +1,31 @@
 <?php
-include('header.php');
-$adminID = $_SESSION['adminID'];
+    include('header.php');
+    //retrieve admin id from session
+    $adminID = $_SESSION['adminID'];
+
+    //retrieve banner details
     $query1 = "SELECT * FROM banner";
     $result =  mysqli_query($dbc,$query1);
     if(mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_array($result)) {
             $bannerID = $row['bannerID'];
-			$title = $row['title'];
+            $title = $row['title'];
             $subject = $row['subject'];
             $bannerImage1 = $row['bannerImage1'];
             $bannerImage2 = $row['bannerImage2'];
             $bannerImage3 = $row['bannerImage3'];
+        }
     }
-}
 
     if(isset($_POST['submitted'])){
         $title = $_POST['title'];
         $subject = $_POST['subject'];
         
-        $error = array();
-        $success = array();
+        $error = array(); //error message
+        $success = array(); //success message
         $update = false;
 
+        //data validation
         if (!empty($title)) {
             $query1 = "UPDATE banner SET title ='$title' WHERE bannerID = '$bannerID'";
             mysqli_query($dbc, $query1);
@@ -57,13 +61,15 @@ $adminID = $_SESSION['adminID'];
             $update = true;
         }
 
-
-
         if($update){ 
+            //update data
             $query = "UPDATE banner SET adminID ='$adminID' WHERE bannerID = '$bannerID'";
             mysqli_query($dbc, $query);
+
+            //prompt success message
             array_push($success,"Banner Updated!");   
         }else{
+            //prompt error message if all fields are empty
             array_push($error,"All fields are empty!");   
         }
 
@@ -150,15 +156,15 @@ $adminID = $_SESSION['adminID'];
 									</div>
 								</div>
 								<?php
-											if (isset($_POST['submitted'])) {
-												for ($i = 0; $i < count($error); $i++) {
-													echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
-												}
-                                                for ($i = 0; $i < count($success); $i++) {
-                                                    echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
-                                                }
-											}
-										?>
+                                    if (isset($_POST['submitted'])) {
+                                        for ($i = 0; $i < count($error); $i++) {
+                                            echo "<p style='color:red;font-size:16px;text-align:center;'>$error[$i]</p>"; //prompt user the error
+                                        }
+                                        for ($i = 0; $i < count($success); $i++) {
+                                            echo "<p style='color:green;font-size:15px;text-align:center;'>$success[$i]</p>"; //prompt user the success message
+                                        }
+                                    }
+                                ?>
 							</div>
 							<input type="hidden" name="submitted" value="true"/>
 						</form>

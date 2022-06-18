@@ -1,77 +1,76 @@
 <?php
-require_once ("config.php");
-include('header.php');
-if(isset($_POST['submitted'])){
-    $name = $_POST['name'];
-	$username = $_POST['username'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-	$password = $_POST['password'];
-    $confirm = $_POST['re-password'];
-	$register = true;
-	$error = array();
-	$success = array();
+	require_once ("config.php");
+	include('header.php');
+	if(isset($_POST['submitted'])){
+		//retrieve data from input
+		$name = $_POST['name'];
+		$username = $_POST['username'];
+		$email = $_POST['email'];
+		$phone = $_POST['phone'];
+		$password = $_POST['password'];
+		$confirm = $_POST['re-password'];
+		$register = true; //boolean to allow register
+		$error = array(); //error message
+		$success = array(); //success message
 
-	if(empty($name)){
-		array_push($error, "Name is required.");
-		$register = false;
-	}else if (!preg_match ("/^[a-zA-Z\s]+$/",$name)){
-        array_push($error, "Only alphabets are allowed in name!");
-		$register = false;
-    }
-	
-	if(empty($username)){
-		array_push($error, "Username is required!");
-		$register = false;
-	}
+		//data validation
+		if(empty($name)){
+			array_push($error, "Name is required.");
+			$register = false;
+		}else if (!preg_match ("/^[a-zA-Z\s]+$/",$name)){
+			array_push($error, "Only alphabets are allowed in name!");
+			$register = false;
+		}
+		
+		if(empty($username)){
+			array_push($error, "Username is required!");
+			$register = false;
+		}
 
-    if(empty($email)){
-		array_push($error, "Email address is required!");
-		$register = false;
-	}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-		array_push($error, "Invalid email format!");
-		$register = false;
-	}
-	
-	if(empty($phone)){
-		array_push($error, "Phone Number is required!");
-		$register = false;
-	}elseif (!ctype_digit($phone)){
-		array_push($error, "Only numbers are allowed in phone!");
-		$register = false;
-	}
+		if(empty($email)){
+			array_push($error, "Email address is required!");
+			$register = false;
+		}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+			array_push($error, "Invalid email format!");
+			$register = false;
+		}
+		
+		if(empty($phone)){
+			array_push($error, "Phone Number is required!");
+			$register = false;
+		}elseif (!ctype_digit($phone)){
+			array_push($error, "Only numbers are allowed in phone!");
+			$register = false;
+		}
 
-    if(empty($password)){
-		array_push($error, "Password is required!");
-		$register = false;
-	}else if(strlen($password)<8){
-		array_push($error, "Your password must contain at least 8 characters!");
-		$register = false;
-	}elseif(!preg_match("#[0-9]+#",$password)) {
-		array_push($error, "Your password must contain at least 1 number!");
-		$register = false;
-    }
-    elseif(!preg_match("#[A-Z]+#",$password)) {
-		array_push($error, "Your password must contain at least 1 capital letter!");
-		$register = false;
-    }
-    elseif(!preg_match("#[a-z]+#",$password)) {
-		array_push($error, "Your password must contain at least 1 lowercase letter!");
-		$register = false;
-    }
-	
-	if(empty($confirm)){
-		array_push($error, "Confirm Password is required!");
-		$register = false;
-	}else if($confirm != $password){
-		array_push($error, "Confirm Password not matched!");
-		$register = false;
-	}
+		if(empty($password)){
+			array_push($error, "Password is required!");
+			$register = false;
+		}else if(strlen($password)<8){
+			array_push($error, "Your password must contain at least 8 characters!");
+			$register = false;
+		}elseif(!preg_match("#[0-9]+#",$password)) {
+			array_push($error, "Your password must contain at least 1 number!");
+			$register = false;
+		}
+		elseif(!preg_match("#[A-Z]+#",$password)) {
+			array_push($error, "Your password must contain at least 1 capital letter!");
+			$register = false;
+		}
+		elseif(!preg_match("#[a-z]+#",$password)) {
+			array_push($error, "Your password must contain at least 1 lowercase letter!");
+			$register = false;
+		}
+		
+		if(empty($confirm)){
+			array_push($error, "Confirm Password is required!");
+			$register = false;
+		}else if($confirm != $password){
+			array_push($error, "Confirm Password not matched!");
+			$register = false;
+		}
 
-	//if no error
-	if ($register){
-		$password = base64_encode($password);
-		$insert = "INSERT INTO customer (username,password,custName,email,hpNo) VALUES ('$username','$password','$name','$email','$phone')";
+		//validate no repeat on username and email
 		$selectQuery = "SELECT * FROM customer WHERE username='$username'";
 		$check_username = mysqli_query($dbc, $selectQuery);
 
@@ -80,24 +79,31 @@ if(isset($_POST['submitted'])){
 
 		if(mysqli_num_rows($check_email)>0){
 			array_push($error, "Email that you have enter already exist!");
-		}
+			$register = false;
+		}	
 
 		if(mysqli_num_rows($check_username)>0){
 			array_push($error, "Username that you have enter already exist!");
-		}else{
-			if (mysqli_query($dbc, $insert)) {
+			$register = false;
+		}
+
+		//if no error
+		if ($register){
+			//encrypt password
+			$password = base64_encode($password);
+			//insert data into database
+			$insert = "INSERT INTO customer (username,password,custName,email,hpNo) VALUES ('$username','$password','$name','$email','$phone')";
+
+			if (mysqli_query($dbc, $insert)) { 		//prompt success message if register success
 				array_push($success, "Congratulations, you have registered successfully.");
-			} else {
+			} else { //prompt error message if register failed
 				array_push($error, "Database error. Please try again later");
 			}
-		}
-			mysqli_close($dbc);
-	}else{
-		array_push($error, "Please check again the field.");
-	}
-	
-}
 
+			//close database
+			mysqli_close($dbc);
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -174,6 +180,7 @@ if(isset($_POST['submitted'])){
 						</span>
 					</div>
 					<div></div>
+
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="password" name="re-password" placeholder="Confirm Password">
 						<span class="focus-input100"></span>
@@ -220,7 +227,6 @@ if(isset($_POST['submitted'])){
 	
 <?php include("footer.php");?>
 
-	
 <!--===============================================================================================-->	
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->

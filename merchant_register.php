@@ -1,66 +1,73 @@
 <?php
-require_once ("config.php");
-include('header.php');
-if(isset($_POST['submitted'])){
-    $hotelName = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-	$address = $_POST['address'];
-	$register = true;
-	$error = array();
-	$success = array();
-    if(empty($email)){
-		array_push($error, "Email address is required!");
-		$register = false;
-	}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-		array_push($error, "Invalid email format!");
-		$register = false;
-	}
+	require_once ("config.php");
+	include('header.php');
+	//handle the form
+	if(isset($_POST['submitted'])){
+		$hotelName = $_POST['name'];
+		$email = $_POST['email'];
+		$phone = $_POST['phone'];
+		$address = $_POST['address'];
+		$register = true;
+		$error = array();
+		$success = array();
 
-	if(empty($hotelName)){
-		array_push($error, "Hotel Name is required!");
-		$register = false;
-	}
-	
-	if(empty($phone)){
-		array_push($error, "Phone Number is required!");
-		$register = false;
-	}elseif (!ctype_digit($phone)){
-		array_push($error, "Only numbers are allowed in phone!");
-		$register = false;
-	}
-    if(empty($address)){
-		array_push($error, "Address is required!");
-		$register = false;
-	}
-
-	//if no error
-    if ($register){
-		$insert = "INSERT INTO hotel (hotelName,address,email,phoneNo) VALUES ('$hotelName','$address','$email','$phone')";
-		$selectQuery = "SELECT * FROM hotel WHERE email='$email'";
-		$check_username = mysqli_query($dbc, $selectQuery);
-
-		if(mysqli_num_rows($check_username)>0){
-			array_push($error, "Email that you have enter already exist!");
-		}else{
-			if (mysqli_query($dbc, $insert)) {
-				array_push($success, "Congratulations, you have registered successfully. We will contact you soon.");
-                $to_email = $email;
-                $subject = "Thank you for registering as merchant";
-                $body = "Hi,".$hotelName.". Thank you for joining us in Kuro Hotel Booking Website. We will verified your application soon.";
-                $headers = "From: Kuro Hotel Booking Website";
-                mail($to_email, $subject, $body,$headers);       
-			} else {
-				array_push($error, "Database error. Please try again later");
-			}
+		//data validation
+		if(empty($email)){
+			array_push($error, "Email address is required!");
+			$register = false;
+		}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+			array_push($error, "Invalid email format!");
+			$register = false;
 		}
-			mysqli_close($dbc);
-	}else{
-		array_push($error, "Please check again the field.");
-	}
-	
-}
 
+		if(empty($hotelName)){
+			array_push($error, "Hotel Name is required!");
+			$register = false;
+		}
+		
+		if(empty($phone)){
+			array_push($error, "Phone Number is required!");
+			$register = false;
+		}elseif (!ctype_digit($phone)){
+			array_push($error, "Only numbers are allowed in phone!");
+			$register = false;
+		}
+		if(empty($address)){
+			array_push($error, "Address is required!");
+			$register = false;
+		}
+
+		//if no error
+		if ($register){
+			//insert data to database
+			$insert = "INSERT INTO hotel (hotelName,address,email,phoneNo) VALUES ('$hotelName','$address','$email','$phone')";
+			$selectQuery = "SELECT * FROM hotel WHERE email='$email'";
+			$check_username = mysqli_query($dbc, $selectQuery);
+
+			//validate to prevent repeated email
+			if(mysqli_num_rows($check_username)>0){
+				array_push($error, "Email that you have enter already exist!");
+			}else{
+				if (mysqli_query($dbc, $insert)) {
+					//prompt success message
+					array_push($success, "Congratulations, you have registered successfully. We will contact you soon.");
+
+					//send email to merchant
+					$to_email = $email;
+					$subject = "Thank you for registering as merchant";
+					$body = "Hi,".$hotelName.". Thank you for joining us in Kuro Hotel Booking Website. We will verified your application soon.";
+					$headers = "From: Kuro Hotel Booking Website";
+					mail($to_email, $subject, $body,$headers);       
+				} else {
+					array_push($error, "Database error. Please try again later");
+				}
+			}
+			//close the database
+			mysqli_close($dbc);
+		}else{
+			array_push($error, "Please check again the field.");
+		}
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,8 +120,6 @@ if(isset($_POST['submitted'])){
 						</span>
 					</div>
 
-
-                    
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="text" name="phone" placeholder="Phone Number">
 						<span class="focus-input100"></span>
@@ -123,6 +128,7 @@ if(isset($_POST['submitted'])){
 							<i class="fa fa-phone" aria-hidden="true"></i>
 						</span>
 					</div>
+					
                     <div class="wrap-input100 validate-input">
 						<input class="input100" type="text" name="address" placeholder="Address">
 						<span class="focus-input100"></span>

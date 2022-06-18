@@ -1,7 +1,10 @@
 <?php
 include('header.php');
 
+//retrieve member id
 $memberID = $_GET['id'];
+
+//fetch member's details
 $details = "SELECT * FROM team WHERE id='$memberID' ";
 $result =  mysqli_query($dbc,$details);
 if(mysqli_num_rows($result) > 0) {
@@ -19,30 +22,42 @@ if(isset($_POST['submitted'])){
     $success = array();
     $update = true;
 
-    if (!preg_match ("/^[a-zA-Z\s]+$/",$name)){
-        array_push($error, "Only alphabets are allowed in name!");
-		$update = false;
-    }
-
-    if(!empty($name)){
-        $query = "UPDATE team SET name ='$name' WHERE id='$memberID' ";
-        mysqli_query($dbc, $query);
-    }
-    if(!empty($post)){
-        $query = "UPDATE team SET post ='$post' WHERE id='$memberID' ";
-        mysqli_query($dbc, $query);
-    }
+	//data validation
     if(!empty($_FILES['image']['tmp_name'])){
         $image = file_get_contents($_FILES['image']['tmp_name']);
         $image = mysqli_real_escape_string($dbc,$image);
         $query = "UPDATE team SET img ='$image' WHERE id='$memberID' ";
         mysqli_query($dbc, $query);
     }
+	if(empty($name)){
+		array_push($error, "Name is required!");
+		$update = false;
+	}else if (!preg_match ("/^[a-zA-Z\s]+$/",$name)){
+        array_push($error, "Only alphabets are allowed in name!");
+		$update = false;
+    }else{
+		$query = "UPDATE team SET name ='$name' WHERE id='$memberID' ";
+        mysqli_query($dbc, $query);
+	}
+
+	if(empty($post)){
+		array_push($error, "Post is required!");
+		$update = false;
+	}else{
+		$query = "UPDATE team SET post ='$post' WHERE id='$memberID' ";
+        mysqli_query($dbc, $query);
+	}
 
     if($update){
+		//prompt success message if no error
         array_push($success, "Team Member Profile edited!");
+		
+		//close database
         mysqli_close($dbc);
-    }
+    }else{
+		//prompt error message
+		array_push($error, "Please check again the field!");
+	}
 }
 
 

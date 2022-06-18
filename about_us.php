@@ -2,6 +2,8 @@
 include ('header.php');
 $user = 0;
 $hotel = 0;
+
+//Get description from database
 $get_about_details = "SELECT * FROM aboutus ";
 $result =  mysqli_query($dbc,$get_about_details);
 if(mysqli_num_rows($result) > 0) {
@@ -10,6 +12,7 @@ if(mysqli_num_rows($result) > 0) {
     }
 }
 
+//Get number of customer from database
 $get_user = "SELECT * FROM customer ";
 $result =  mysqli_query($dbc,$get_user);
 if(mysqli_num_rows($result) > 0) {
@@ -18,6 +21,7 @@ if(mysqli_num_rows($result) > 0) {
     }
 }
 
+//Get number of merchant registered from database
 $get_hotel = "SELECT * FROM hotel ";
 $result =  mysqli_query($dbc,$get_hotel);
 if(mysqli_num_rows($result) > 0) {
@@ -37,14 +41,8 @@ if(mysqli_num_rows($result) > 0) {
 				<div class="our-story">
 					<h2 class="top-heading">our story</h2>
 					<ul>
-						<li><i class="fas fa-users"></i> <?php echo $user?> customer enrolled</li>
-						<li><i class="fas fa-home"></i> <?php echo $hotel?> Merchant Joined</li>
-
-						<!-- For None link use below -->
-						<!-- <li><i class="fas fa-chalkboard-teacher"></i> <p>60+ certified teachers</p></li>
-						<li><i class="fas fa-graduation-cap"></i>  <p>600+ students enrolled</p></li>
-						<li><i class="fas fa-book-open"></i>  <p>50+ courses completed</p></li>
-						<li><i class="fas fa-users"></i>  <p>10000+ foreign followers</p></li> -->
+						<li><i class="fas fa-users"></i> <?php echo $user?> customer Joined</li>
+						<li><i class="fas fa-home"></i> <?php echo $hotel?> Merchant Registered</li>
 					</ul>
 				</div>
 			</div>
@@ -56,6 +54,7 @@ if(mysqli_num_rows($result) > 0) {
 				<article class="developer-grid">
 					<div class="row">
                     <?php
+                    //select team member details from website and display in website
                     $get_team_details = "SELECT * FROM team";
                     $result =  mysqli_query($dbc,$get_team_details);
                     $i=0;
@@ -86,15 +85,11 @@ if(mysqli_num_rows($result) > 0) {
                                     </div>
                                 </div>
                                 </div>';
-                                }
-                            
+                                } 
                         }
                     }
                     ?>
-        
-                    </div>
-
-					
+                    </div>				
 				</article>
 			</div>
 		</section>

@@ -2,27 +2,32 @@
 require_once ("config.php");
 include('header.php');
 if(isset($_POST['submitted'])){
+	//retrieve data from input
 	$username = $_POST['username'];
 	$password = $_POST['password'];
-	$password = base64_encode($password);
-	$login = true;
-	$error = array();
 
-	if(empty($username)){
+	//encrypt password
+	$password = base64_encode($password);
+	$login = true; //boolean to allow login
+	$error = array(); //error message
+
+	if(empty($username)){ //Prompt error message if username is empty
 		array_push($error, "Username is required.");
 		$login = false;
 	}
 	
-	if(empty($password)){
+	if(empty($password)){  //Prompt error message if password is empty
 		array_push($error, "Password is required.");
 		$login = false;
 	}
 
 	if($login){
+		//retrieve data from database
 		$query = "SELECT * FROM customer WHERE (email= '$username'||username = '$username') && password = '$password'";
 		$result = mysqli_query($dbc,$query);
 
 		if(mysqli_num_rows($result) > 0){
+			//start session and retrieve data
 			session_start();
 			$_SESSION['login'] = true;
 			while ($row = mysqli_fetch_array($result)){
@@ -33,11 +38,14 @@ if(isset($_POST['submitted'])){
 				$_SESSION['email'] = $row['email'];
 				$_SESSION['phone'] = $row['hpNo'];
 			}
+
+			//redirect user to homepage
 			header('Location: index.php');
 			exit();
-		} else{
+		} else{ // if no data , prompt error message
 			array_push($error, "Invalid credentials.");
 		}
+		//close database
 		mysqli_close($dbc);
 	}
 }
@@ -67,7 +75,6 @@ if(isset($_POST['submitted'])){
 <!--===============================================================================================-->
 </head>
 <body>
-	
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -138,16 +145,3 @@ if(isset($_POST['submitted'])){
 	</div>
 	
 <?php include("footer.php");?>
-
-	
-<!--===============================================================================================-->	
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-<!--===============================================================================================-->
-
-

@@ -2,9 +2,9 @@
 require_once ("config.php");
 include('header.php');
 if(isset($_SESSION['admin_login'])){
-	$query2 = "SELECT * FROM hotel ORDER BY rating DESC";
+	$query2 = "SELECT * FROM hotel ORDER BY rating DESC"; //retrieve all hotel if admin login
 }else{
-	$query2 = "SELECT * FROM hotel WHERE active='1' ORDER BY rating DESC";
+	$query2 = "SELECT * FROM hotel WHERE active='1' ORDER BY rating DESC"; //retrieve hotel that is active if customer login
 }
 $result2 = mysqli_query($dbc,$query2);
 ?>
@@ -29,7 +29,7 @@ $result2 = mysqli_query($dbc,$query2);
 								$hotelBanner = $row['image1'];
 								$active = $row['active'];
 				
-								
+								//display to website
 								echo'<div class="grid" id="cGrid">';
                                 echo'<div class="grid-item" >';
                                 echo'<div class="img-wrap">';
@@ -41,6 +41,8 @@ $result2 = mysqli_query($dbc,$query2);
                                 echo'<p><span>Address: </span>'.$address.'</p>';
                                 echo'<p><span> Email: </span>'.$email.'</p>';
                                 echo'<p><span> Phone: </span>'.$phone.'</p>';
+
+								//allows admin to view the status of hotel
 								if(isset($_SESSION['admin_login'])){
 									if($active == true){
 										echo'<p><span> Status: </span>Active</p>';
