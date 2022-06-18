@@ -1,7 +1,7 @@
 <footer class="page-footer" itemprop="footer" itemscope itemtype="http://schema.org/WPFooter">
 			<div class="footer-last-section">
 				<div class="container">
-                <p>Any Queries? Ask us a question at <a href="tel:+9779813639131"><i class="fas fa-phone"></i> +977 9813639131</a></p>
+                <p>Any Queries? Ask us a question at <a href="tel:+60123456789"><i class="fas fa-phone"></i> +6012 3456789</a></p>
 				</div>
 			</div>
 			<!-- End of box-Wrap -->
