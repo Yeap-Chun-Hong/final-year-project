@@ -2,7 +2,7 @@
 require_once ("config.php");
 include('header.php');
 if(isset($_SESSION['admin_login'])){
-	$query2 = "SELECT * FROM hotel ORDER BY rating DESC"; //retrieve all hotel if admin login
+	$query2 = "SELECT * FROM hotel WHERE rejected_at is NULL ORDER BY  rating DESC"; //retrieve all hotel that is not rejected if admin login
 }else{
 	$query2 = "SELECT * FROM hotel WHERE active='1' ORDER BY rating DESC"; //retrieve hotel that is active if customer login
 }
@@ -33,7 +33,11 @@ $result2 = mysqli_query($dbc,$query2);
 								echo'<div class="grid" id="cGrid">';
                                 echo'<div class="grid-item" >';
                                 echo'<div class="img-wrap">';
-                                echo'<img style="height: 200px; width:400px;" src="data:image;base64,'.base64_encode($hotelBanner).'">';
+								if(!empty($hotelBanner)){
+									echo'<img style="height: 200px; width:400px;" src="data:image;base64,'.base64_encode($hotelBanner).'">';
+								}else{
+									echo'<img style="height: 200px; width:400px;" src="images/hotel2.jpg">';
+								}
                                 echo'</div>';
                                 echo'<div class="box-body">';
                                 echo'<p>'.$name.' '.'⭐'.$rating.' '.'('.$totalRating.')'.'</p>';
