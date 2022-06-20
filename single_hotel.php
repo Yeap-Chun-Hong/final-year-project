@@ -141,11 +141,14 @@
 				<input type="hidden" id="hotelID" value="<?php echo $hotelID ?>"/>
 					<h2><?php echo $name .' '.'⭐'.$rating.' '.'('.$totalRating.')'?>
 						<?php 
-							echo $status?"Active ":"Inactive ";
+							if(isset($_SESSION['admin_login']) || isset($_SESSION['merchant_login'])){
+								echo $status?"Active ":"Inactive ";							
+							}						
+							
 
-						if(isset($_SESSION['admin_login'])){
-							echo '<a href="edit_merchant_profile.php?id='.$hotelID.'">Manage merchant profile</a>';
-						}
+							if(isset($_SESSION['admin_login'])){
+								echo '<a href="edit_merchant_profile.php?id='.$hotelID.'">Manage merchant profile</a>';
+							}
 						?>
 					</h2>
                     <?php if(isset($_SESSION['login'])){

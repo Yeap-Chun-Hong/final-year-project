@@ -204,7 +204,7 @@
 							<div class="row">
 								<div class="col-md-3">
 									<div class="form-btn">
-										<button class="submit-btn">Check Out</button>
+										<button class="submit-btn">Checkout</button>
 									</div>
 									
 									</div>

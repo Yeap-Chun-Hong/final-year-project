@@ -10,6 +10,9 @@ if(isset($_POST['submitted'])){
 	if(empty($email)){
 		array_push($error, "Email is required.");
 		$forget = false;
+	}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+		array_push($error, "Invalid email format!");
+		$forget = false;
 	}
 	
 
@@ -32,7 +35,7 @@ if(isset($_POST['submitted'])){
             $encrypted_pw=base64_encode($password);
             array_push($success, "we have sent an email with the instruction to reset your password.");
             $to_email = $email;
-            $subject = "Reset Password";
+            $subject = "One Time Password";
             $body = "Hi,".$name.". Please use the following OTP to login and reset your password
                     \n".$password.
                     "\n\nReminder: Please do not give the password to anyone.";
