@@ -15,7 +15,6 @@ if(isset($_POST['submitted'])){
 		$forget = false;
 	}
 	
-
 	if($forget){
 		$query = "SELECT * FROM customer WHERE email = '$email'";
 		$result = mysqli_query($dbc,$query);

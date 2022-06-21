@@ -20,8 +20,6 @@
             $roomID = $row['roomID'];
             $status = $row['status'];
             $paymentMethod = $row['payment'];
-
-            
         }    
     }
     //get hotel details

@@ -2,7 +2,6 @@
 require_once ("config.php");
 include('header.php');
 
-
 //handle the form
 if (isset($_POST['submitted'])) {
     $name = $_POST['name'];

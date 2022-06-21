@@ -58,17 +58,16 @@
 			$booking = false;
 		}
 
-		if(is_null($adult)){ //Prompt error message if Number of Adult is empty
+		if(!is_numeric($adult)){ //Prompt error message if Number of Adult is empty
 			array_push($error, "Number of Adult is required!"); 
 			$booking = false;
 		}
-		echo $adult;
-		if(is_null($children)){ //Prompt error message if Number of Children is empty
+		if(!is_numeric($children)){ //Prompt error message if Number of Children is empty
 			array_push($error, "Number of Children is required!"); 
 			$booking = false;
 		}
 
-		if(is_null($numRoom)){ //Prompt error message if Number of Room is empty
+		if(!is_numeric($numRoom)){ //Prompt error message if Number of Room is empty
 			array_push($error, "Number of Room is required!"); 
 			$booking = false;
 		}

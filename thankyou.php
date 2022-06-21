@@ -4,7 +4,7 @@
 <link type="text/css" rel="stylesheet" href="css/thankyou.css" />
 <title>Thank You for booking with us!</title>
 <center>
-<img src = "images/thankyou.gif">
+  <img src = "images/thankyou.gif">
 <center>
 <div class="thankyou-container" >
   <h1>Thank you for booking with us!  <i class="fa fa-check-square-o" aria-hidden="true"></i></h1>

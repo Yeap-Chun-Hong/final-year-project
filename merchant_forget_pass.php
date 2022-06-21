@@ -10,6 +10,9 @@ if(isset($_POST['submitted'])){
 	if(empty($email)){
 		array_push($error, "Email is required.");
 		$forget = false;
+	}else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+		array_push($error, "Invalid email format!");
+		$forget = false;
 	}
 	
 

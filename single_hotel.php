@@ -30,7 +30,7 @@
         }
     }
 
-	// if user login, fetch the favourite date
+	// if user login, fetch the favourite data
     if(isset($_SESSION['login'])){
     	$custID = $_SESSION['custID'];
    
