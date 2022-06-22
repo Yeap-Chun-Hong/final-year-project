@@ -60,6 +60,7 @@ require_once 'config.php';
 									echo 	'<ul class="sub-menu">
 												<li><a href="admin_view_booking.php">Manage Bookings</a></li>
 												<li><a href="manage_new_merchant.php">Manage Newly Registered Merchant</a></li>
+												<li><a href="reply_contact.php">Reply Contact Us</a></li>
 												<li><a href="edit_banner.php">Edit Banner</a></li>
 												<li><a href="logout.php">Log Out</a></li>
 											</ul>
