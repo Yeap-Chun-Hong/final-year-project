@@ -63,6 +63,11 @@
             }
             mysqli_query($dbc, $query3);
 
+            if(empty($username) && empty($password)){
+                $update = false;
+                array_push($error, "All fields are empty!");
+            }
+
             if($update){
                 array_push($success, "Profile updated!");
             }        

@@ -88,8 +88,8 @@ if(mysqli_num_rows($result1) > 0) {
             $excelData .= '<td>'.$hotelName.'</td>';
         }
         $excelData .= '</tr>';
-        $excelData .="</tbody></table>";
     }
+    $excelData .="</tbody></table>";
 }else{
     $excelData = "No record found."."\n"; //prompt user no record is found in excel file
 }
