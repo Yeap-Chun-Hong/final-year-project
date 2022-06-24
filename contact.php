@@ -90,7 +90,7 @@
 					<input type="email" placeholder="Email*" name="email" value="<?php echo isset($email)?$email:''?>" class="input- email">
 					</span>
 					<input type="subject" placeholder="Subject*" name="subject" value="" class="input- subject">
-					<textarea placeholder="Messages*" rows="4" cols="50" name="message" class="input-">
+					<textarea placeholder="Messages*" rows="4" cols="50" name="message" class="input-" required>
 					</textarea>
 					<input type="submit" value="submit now">
 					<input type="hidden" name="submitted" value="true"/>

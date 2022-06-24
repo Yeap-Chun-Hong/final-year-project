@@ -75,7 +75,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<span class="form-label">Introduciton</span>
-                                        <textarea class="form-control" rows="4" cols="50" name="desc" type="text" style="width: 1115px; height: 119px;"><?php echo $desc?></textarea>							
+                                        <textarea class="form-control" rows="4" cols="50" name="desc" type="text" style="width: 1115px; height: 119px;" required><?php echo $desc?></textarea>							
                                     </div>
 								</div>
 							</div>

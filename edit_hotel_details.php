@@ -285,7 +285,7 @@
 								<div class="col-md-12">
 									<div class="form-group">
 										<span class="form-label">Introduciton</span>
-                                        <textarea class="form-control" name="desc" type="text"><?php echo $desc ?></textarea>							
+                                        <textarea class="form-control" name="desc" type="text" required><?php echo $desc ?></textarea>							
                                     </div>
 								</div>
 							</div>

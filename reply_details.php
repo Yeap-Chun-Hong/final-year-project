@@ -65,7 +65,7 @@
 					<input type="email" placeholder="Customer Email*" name="email" value="<?php echo $email?>" class="input- email" disabled>
 					</span>
 					<input type="subject" placeholder="Reply Subject*" name="subject" value="RE: <?php echo $subject?>" class="input- subject">
-					<textarea placeholder="Reply Messages*" rows="4" cols="50" name="message" class="input-">
+					<textarea placeholder="Reply Messages*" rows="4" cols="50" name="message" class="input-" required>
 					</textarea>
 					<input type="submit" value="reply">
 					<input type="hidden" name="submitted" value="true"/>
