@@ -8,6 +8,7 @@ $custID = $_GET['id']; //retrieve customer id
     <title>Booking History</title>
     <section class="ftco-section">
 		<div class="container">
+		<h3>Booking History</h3>
 			<div class="row">
 				<div class="col-md-12">
 					<div class="table-wrap">
