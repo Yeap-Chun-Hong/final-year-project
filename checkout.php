@@ -67,27 +67,29 @@
     
     $tax = $subtotal *0.1; // 10% tax
     $total = $subtotal + $tax;    //total amount need to pay
+    $rounding_total = round($total,1);
+    $different = $rounding_total - $total;
 
-if(isset($_POST['submitted'])){
-  //update data if checkout button is clicked
-  $paymentMethod = $_POST['payment-method'];
-  $update = "UPDATE booking SET 
-              price ='$total',
-              payment = '$paymentMethod',
-              status = 'Completed',
-              price = '$total' 
-              WHERE bookingID = '$bookingID'";
-  mysqli_query($dbc, $update);
+    if(isset($_POST['submitted'])){
+      //update data if checkout button is clicked
+      $paymentMethod = $_POST['payment-method'];
+      $update = "UPDATE booking SET 
+                  price ='$total',
+                  payment = '$paymentMethod',
+                  status = 'Completed',
+                  price = '$rounding_total' 
+                  WHERE bookingID = '$bookingID'";
+      mysqli_query($dbc, $update);
 
-  //minus the room that have been booked and update to database
-  $roomAvailable-=$room;
-  $updateRoomAvailable = "UPDATE room SET roomAvailable ='$roomAvailable' WHERE roomID = '$roomID'";
-  mysqli_query($dbc, $updateRoomAvailable);
+      //minus the room that have been booked and update to database
+      $roomAvailable-=$room;
+      $updateRoomAvailable = "UPDATE room SET roomAvailable ='$roomAvailable' WHERE roomID = '$roomID'";
+      mysqli_query($dbc, $updateRoomAvailable);
 
-  //redirect user to thank you page
-  header('Location: thankyou.php');
-  exit();
-}
+      //redirect user to thank you page
+      header('Location: thankyou.php');
+      exit();
+    }
 ?>
 <link rel="stylesheet" type="text/css" href="css/checkout.css">
 <title>Checkout</title>
@@ -99,79 +101,92 @@ if(isset($_POST['submitted'])){
 
   <form action="<?php echo 'checkout.php?id='.$bookingID ?>" class="form" method="POST">
     <div>
-      <h2>Customer Details</h2>
-
-      <div>
 
       <table>
         <tbody>
-        <tr>
-            <td>Name  &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:<?php echo $custName?></td>
+          <tr>
+            <th>Customer Details </th>
+            <th></th>
+            <th>Booking Details </th>
           </tr> 
+
+          <tr>
+            <td>Name  &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;:<?php echo $custName?></td>
+            <td></td>
+            <td>Hotel Name &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $hotelName?></td>
+          </tr> 
+
           <tr>
             <td>Contact Number&nbsp; :<?php echo $custPhone?></td>
+            <td></td>
+            <td>Room Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $roomName?></td>
           </tr> 
+
           <tr>
             <td>Email  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; :<?php echo $custEmail?></td>
+            <td></td>
+            <td>Booking Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $bookingDate.' '.$time?></td>
           </tr>
+
           <tr>
             <td>Booking Ticket   &nbsp;&nbsp;&nbsp; :<?php echo '#B'.str_pad($bookingID, 4, '0', STR_PAD_LEFT); ?></td>
+            <td></td>
+            <td>Check-In Date  &nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $checkInDate?></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td></td>
+            <td>Check-Out Date &nbsp;:<?php echo $checkOutDate?></td>
           </tr>
         </tbody>
       </table>
-    </div>
     <div>
-    <h2>Booking Details</h2>
 
+    <h2>Summary</h2>
       <table>
         <tbody>
-        <tr>
-            <td>Hotel Name &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $hotelName?></td>
-          </tr>
+          <tr></tr>
+          <tr></tr>
+          <tr></tr>
+          <tr></tr>
+
           <tr>
-            <td>Room Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $roomName?></td>
-          </tr>
-        <tr>
-            <td>Booking Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $bookingDate.' '.$time?></td>
-          </tr>
-        <tr>
-            <td>Check-In Date  &nbsp;&nbsp;&nbsp;&nbsp;:<?php echo $checkInDate?></td>
-          </tr>
-          <tr>
-            <td>Check-Out Date &nbsp;:<?php echo $checkOutDate?></td>
-          </tr>
-        <tr>
             <td></td>
             <td align="right">Price (RM)</td>
             <td align="right">Quantity</td>
             <td align="right">Total (RM)</td>
-
           </tr>
-          <tr><td></td><td></td></tr>
-        <tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr>
             <td>Adult Fees</td>
             <td align="right"><?php echo number_format($adultPrice,2)?></td>
             <td align="right"><?php echo $adult?></td>
             <td align="right"><?php echo number_format($adultTotal,2)?></td>
           </tr>
-          <tr>
-            <td>Children Fees</td>
-            <td align="right"><?php echo number_format($childrenPrice,2)?></td>
-            <td align="right"><?php echo $children?></td>
-            <td align="right"><?php echo number_format($childrenTotal,2)?></td>
-          </tr>
+
+          <?php 
+            if($children >0){
+              echo '<tr>
+              <td>Children Fees</td>
+              <td align="right">'.number_format($childrenPrice,2).'</td>
+              <td align="right">'.$children.'</td>
+              <td align="right">'.number_format($childrenTotal,2).'</td>
+              </tr>';
+            }         
+          ?>
+
           <tr>
             <td>Room Fees</td>
             <td align="right"><?php echo number_format($roomPrice,2)?></td>
             <td align="right"><?php echo $room?></td>
             <td align="right"><?php echo number_format($roomTotal,2)?></td>
           </tr>
-          <tr>
-            <td>Subtotal</td>
-            <td align="right"><?php echo number_format($totalFees,2)?></td>
-            <td align="right"><?php echo $days ?></td>
-            <td align="right"><?php echo number_format($subtotal,2)?></td>
-          </tr>
+          
         </tbody>
       </table>
     </div>
@@ -180,14 +195,36 @@ if(isset($_POST['submitted'])){
       <table>
         <tbody>
           <tr>
+            <td>Total Fees</td>
+            <td align="right"><?php echo number_format($totalFees,2)?></td>
+            <td align="right"><?php echo $days ?></td>
+            <td align="right"><?php echo number_format($subtotal,2)?></td>
+          </tr>
+          <tr>
             <td>SST (10%)</td>
+            <td></td>
+            <td></td>
             <td align="right"><?php echo number_format($tax,2)?></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td>Total</td>
+            <td>Subtotal</td>
+            <td></td>
+            <td></td>
             <td align="right"><?php echo number_format($total,2)?></td>
+          </tr>
+          <tr>
+            <td>Rounding</td>
+            <td></td>
+            <td></td>
+            <td align="right"><?php echo number_format($different,2)?></td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td></td>
+            <td align="right"><?php echo number_format($rounding_total,2)?></td>
           </tr>
         </tfoot>
       </table>
